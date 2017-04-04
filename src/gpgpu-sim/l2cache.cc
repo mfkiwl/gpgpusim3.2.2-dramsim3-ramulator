@@ -46,197 +46,211 @@
 #include "l2cache_trace.h"
 
 
-mem_fetch * partition_mf_allocator::alloc(new_addr_type addr, mem_access_type type, unsigned size, bool wr ) const 
+mem_fetch * partition_mf_allocator::alloc(new_addr_type addr, mem_access_type type, unsigned size, bool wr ) const
 {
     assert( wr );
     mem_access_t access( type, addr, size, wr );
-    mem_fetch *mf = new mem_fetch( access, 
+    mem_fetch *mf = new mem_fetch( access,
                                    NULL,
-                                   WRITE_PACKET_SIZE, 
-                                   -1, 
-                                   -1, 
+                                   WRITE_PACKET_SIZE,
+                                   -1,
+                                   -1,
                                    -1,
                                    m_memory_config );
     return mf;
 }
 
-memory_partition_unit::memory_partition_unit( unsigned partition_id, 
+memory_partition_unit::memory_partition_unit( unsigned partition_id,
                                               const struct memory_config *config,
                                               class memory_stats_t *stats )
-: m_id(partition_id), m_config(config), m_stats(stats), m_arbitration_metadata(config) 
+: m_id(partition_id), m_config(config), m_stats(stats), m_arbitration_metadata(config)
 {
-    m_dram = new dram_t(m_id,m_config,m_stats,this);
+    //Este es el único lugar donde se istancian objetos de memoria "dram_t"
+    //Para incorporar la opción de utilizar dramsim2, haremos un objeto dramsim2_t que hereda de dram_t,
+    //y que servirá de interfaz para los metodos nativos de dramsim2.
+    //En este punto, la comprobación de una opción de ejecución sobre qué simulador de memoria a utilizar,
+    //hará que m_dram sea una instancia de dram_t o de dramsim2_t:
 
-    m_sub_partition = new memory_sub_partition*[m_config->m_n_sub_partition_per_memory_channel]; 
+
+    if  (m_config->dram_simulator==0){ //SIMULADOR = NATIVO
+      m_dram = new dram_t(m_id,m_config,m_stats,this);
+      printf("\nUsando simulador nativo\n");}
+
+    else if (m_config->dram_simulator==1){ //SIMULADOR == DRAMSIM2
+      //m_dram = new dramsim2_t(m_id,m_config,m_stats,this);
+      printf("\nUsando Dramsim2\n"); exit(0);}
+      else exit(0);
+
+    m_sub_partition = new memory_sub_partition*[m_config->m_n_sub_partition_per_memory_channel];
     for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
-        unsigned sub_partition_id = m_id * m_config->m_n_sub_partition_per_memory_channel + p; 
-        m_sub_partition[p] = new memory_sub_partition(sub_partition_id, m_config, stats); 
+        unsigned sub_partition_id = m_id * m_config->m_n_sub_partition_per_memory_channel + p;
+        m_sub_partition[p] = new memory_sub_partition(sub_partition_id, m_config, stats);
     }
 }
 
-memory_partition_unit::~memory_partition_unit() 
+memory_partition_unit::~memory_partition_unit()
 {
-    delete m_dram; 
+    delete m_dram;
     for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
-        delete m_sub_partition[p]; 
-    } 
-    delete[] m_sub_partition; 
+        delete m_sub_partition[p];
+    }
+    delete[] m_sub_partition;
 }
 
-memory_partition_unit::arbitration_metadata::arbitration_metadata(const struct memory_config *config) 
-: m_last_borrower(config->m_n_sub_partition_per_memory_channel - 1), 
-  m_private_credit(config->m_n_sub_partition_per_memory_channel, 0), 
-  m_shared_credit(0) 
+memory_partition_unit::arbitration_metadata::arbitration_metadata(const struct memory_config *config)
+: m_last_borrower(config->m_n_sub_partition_per_memory_channel - 1),
+  m_private_credit(config->m_n_sub_partition_per_memory_channel, 0),
+  m_shared_credit(0)
 {
-    // each sub partition get at least 1 credit for forward progress 
-    // the rest is shared among with other partitions 
-    m_private_credit_limit = 1; 
-    m_shared_credit_limit = config->gpgpu_frfcfs_dram_sched_queue_size 
-                            + config->gpgpu_dram_return_queue_size 
-                            - (config->m_n_sub_partition_per_memory_channel - 1); 
-    if (config->gpgpu_frfcfs_dram_sched_queue_size == 0 
-        or config->gpgpu_dram_return_queue_size == 0) 
+    // each sub partition get at least 1 credit for forward progress
+    // the rest is shared among with other partitions
+    m_private_credit_limit = 1;
+    m_shared_credit_limit = config->gpgpu_frfcfs_dram_sched_queue_size
+                            + config->gpgpu_dram_return_queue_size
+                            - (config->m_n_sub_partition_per_memory_channel - 1);
+    if (config->gpgpu_frfcfs_dram_sched_queue_size == 0
+        or config->gpgpu_dram_return_queue_size == 0)
     {
-        m_shared_credit_limit = 0; // no limit if either of the queue has no limit in size 
+        m_shared_credit_limit = 0; // no limit if either of the queue has no limit in size
     }
-    assert(m_shared_credit_limit >= 0); 
+    assert(m_shared_credit_limit >= 0);
 }
 
-bool memory_partition_unit::arbitration_metadata::has_credits(int inner_sub_partition_id) const 
+bool memory_partition_unit::arbitration_metadata::has_credits(int inner_sub_partition_id) const
 {
-    int spid = inner_sub_partition_id; 
+    int spid = inner_sub_partition_id;
     if (m_private_credit[spid] < m_private_credit_limit) {
-        return true; 
+        return true;
     } else if (m_shared_credit_limit == 0 || m_shared_credit < m_shared_credit_limit) {
-        return true; 
+        return true;
     } else {
-        return false; 
+        return false;
     }
 }
 
-void memory_partition_unit::arbitration_metadata::borrow_credit(int inner_sub_partition_id) 
+void memory_partition_unit::arbitration_metadata::borrow_credit(int inner_sub_partition_id)
 {
-    int spid = inner_sub_partition_id; 
+    int spid = inner_sub_partition_id;
     if (m_private_credit[spid] < m_private_credit_limit) {
-        m_private_credit[spid] += 1; 
+        m_private_credit[spid] += 1;
     } else if (m_shared_credit_limit == 0 || m_shared_credit < m_shared_credit_limit) {
-        m_shared_credit += 1; 
+        m_shared_credit += 1;
     } else {
-        assert(0 && "DRAM arbitration error: Borrowing from depleted credit!"); 
+        assert(0 && "DRAM arbitration error: Borrowing from depleted credit!");
     }
-    m_last_borrower = spid; 
+    m_last_borrower = spid;
 }
 
-void memory_partition_unit::arbitration_metadata::return_credit(int inner_sub_partition_id) 
+void memory_partition_unit::arbitration_metadata::return_credit(int inner_sub_partition_id)
 {
-    int spid = inner_sub_partition_id; 
+    int spid = inner_sub_partition_id;
     if (m_private_credit[spid] > 0) {
-        m_private_credit[spid] -= 1; 
+        m_private_credit[spid] -= 1;
     } else {
-        m_shared_credit -= 1; 
-    } 
-    assert((m_shared_credit >= 0) && "DRAM arbitration error: Returning more than available credits!"); 
-}
-
-void memory_partition_unit::arbitration_metadata::print( FILE *fp ) const 
-{
-    fprintf(fp, "private_credit = "); 
-    for (unsigned p = 0; p < m_private_credit.size(); p++) {
-        fprintf(fp, "%d ", m_private_credit[p]); 
+        m_shared_credit -= 1;
     }
-    fprintf(fp, "(limit = %d)\n", m_private_credit_limit); 
-    fprintf(fp, "shared_credit = %d (limit = %d)\n", m_shared_credit, m_shared_credit_limit); 
+    assert((m_shared_credit >= 0) && "DRAM arbitration error: Returning more than available credits!");
 }
 
-bool memory_partition_unit::busy() const 
+void memory_partition_unit::arbitration_metadata::print( FILE *fp ) const
 {
-    bool busy = false; 
+    fprintf(fp, "private_credit = ");
+    for (unsigned p = 0; p < m_private_credit.size(); p++) {
+        fprintf(fp, "%d ", m_private_credit[p]);
+    }
+    fprintf(fp, "(limit = %d)\n", m_private_credit_limit);
+    fprintf(fp, "shared_credit = %d (limit = %d)\n", m_shared_credit, m_shared_credit_limit);
+}
+
+bool memory_partition_unit::busy() const
+{
+    bool busy = false;
     for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
         if (m_sub_partition[p]->busy()) {
-            busy = true; 
+            busy = true;
         }
     }
-    return busy; 
+    return busy;
 }
 
-void memory_partition_unit::cache_cycle(unsigned cycle) 
+void memory_partition_unit::cache_cycle(unsigned cycle)
 {
     for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
-        m_sub_partition[p]->cache_cycle(cycle); 
+        m_sub_partition[p]->cache_cycle(cycle);
     }
 }
 
-void memory_partition_unit::visualizer_print( gzFile visualizer_file ) const 
+void memory_partition_unit::visualizer_print( gzFile visualizer_file ) const
 {
     m_dram->visualizer_print(visualizer_file);
     for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
-        m_sub_partition[p]->visualizer_print(visualizer_file); 
+        m_sub_partition[p]->visualizer_print(visualizer_file);
     }
 }
 
-// determine whether a given subpartition can issue to DRAM 
-bool memory_partition_unit::can_issue_to_dram(int inner_sub_partition_id) 
+// determine whether a given subpartition can issue to DRAM
+bool memory_partition_unit::can_issue_to_dram(int inner_sub_partition_id)
 {
-    int spid = inner_sub_partition_id; 
-    bool sub_partition_contention = m_sub_partition[spid]->dram_L2_queue_full(); 
-    bool has_dram_resource = m_arbitration_metadata.has_credits(spid); 
+    int spid = inner_sub_partition_id;
+    bool sub_partition_contention = m_sub_partition[spid]->dram_L2_queue_full();
+    bool has_dram_resource = m_arbitration_metadata.has_credits(spid);
 
-    MEMPART_DPRINTF("sub partition %d sub_partition_contention=%c has_dram_resource=%c\n", 
-                    spid, (sub_partition_contention)? 'T':'F', (has_dram_resource)? 'T':'F'); 
+    MEMPART_DPRINTF("sub partition %d sub_partition_contention=%c has_dram_resource=%c\n",
+                    spid, (sub_partition_contention)? 'T':'F', (has_dram_resource)? 'T':'F');
 
-    return (has_dram_resource && !sub_partition_contention); 
+    return (has_dram_resource && !sub_partition_contention);
 }
 
 int memory_partition_unit::global_sub_partition_id_to_local_id(int global_sub_partition_id) const
 {
-    return (global_sub_partition_id - m_id * m_config->m_n_sub_partition_per_memory_channel); 
+    return (global_sub_partition_id - m_id * m_config->m_n_sub_partition_per_memory_channel);
 }
 
-void memory_partition_unit::dram_cycle() 
-{ 
-    // pop completed memory request from dram and push it to dram-to-L2 queue 
-    // of the original sub partition 
+void memory_partition_unit::dram_cycle()
+{
+    // pop completed memory request from dram and push it to dram-to-L2 queue
+    // of the original sub partition
     mem_fetch* mf_return = m_dram->return_queue_top();
     if (mf_return) {
-        unsigned dest_global_spid = mf_return->get_sub_partition_id(); 
-        int dest_spid = global_sub_partition_id_to_local_id(dest_global_spid); 
-        assert(m_sub_partition[dest_spid]->get_id() == dest_global_spid); 
+        unsigned dest_global_spid = mf_return->get_sub_partition_id();
+        int dest_spid = global_sub_partition_id_to_local_id(dest_global_spid);
+        assert(m_sub_partition[dest_spid]->get_id() == dest_global_spid);
         if (!m_sub_partition[dest_spid]->dram_L2_queue_full()) {
             if( mf_return->get_access_type() == L1_WRBK_ACC ) {
-                m_sub_partition[dest_spid]->set_done(mf_return); 
+                m_sub_partition[dest_spid]->set_done(mf_return);
                 delete mf_return;
             } else {
                 m_sub_partition[dest_spid]->dram_L2_queue_push(mf_return);
                 mf_return->set_status(IN_PARTITION_DRAM_TO_L2_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
-                m_arbitration_metadata.return_credit(dest_spid); 
-                MEMPART_DPRINTF("mem_fetch request %p return from dram to sub partition %d\n", mf_return, dest_spid); 
+                m_arbitration_metadata.return_credit(dest_spid);
+                MEMPART_DPRINTF("mem_fetch request %p return from dram to sub partition %d\n", mf_return, dest_spid);
             }
-            m_dram->return_queue_pop(); 
+            m_dram->return_queue_pop();
         }
     } else {
-        m_dram->return_queue_pop(); 
+        m_dram->return_queue_pop();
     }
-    
-    m_dram->cycle(); 
-    m_dram->dram_log(SAMPLELOG);   
+
+    m_dram->cycle();
+    m_dram->dram_log(SAMPLELOG);
 
     if( !m_dram->full() ) {
         // L2->DRAM queue to DRAM latency queue
-        // Arbitrate among multiple L2 subpartitions 
-        int last_issued_partition = m_arbitration_metadata.last_borrower(); 
+        // Arbitrate among multiple L2 subpartitions
+        int last_issued_partition = m_arbitration_metadata.last_borrower();
         for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
-            int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel; 
+            int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel;
             if (!m_sub_partition[spid]->L2_dram_queue_empty() && can_issue_to_dram(spid)) {
                 mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
                 m_sub_partition[spid]->L2_dram_queue_pop();
-                MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid); 
+                MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
                 dram_delay_t d;
                 d.req = mf;
                 d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + m_config->dram_latency;
                 m_dram_latency_queue.push_back(d);
                 mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
-                m_arbitration_metadata.borrow_credit(spid); 
-                break;  // the DRAM should only accept one request per cycle 
+                m_arbitration_metadata.borrow_credit(spid);
+                break;  // the DRAM should only accept one request per cycle
             }
         }
     }
@@ -251,14 +265,14 @@ void memory_partition_unit::dram_cycle()
 
 void memory_partition_unit::set_done( mem_fetch *mf )
 {
-    unsigned global_spid = mf->get_sub_partition_id(); 
-    int spid = global_sub_partition_id_to_local_id(global_spid); 
-    assert(m_sub_partition[spid]->get_id() == global_spid); 
+    unsigned global_spid = mf->get_sub_partition_id();
+    int spid = global_sub_partition_id_to_local_id(global_spid);
+    assert(m_sub_partition[spid]->get_id() == global_spid);
     if (mf->get_access_type() == L1_WRBK_ACC || mf->get_access_type() == L2_WRBK_ACC) {
-        m_arbitration_metadata.return_credit(spid); 
-        MEMPART_DPRINTF("mem_fetch request %p return from dram to sub partition %d\n", mf, spid); 
+        m_arbitration_metadata.return_credit(spid);
+        MEMPART_DPRINTF("mem_fetch request %p return from dram to sub partition %d\n", mf, spid);
     }
-    m_sub_partition[spid]->set_done(mf); 
+    m_sub_partition[spid]->set_done(mf);
 }
 
 void memory_partition_unit::set_dram_power_stats(unsigned &n_cmd,
@@ -275,24 +289,24 @@ void memory_partition_unit::set_dram_power_stats(unsigned &n_cmd,
 
 void memory_partition_unit::print( FILE *fp ) const
 {
-    fprintf(fp, "Memory Partition %u: \n", m_id); 
+    fprintf(fp, "Memory Partition %u: \n", m_id);
     for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
-        m_sub_partition[p]->print(fp); 
+        m_sub_partition[p]->print(fp);
     }
-    fprintf(fp, "In Dram Latency Queue (total = %zd): \n", m_dram_latency_queue.size()); 
-    for (std::list<dram_delay_t>::const_iterator mf_dlq = m_dram_latency_queue.begin(); 
+    fprintf(fp, "In Dram Latency Queue (total = %zd): \n", m_dram_latency_queue.size());
+    for (std::list<dram_delay_t>::const_iterator mf_dlq = m_dram_latency_queue.begin();
          mf_dlq != m_dram_latency_queue.end(); ++mf_dlq) {
-        mem_fetch *mf = mf_dlq->req; 
-        fprintf(fp, "Ready @ %llu - ", mf_dlq->ready_cycle); 
-        if (mf) 
-            mf->print(fp); 
-        else 
-            fprintf(fp, " <NULL mem_fetch?>\n"); 
+        mem_fetch *mf = mf_dlq->req;
+        fprintf(fp, "Ready @ %llu - ", mf_dlq->ready_cycle);
+        if (mf)
+            mf->print(fp);
+        else
+            fprintf(fp, " <NULL mem_fetch?>\n");
     }
-    m_dram->print(fp); 
+    m_dram->print(fp);
 }
 
-memory_sub_partition::memory_sub_partition( unsigned sub_partition_id, 
+memory_sub_partition::memory_sub_partition( unsigned sub_partition_id,
                                             const struct memory_config *config,
                                             class memory_stats_t *stats )
 {
@@ -300,7 +314,7 @@ memory_sub_partition::memory_sub_partition( unsigned sub_partition_id,
     m_config=config;
     m_stats=stats;
 
-    assert(m_id < m_config->m_n_mem_sub_partition); 
+    assert(m_id < m_config->m_n_mem_sub_partition);
 
     char L2c_name[32];
     snprintf(L2c_name, 32, "L2_bank_%03d", m_id);
@@ -315,7 +329,7 @@ memory_sub_partition::memory_sub_partition( unsigned sub_partition_id,
     unsigned int dram_L2;
     unsigned int L2_icnt;
     sscanf(m_config->gpgpu_L2_queue_config,"%u:%u:%u:%u", &icnt_L2,&L2_dram,&dram_L2,&L2_icnt );
-    m_icnt_L2_queue = new fifo_pipeline<mem_fetch>("icnt-to-L2",0,icnt_L2); 
+    m_icnt_L2_queue = new fifo_pipeline<mem_fetch>("icnt-to-L2",0,icnt_L2);
     m_L2_dram_queue = new fifo_pipeline<mem_fetch>("L2-to-dram",0,L2_dram);
     m_dram_L2_queue = new fifo_pipeline<mem_fetch>("dram-to-L2",0,dram_L2);
     m_L2_icnt_queue = new fifo_pipeline<mem_fetch>("L2-to-icnt",0,L2_icnt);
@@ -376,8 +390,8 @@ void memory_sub_partition::cache_cycle( unsigned cycle )
               ( (m_config->m_L2_texure_only && mf->istexture()) || (!m_config->m_L2_texure_only) )
            ) {
             // L2 is enabled and access is for L2
-            bool output_full = m_L2_icnt_queue->full(); 
-            bool port_free = m_L2cache->data_port_free(); 
+            bool output_full = m_L2_icnt_queue->full();
+            bool port_free = m_L2cache->data_port_free();
             if ( !output_full && port_free ) {
                 std::list<cache_event> events;
                 enum cache_request_status status = m_L2cache->access(mf->get_addr(),mf,gpu_sim_cycle+gpu_tot_sim_cycle,events);
@@ -434,27 +448,27 @@ bool memory_sub_partition::full() const
 
 bool memory_sub_partition::L2_dram_queue_empty() const
 {
-   return m_L2_dram_queue->empty(); 
+   return m_L2_dram_queue->empty();
 }
 
 class mem_fetch* memory_sub_partition::L2_dram_queue_top() const
 {
-   return m_L2_dram_queue->top(); 
+   return m_L2_dram_queue->top();
 }
 
-void memory_sub_partition::L2_dram_queue_pop() 
+void memory_sub_partition::L2_dram_queue_pop()
 {
-   m_L2_dram_queue->pop(); 
+   m_L2_dram_queue->pop();
 }
 
 bool memory_sub_partition::dram_L2_queue_full() const
 {
-   return m_dram_L2_queue->full(); 
+   return m_dram_L2_queue->full();
 }
 
 void memory_sub_partition::dram_L2_queue_push( class mem_fetch* mf )
 {
-   m_dram_L2_queue->push(mf); 
+   m_dram_L2_queue->push(mf);
 }
 
 void memory_sub_partition::print_cache_stat(unsigned &accesses, unsigned &misses) const
@@ -527,20 +541,20 @@ void gpgpu_sim::print_dram_stats(FILE *fout) const
     fprintf(fout,"gpgpu_n_dram_requests = %d\n",tot_req );
 }
 
-unsigned memory_sub_partition::flushL2() 
-{ 
+unsigned memory_sub_partition::flushL2()
+{
     if (!m_config->m_L2_config.disabled()) {
-        m_L2cache->flush(); 
+        m_L2cache->flush();
     }
     return 0; // L2 is read only in this version
 }
 
-bool memory_sub_partition::busy() const 
+bool memory_sub_partition::busy() const
 {
     return !m_request_tracker.empty();
 }
 
-void memory_sub_partition::push( mem_fetch* req, unsigned long long cycle ) 
+void memory_sub_partition::push( mem_fetch* req, unsigned long long cycle )
 {
     if (req) {
         m_request_tracker.insert(req);
@@ -558,7 +572,7 @@ void memory_sub_partition::push( mem_fetch* req, unsigned long long cycle )
     }
 }
 
-mem_fetch* memory_sub_partition::pop() 
+mem_fetch* memory_sub_partition::pop()
 {
     mem_fetch* mf = m_L2_icnt_queue->pop();
     m_request_tracker.erase(mf);
@@ -567,11 +581,11 @@ mem_fetch* memory_sub_partition::pop()
     if( mf && (mf->get_access_type() == L2_WRBK_ACC || mf->get_access_type() == L1_WRBK_ACC) ) {
         delete mf;
         mf = NULL;
-    } 
+    }
     return mf;
 }
 
-mem_fetch* memory_sub_partition::top() 
+mem_fetch* memory_sub_partition::top()
 {
     mem_fetch *mf = m_L2_icnt_queue->top();
     if( mf && (mf->get_access_type() == L2_WRBK_ACC || mf->get_access_type() == L1_WRBK_ACC) ) {
@@ -579,7 +593,7 @@ mem_fetch* memory_sub_partition::top()
         m_request_tracker.erase(mf);
         delete mf;
         mf = NULL;
-    } 
+    }
     return mf;
 }
 
@@ -602,6 +616,5 @@ void memory_sub_partition::get_L2cache_sub_stats(struct cache_sub_stats &css) co
 
 void memory_sub_partition::visualizer_print( gzFile visualizer_file )
 {
-    // TODO: Add visualizer stats for L2 cache 
+    // TODO: Add visualizer stats for L2 cache
 }
-
