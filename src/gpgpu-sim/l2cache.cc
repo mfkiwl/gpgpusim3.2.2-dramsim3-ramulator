@@ -35,6 +35,7 @@
 #include "../option_parser.h"
 #include "mem_fetch.h"
 #include "dram.h"
+#include "dramsim2.h"
 #include "gpu-cache.h"
 #include "histogram.h"
 #include "l2cache.h"
@@ -77,8 +78,10 @@ memory_partition_unit::memory_partition_unit( unsigned partition_id,
       printf("\nUsando simulador nativo\n");}
 
     else if (m_config->dram_simulator==1){ //SIMULADOR == DRAMSIM2
-      //m_dram = new dramsim2_t(m_id,m_config,m_stats,this);
-      printf("\nUsando Dramsim2\n"); exit(0);}
+      m_dram = new dram_t(m_id,m_config,m_stats,this);
+      printf("\nUsando Dramsim2\n");
+    } // exit(0);}
+
       else exit(0);
 
     m_sub_partition = new memory_sub_partition*[m_config->m_n_sub_partition_per_memory_channel];
@@ -208,6 +211,10 @@ int memory_partition_unit::global_sub_partition_id_to_local_id(int global_sub_pa
 
 void memory_partition_unit::dram_cycle()
 {
+
+   //LA EJECUCION DE ESTE BLOQUE SOLO SE DEBE CUANDO UTILIZE EL SIMULADOR DE RAM NATIVO
+   //EN CASO CONTRARIO, HA DE ESTAR EN UNA FUNCION APARTE, QUE SE PASA parametro
+
     // pop completed memory request from dram and push it to dram-to-L2 queue
     // of the original sub partition
     mem_fetch* mf_return = m_dram->return_queue_top();
@@ -230,6 +237,8 @@ void memory_partition_unit::dram_cycle()
     } else {
         m_dram->return_queue_pop();
     }
+
+    //HASTA AQUI
 
     m_dram->cycle();
     m_dram->dram_log(SAMPLELOG);

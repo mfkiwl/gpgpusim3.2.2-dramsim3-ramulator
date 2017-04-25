@@ -191,10 +191,22 @@ void memory_config::reg_options(class OptionParser * opp)
     option_parser_register(opp, "-dram_latency", OPT_UINT32, &dram_latency,
                      "DRAM latency (default 30)",
                      "30");
-    //opcion añadida para elegir simulador de DRAM: 0=Nativa, 1=Dramsim2, 2=Ramulator
+    //opciones añadidas para elegir simulador de DRAM: 0=Nativa, 1=Dramsim2, 2=Ramulator
 		option_parser_register(opp, "-dram_simulator", OPT_UINT32, &dram_simulator,
 											"DRAM simulator (0 = native (default), 1 = dramsim2, 2=ramulator",
 											"0");
+
+		//para usar Dramsim2 necesitamos dos parámetros: la ruta al archivo de configuración del controlador,
+		// y la ruta al archivo de configuración de la dram.
+
+		option_parser_register(opp, "-dramsim2_controller_ini", OPT_CSTR, &dramsim2_controller_ini,
+											"Path to DramSim2 controller configuration file",
+											"0");
+
+		option_parser_register(opp, "-dramsim2_dram_ini", OPT_CSTR, &dramsim2_dram_ini,
+		      						"Path to DramSim2 DRAM chip configuration file",
+											"0");
+
 
 
     m_address_mapping.addrdec_setoption(opp);

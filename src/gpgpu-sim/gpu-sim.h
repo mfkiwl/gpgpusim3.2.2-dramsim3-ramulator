@@ -271,8 +271,15 @@ struct memory_config {
 
    unsigned icnt_flit_size;
 
-   //opcion añadida para elegir simulador de DRAM: 0=Nativa, 1=Dramsim2, 2=Ramulator
+   //opciones añadida para elegir simulador de DRAM: 0=Nativa, 1=Dramsim2, 2=Ramulator
    unsigned dram_simulator;
+
+   //para usar Dramsim2 necesitamos cuatro parámetros: la ruta al archivo de configuración del controlador,
+   // ,la ruta al archivo de configuración de la dram, la ruta al fichero vis y el tamaño total de memoria
+   char *dramsim2_controller_ini;
+   char *dramsim2_dram_ini;
+   char *dramsim2_vis_file;
+   unsigned *dramsim2_total_memory_megs;
 };
 
 // global counters and flags (please try not to add to this list!!!)
