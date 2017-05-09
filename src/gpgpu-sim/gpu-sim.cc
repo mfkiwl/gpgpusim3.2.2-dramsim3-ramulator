@@ -207,6 +207,13 @@ void memory_config::reg_options(class OptionParser * opp)
 		      						"Path to DramSim2 DRAM chip configuration file",
 											"0");
 
+	  option_parser_register(opp, "-dramsim2_total_memory_megs", OPT_UINT32, &dramsim2_total_memory_megs,
+											"Total memory in MB (default 256)",
+											"256");
+
+		option_parser_register(opp, "-dramsim2_vis_file", OPT_CSTR, &dramsim2_vis_file,
+		      						"Path to DramSim2 VIS output file (default ./dramsim_output)",
+											"./dramsim_output");
 
 
     m_address_mapping.addrdec_setoption(opp);

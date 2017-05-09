@@ -1,3 +1,11 @@
+//
+//1. Hacer una almacen de mem_fetchs, y rellenarla en los 'push' y recuperarlos-vaciarla en los metodos 'callback'
+//2. Hacer una fifo llamada returnq (contiene los mf recuperados en el paso anterior), se llena en el callback (en lugar de la dram_to_L2) y se vacia en cycle antes de realizar una operacion sobre dramsim2
+//3.
+
+
+
+
 // Copyright (c) 2009-2011, Tor M. Aamodt, Wilson W.L. Fung, Ali Bakhoda,
 // Ivan Sham, George L. Yuan,
 // The University of British Columbia
@@ -26,6 +34,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#include "map"
 #include "gpu-sim.h"
 #include "gpu-misc.h"
 #include "dram.h"
@@ -43,6 +52,38 @@ int PRINT_CYCLE = 0;
 template class fifo_pipeline<mem_fetch>;
 template class fifo_pipeline<dram_req_t>;
 
+
+/* callback functors */
+void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
+{
+  //recuperar de la lista  el mem_Fetch asociado a esta operacion:
+
+  mem_fetch *mf_return;
+  std::map<new_addr_type, mem_fetch>::iterator it;
+  it=backup_de_MF.find((new_addr_type) address);
+  if(it != backup_de_MF.end()) mf_return = &it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
+  backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
+
+	printf("[Callback] read complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
+
+  returnq->push(mf_return);
+}
+
+void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
+{
+  //recuperar de la lista  el mem_Fetch asociado a esta operacion.
+  mem_fetch *mf_return;
+  std::map<new_addr_type, mem_fetch>::iterator it;
+  it=backup_de_MF.find((new_addr_type) address);
+  if(it != backup_de_MF.end()) mf_return = &it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
+  backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
+
+	printf("[Callback] write complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
+
+  returnq->push(mf_return);
+}
+
+
 dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, memory_stats_t *stats,
                 memory_partition_unit *mp )
 {
@@ -52,17 +93,29 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
    m_stats = stats;
    m_config = config;
 
-  MultiChannelMemorySystem objDramSim2 = new MultiChannelMemorySystem( m_config->dramsim2_controller_ini, m_config->dramsim2_dram_config, "", "", m_config->total_memory_megs, m_config->dramsim2_vis_file);
+
+  MultiChannelMemorySystem objDramSim2 = new MultiChannelMemorySystem( string(m_config->dramsim2_controller_ini),string(m_config->dramsim2_dram_ini), "", "", m_config->dramsim2_total_memory_megs,string(m_config->dramsim2_vis_file));
+/*
+  MultiChannelMemorySystem::MultiChannelMemorySystem(const string &deviceIniFilename_, const string &systemIniFilename_, const string &pwd_, const string &traceFilename_, unsigned megsOfMemory_, string *visFilename_, const IniReader::OverrideMap *paramOverrides)
+  	:megsOfMemory(megsOfMemory_), deviceIniFilename(deviceIniFilename_),
+  	systemIniFilename(systemIniFilename_), traceFilename(traceFilename_),
+  	pwd(pwd_), visFilename(visFilename_),
+  	clockDomainCrosser(new ClockDomain::Callback<MultiChannelMemorySystem, void>(this, &MultiChannelMemorySystem::actual_update)),
+  	csvOut(new CSVWriter(visDataOut))
+  {
+*/
 
   returnq = new fifo_pipeline<mem_fetch>("dramreturnq",0,m_config->gpgpu_dram_return_queue_size==0?1024:m_config->gpgpu_dram_return_queue_size);
 
 
-  TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(&this, &dram_t::read_complete);
-  TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(&this, &dram_t::write_complete);
+  TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::read_complete);
+  TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::write_complete);
 
-   mem->RegisterCallbacks(read_cb, write_cb, null);
+   objDramSim2->RegisterCallbacks(read_cb, write_cb, null);
 
 }
+
+
 
 bool dram_t::full() const
 {
@@ -106,7 +159,7 @@ dram_req_t::dram_req_t( class mem_fetch *mf )
    timestamp = gpu_tot_sim_cycle + gpu_sim_cycle;
    addr = mf->get_addr();
    insertion_time = (unsigned) gpu_sim_cycle;
-   rw = data->get_is_write()?WRITE:READ;
+   rw = data->get_is_write()?DRAM_WRITE:DRAM_READ;
 }
 
 void dram_t::push( class mem_fetch *data )
@@ -116,6 +169,11 @@ void dram_t::push( class mem_fetch *data )
     //'Push' recibe como parametro un objeto 'mem_fetch' (mem_feth.(h,cc) ), mientras que 'Addtransaction' recibe un objeto 'transaction' (transaction.(h,cc))
     //No circulan datos, únicamente una dirección de memoria y tipo de operacion (lectura o escritura)
     //Los obtenemos a partir de los metodos de mem_fetch is_write() y get_addr(), y los pasamos directamente a addTransaction del DramSim2
+
+    //En este punto debe existir una lista en la cual poder introducir los mem_fetch recibidos, introducir el recibido y recuperarlo posteriormente.
+
+    backup_de_MF.insert(std::make_pair(data->get_addr(), data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
+
 
 
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
@@ -141,7 +199,30 @@ void dram_t::scheduler_fifo()
 
 void dram_t::cycle()
 {
-this.update();
+/* cycle original
+  if( !returnq->full() ) {
+      dram_req_t *cmd = rwq->pop();
+      if( cmd ) {
+#ifdef DRAM_VIEWCMD
+          printf("\tDQ: BK%d Row:%03x Col:%03x", cmd->bk, cmd->row, cmd->col + cmd->dqbytes);
+#endif
+          cmd->dqbytes += m_config->dram_atom_size;
+          if (cmd->dqbytes >= cmd->nbytes) {
+             mem_fetch *data = cmd->data;
+             data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+             if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
+                data->set_reply();
+                returnq->push(data);
+             } else {
+                m_memory_partition_unit->set_done(data);
+                delete data;
+             }
+             delete cmd;
+          }
+*/
+//cycle original hasta aqui
+
+objDramSim2.update();
 }
 
 //if mrq is being serviced by dram, gets popped after CL latency fulfilled

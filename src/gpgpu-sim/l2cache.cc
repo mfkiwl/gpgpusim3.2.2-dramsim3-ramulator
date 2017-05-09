@@ -75,7 +75,7 @@ memory_partition_unit::memory_partition_unit( unsigned partition_id,
 
     if  (m_config->dram_simulator==0){ //SIMULADOR = NATIVO
       m_dram = new dram_t(m_id,m_config,m_stats,this);
-      printf("\nUsando simulador nativo\n");}
+      printf("\nUsando simulador nativo de GPGPU-Sim\n");}
 
     else if (m_config->dram_simulator==1){ //SIMULADOR == DRAMSIM2
       m_dram = new dram_t(m_id,m_config,m_stats,this);
@@ -212,8 +212,10 @@ int memory_partition_unit::global_sub_partition_id_to_local_id(int global_sub_pa
 void memory_partition_unit::dram_cycle()
 {
 
-   //LA EJECUCION DE ESTE BLOQUE SOLO SE DEBE CUANDO UTILIZE EL SIMULADOR DE RAM NATIVO
-   //EN CASO CONTRARIO, HA DE ESTAR EN UNA FUNCION APARTE, QUE SE PASA parametro
+   //LA EJECUCION DE ESTE BLOQUE IF SOLO SE DEBE REALIZAR CUANDO UTILIZE EL SIMULADOR DE RAM NATIVO
+   //EN CASO CONTRARIO, HA DE ESTAR EN UNA FUNCION APARTE, QUE SE PASA COMO PARAMETRO
+
+   //if  (m_config->dram_simulator==0){ //SIMULADOR = NATIVO
 
     // pop completed memory request from dram and push it to dram-to-L2 queue
     // of the original sub partition
@@ -238,7 +240,7 @@ void memory_partition_unit::dram_cycle()
         m_dram->return_queue_pop();
     }
 
-    //HASTA AQUI
+  //} //HASTA AQUI el código exclusivo de la simulacion de ram por parte del modulo nativo de gpgpu-sim
 
     m_dram->cycle();
     m_dram->dram_log(SAMPLELOG);

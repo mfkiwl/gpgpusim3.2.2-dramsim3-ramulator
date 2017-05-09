@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2011, Tor M. Aamodt, Ivan Sham, Ali Bakhoda, 
+// Copyright (c) 2009-2011, Tor M. Aamodt, Ivan Sham, Ali Bakhoda,
 // George L. Yuan, Wilson W.L. Fung
 // The University of British Columbia
 // All rights reserved.
@@ -35,8 +35,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define READ 'R'  //define read and write states
-#define WRITE 'W'
+#define DRAM_READ 'R'  //define read and write states
+#define DRAM_WRITE 'W'
 #define BANK_IDLE 'I'
 #define BANK_ACTIVE 'A'
 
@@ -89,17 +89,17 @@ struct bank_t
 
 struct mem_fetch;
 
-class dram_t 
+class dram_t
 {
 public:
-   dram_t( unsigned int parition_id, const struct memory_config *config, class memory_stats_t *stats, 
+   dram_t( unsigned int parition_id, const struct memory_config *config, class memory_stats_t *stats,
            class memory_partition_unit *mp );
 
    bool full() const;
    void print( FILE* simFile ) const;
    void visualize() const;
    void print_stat( FILE* simFile );
-   unsigned que_length() const; 
+   unsigned que_length() const;
    bool returnq_full() const;
    unsigned int queue_limit() const;
    void visualizer_print( gzFile visualizer_file );
@@ -123,11 +123,19 @@ public:
 								unsigned &wr,
 								unsigned &req) const;
 
+
+                /* callback functors */
+  void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle);
+
+  void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle);
+
 private:
    void scheduler_fifo();
    void scheduler_frfcfs();
 
    const struct memory_config *m_config;
+
+    std::map<new_addr_type, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
 
    bankgrp_t **bkgrp;
 
@@ -146,7 +154,7 @@ private:
    fifo_pipeline<dram_req_t> *rwq;
    fifo_pipeline<dram_req_t> *mrqq;
    //buffer to hold packets when DRAM processing is over
-   //should be filled with dram clock and popped with l2or icnt clock 
+   //should be filled with dram clock and popped with l2or icnt clock
    fifo_pipeline<mem_fetch> *returnq;
 
    unsigned int dram_util_bins[10];
@@ -171,15 +179,15 @@ private:
 
    unsigned int n_cmd_partial;
    unsigned int n_activity_partial;
-   unsigned int n_nop_partial; 
-   unsigned int n_act_partial; 
-   unsigned int n_pre_partial; 
+   unsigned int n_nop_partial;
+   unsigned int n_act_partial;
+   unsigned int n_pre_partial;
    unsigned int n_req_partial;
    unsigned int ave_mrqs_partial;
    unsigned int bwutil_partial;
 
    struct memory_stats_t *m_stats;
-   class Stats* mrqq_Dist; //memory request queue inside DRAM  
+   class Stats* mrqq_Dist; //memory request queue inside DRAM
 
    friend class frfcfs_scheduler;
 };
