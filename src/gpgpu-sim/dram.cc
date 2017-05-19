@@ -43,7 +43,11 @@
 #include "mem_fetch.h"
 #include "l2cache.h"
 
-#include "../DRAMSim2/MultiChannelMemorySystem.h"
+
+//#include "../DRAMSim2/DRAMSim.h"
+#include <string>
+#include <stdint.h>
+#include <stdio.h>
 
 #ifdef DRAM_VERIFY
 int PRINT_CYCLE = 0;
@@ -52,6 +56,8 @@ int PRINT_CYCLE = 0;
 template class fifo_pipeline<mem_fetch>;
 template class fifo_pipeline<dram_req_t>;
 
+
+//MultiChannelMemorySystem::MultiChannelMemorySystem objDramSim2;
 
 /* callback functors */
 void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
@@ -83,18 +89,32 @@ void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
   returnq->push(mf_return);
 }
 
-
 dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, memory_stats_t *stats,
                 memory_partition_unit *mp )
 {
-
    id = partition_id;
    m_memory_partition_unit = mp;
    m_stats = stats;
    m_config = config;
 
+   std::string str1  (m_config->dramsim2_controller_ini);
+   std::string str2  (m_config->dramsim2_dram_ini);
+   std::string str3  (m_config->dramsim2_vis_file);
 
-  MultiChannelMemorySystem objDramSim2 = new MultiChannelMemorySystem( string(m_config->dramsim2_controller_ini),string(m_config->dramsim2_dram_ini), "", "", m_config->dramsim2_total_memory_megs,string(m_config->dramsim2_vis_file));
+
+   //string *str1 = new string(m_config->dramsim2_controller_ini);
+   //string *str2 = new string(m_config->dramsim2_dram_ini);
+   //string *str3 = new string(m_config->dramsim2_vis_file);
+   //string *strnull = new string();
+
+//new MultiChannelMemorySystem( string(m_config->dramsim2_controller_ini),string(m_config->dramsim2_dram_ini), "", "", m_config->dramsim2_total_memory_megs,string(m_config->dramsim2_vis_file));
+  objDramSim2 = new MultiChannelMemorySystem( str1, str2,"", "",m_config->dramsim2_total_memory_megs, str3);
+  //getMemorySystemInstance("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini","..", "example_app",16384);
+
+  //new MultiChannelMemorySystem("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini","..", "..",16384, "example_app");
+  //getMemorySystemInstance("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini","..", "..",16384, "example_app");
+  //new MultiChannelMemorySystem("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini","..", "..",16384, "example_app");
+  //new MultiChannelMemorySystem( str1, str2,strnull, strnull,&m_config->dramsim2_total_memory_megs, str3);
 /*
   MultiChannelMemorySystem::MultiChannelMemorySystem(const string &deviceIniFilename_, const string &systemIniFilename_, const string &pwd_, const string &traceFilename_, unsigned megsOfMemory_, string *visFilename_, const IniReader::OverrideMap *paramOverrides)
   	:megsOfMemory(megsOfMemory_), deviceIniFilename(deviceIniFilename_),
@@ -111,7 +131,7 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
   TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::read_complete);
   TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::write_complete);
 
-   objDramSim2->RegisterCallbacks(read_cb, write_cb, null);
+   objDramSim2->RegisterCallbacks(read_cb, write_cb, NULL);
 
 }
 
@@ -119,6 +139,11 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
 
 bool dram_t::full() const
 {
+
+  printf("*** METODO dram_t:full NO IMPLEMENTADO!") ;
+  exit(0);
+  return false;
+
   //BUSCAR EN EL CORREO LA LLAMADA A 'FULL' DE DRAMSIM2
 }
 
@@ -177,7 +202,7 @@ void dram_t::push( class mem_fetch *data )
 
 
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   objDramSim2.addTransaction(data->is_write(), data->get_addr());
+   objDramSim2->addTransaction(data->is_write(), data->get_addr());
 
 }
 
