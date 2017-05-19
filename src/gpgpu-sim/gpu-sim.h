@@ -279,7 +279,7 @@ struct memory_config {
    char *dramsim2_controller_ini;
    char *dramsim2_dram_ini;
    char *dramsim2_vis_file;
-   unsigned dramsim2_total_memory_megs;
+   unsigned *dramsim2_total_memory_megs;
 };
 
 // global counters and flags (please try not to add to this list!!!)
