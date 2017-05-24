@@ -312,7 +312,7 @@ static void print_reg( FILE *fp, std::string name, ptx_reg_t value, symbol_table
       fprintf(fp,"<unknown type> 0x%llx\n", (unsigned long long ) value.u64 );
       return;
    }
-   const type_info *t = sym->type();
+   const gpgpu_type_info *t = sym->type();
    if( t == NULL ) {
       fprintf(fp,"<unknown type> 0x%llx\n", (unsigned long long ) value.u64 );
       return;

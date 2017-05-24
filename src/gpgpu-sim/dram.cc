@@ -43,7 +43,13 @@
 #include "mem_fetch.h"
 #include "l2cache.h"
 
-#include "../DRAMSim2/MultiChannelMemorySystem.h"
+//#include "../DRAMSim2/MultiChannelMemorySystem.h"
+
+
+//#include "../DRAMSim2/DRAMSim.h"
+#include <string>
+#include <stdint.h>
+#include <stdio.h>
 
 #ifdef DRAM_VERIFY
 int PRINT_CYCLE = 0;
@@ -52,6 +58,7 @@ int PRINT_CYCLE = 0;
 template class fifo_pipeline<mem_fetch>;
 template class fifo_pipeline<dram_req_t>;
 
+typedef std::pair<unsigned long long, mem_fetch> Taddr_memfetchPair;
 
 /* callback functors */
 void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
@@ -93,8 +100,31 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
    m_stats = stats;
    m_config = config;
 
+/*
 
-  MultiChannelMemorySystem objDramSim2 = new MultiChannelMemorySystem( string(m_config->dramsim2_controller_ini),string(m_config->dramsim2_dram_ini), "", "", m_config->dramsim2_total_memory_megs,string(m_config->dramsim2_vis_file));
+struct dram_system_handler_t* dram_system_create(const char *dev_desc_file, const char *sys_desc_file, unsigned int total_memory_megs, const char *vis_file)
+{
+std::string dev(dev_desc_file);
+std::string sys(sys_desc_file);
+
+    std::string vis(vis_file);
+    return new MultiChannelMemorySystem(dev, sys, "", "", total_memory_megs, vis);
+}
+
+*/
+    std::string dev(m_config->dramsim2_controller_ini);
+    std::string sys(m_config->dramsim2_dram_ini);
+    std::string vis(m_config->dramsim2_vis_file);
+
+
+   //LA SIGUIENTE LINEA ESTÁ COPIADA DEL EJEMPLO DE USO DE DRAMSIM2 PARA COMPROBAR QUE ES POSIBLE LLAMARLO DESDE AQUI
+   //SUSTITUIRLA POR LA INVOCACION EQUIVALENTE USANDO NUESTROS PARÁMETROS
+
+   objDramSim2 = new MultiChannelMemorySystem("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini", "..", "example_app", 16384);
+   //objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, vis);
+
+  //  objDramSim2 = new MultiChannelMemorySystem( string(m_config->dramsim2_controller_ini),string(m_config->dramsim2_dram_ini), "", "", m_config->dramsim2_total_memory_megs,string(m_config->dramsim2_vis_file));
+//  objDramSim2 = new MultiChannelMemorySystem( str1, str2,"", "",m_config->dramsim2_total_memory_megs, str3);
 /*
   MultiChannelMemorySystem::MultiChannelMemorySystem(const string &deviceIniFilename_, const string &systemIniFilename_, const string &pwd_, const string &traceFilename_, unsigned megsOfMemory_, string *visFilename_, const IniReader::OverrideMap *paramOverrides)
   	:megsOfMemory(megsOfMemory_), deviceIniFilename(deviceIniFilename_),
@@ -111,7 +141,7 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
   TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::read_complete);
   TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::write_complete);
 
-   objDramSim2->RegisterCallbacks(read_cb, write_cb, null);
+   objDramSim2->RegisterCallbacks(read_cb, write_cb, NULL);
 
 }
 
@@ -120,6 +150,9 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
 bool dram_t::full() const
 {
   //BUSCAR EN EL CORREO LA LLAMADA A 'FULL' DE DRAMSIM2
+  printf("*** METODO dram_t:full NO IMPLEMENTADO!") ;
+  exit(0);
+  return false;
 }
 
 unsigned dram_t::que_length() const
@@ -172,12 +205,18 @@ void dram_t::push( class mem_fetch *data )
 
     //En este punto debe existir una lista en la cual poder introducir los mem_fetch recibidos, introducir el recibido y recuperarlo posteriormente.
 
-    backup_de_MF.insert(std::make_pair(data->get_addr(), data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
+    //DA ERROR:
+
+    //typedef std::pair<unsigned long long, mem_fetch> Taddr_memfetchPair;
+
+    backup_de_MF.insert(Taddr_memfetchPair(data->get_addr(), *data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
+
+    //backup_de_MF.insert(std::make_pair(data->get_addr(), data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
 
 
 
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   objDramSim2.addTransaction(data->is_write(), data->get_addr());
+   objDramSim2->addTransaction(data->is_write(), data->get_addr());
 
 }
 
@@ -222,7 +261,7 @@ void dram_t::cycle()
 */
 //cycle original hasta aqui
 
-objDramSim2.update();
+objDramSim2->update();
 }
 
 //if mrq is being serviced by dram, gets popped after CL latency fulfilled

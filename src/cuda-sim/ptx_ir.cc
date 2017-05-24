@@ -138,7 +138,7 @@ symbol *symbol_table::lookup( const char *identifier )
    return NULL;
 }
 
-symbol *symbol_table::add_variable( const char *identifier, const type_info *type, unsigned size, const char *filename, unsigned line )
+symbol *symbol_table::add_variable( const char *identifier, const gpgpu_type_info *type, unsigned size, const char *filename, unsigned line )
 {
    char buf[1024];
    std::string key(identifier);
@@ -164,7 +164,7 @@ void symbol_table::add_function( function_info *func, const char *filename, unsi
       return;
    char buf[1024];
    snprintf(buf,1024,"%s:%u",filename,linenumber);
-   type_info *type = add_type( func );
+   gpgpu_type_info *type = add_type( func );
    symbol *s = new symbol(func->get_name().c_str(),type,buf,0);
    s->set_function(func);
    m_symbols[ func->get_name() ] = s;
@@ -204,7 +204,7 @@ bool symbol_table::add_function_decl( const char *name, int entry_point, functio
       // First param is null - which is bad.
       // However, the first parameter is actually unread in the constructor...
       // TODO - remove the symbol_table* from type_info
-      type_info* null_type_info = new type_info( NULL, null_key );
+      gpgpu_type_info* null_type_info = new gpgpu_type_info( NULL, null_key );
       symbol *null_reg = (*sym_table)->add_variable( "_", null_type_info, 0, "", 0 ); 
       null_reg->set_regno(0, 0);
       
@@ -217,31 +217,31 @@ bool symbol_table::add_function_decl( const char *name, int entry_point, functio
    return prior_decl;
 }
 
-type_info *symbol_table::add_type( memory_space_t space_spec, int scalar_type_spec, int vector_spec, int alignment_spec, int extern_spec )
+gpgpu_type_info *symbol_table::add_type( memory_space_t space_spec, int scalar_type_spec, int vector_spec, int alignment_spec, int extern_spec )
 {
    if( space_spec == param_space_unclassified ) 
       space_spec = param_space_local;
    type_info_key t(space_spec,scalar_type_spec,vector_spec,alignment_spec,extern_spec,0);
-   type_info *pt;
-   pt = new type_info(this,t);
+   gpgpu_type_info *pt;
+   pt = new gpgpu_type_info(this,t);
    return pt;
 }
 
-type_info *symbol_table::add_type( function_info *func )
+gpgpu_type_info *symbol_table::add_type( function_info *func )
 {
    type_info_key t;
-   type_info *pt;
+   gpgpu_type_info *pt;
    t.set_is_func();
-   pt = new type_info(this,t);
+   pt = new gpgpu_type_info(this,t);
    return pt;
 }
 
-type_info *symbol_table::get_array_type( type_info *base_type, unsigned array_dim ) 
+gpgpu_type_info *symbol_table::get_array_type( gpgpu_type_info *base_type, unsigned array_dim ) 
 {
    type_info_key t = base_type->get_key();
    t.set_array_dim(array_dim);
-   type_info *pt;
-   pt = m_types[t] = new type_info(this,t);
+   gpgpu_type_info *pt;
+   pt = m_types[t] = new gpgpu_type_info(this,t);
    return pt;
 }
 

@@ -126,9 +126,9 @@ struct type_info_key_compare {
    }
 };
 
-class type_info {
+class gpgpu_type_info {
 public:
-   type_info( symbol_table *scope, type_info_key t )
+   gpgpu_type_info( symbol_table *scope, type_info_key t )
    {
       m_type_info = t;
    }
@@ -149,7 +149,7 @@ class operand_info;
 
 class symbol {
 public:
-   symbol( const char *name, const type_info *type, const char *location, unsigned size ) 
+   symbol( const char *name, const gpgpu_type_info *type, const char *location, unsigned size ) 
    {
       m_uid = get_uid();
       m_name = name;
@@ -185,7 +185,7 @@ public:
    }
    const std::string &name() const { return m_name;}
    const std::string &decl_location() const { return m_decl_location;} 
-   const type_info *type() const { return m_type;}
+   const gpgpu_type_info *type() const { return m_type;}
    addr_t get_address() const 
    { 
       assert( m_is_label || !m_type->get_key().is_reg() ); // todo : other assertions
@@ -268,7 +268,7 @@ public:
 private:
    unsigned get_uid();
    unsigned m_uid;
-   const type_info *m_type;
+   const gpgpu_type_info *m_type;
    unsigned m_size; // in bytes
    std::string m_name;
    std::string m_decl_location;
@@ -304,12 +304,12 @@ public:
    void set_sm_target( const char *target, const char *ext, const char *ext2 );
    symbol* lookup( const char *identifier );
    std::string get_scope_name() const { return m_scope_name; }
-   symbol *add_variable( const char *identifier, const type_info *type, unsigned size, const char *filename, unsigned line );
+   symbol *add_variable( const char *identifier, const gpgpu_type_info *type, unsigned size, const char *filename, unsigned line );
    void add_function( function_info *func, const char *filename, unsigned linenumber );
    bool add_function_decl( const char *name, int entry_point, function_info **func_info, symbol_table **symbol_table );
-   type_info *add_type( memory_space_t space_spec, int scalar_type_spec, int vector_spec, int alignment_spec, int extern_spec );
-   type_info *add_type( function_info *func );
-   type_info *get_array_type( type_info *base_type, unsigned array_dim ); 
+   gpgpu_type_info *add_type( memory_space_t space_spec, int scalar_type_spec, int vector_spec, int alignment_spec, int extern_spec );
+   gpgpu_type_info *add_type( function_info *func );
+   gpgpu_type_info *get_array_type( gpgpu_type_info *base_type, unsigned array_dim ); 
    void set_label_address( const symbol *label, unsigned addr );
    unsigned next_reg_num() { return ++m_reg_allocator;}
    addr_t get_shared_next() { return m_shared_next;}
@@ -342,7 +342,7 @@ private:
    ptx_version m_ptx_version;
    std::string m_scope_name;
    std::map<std::string, symbol *> m_symbols; //map from name of register to pointers to the registers
-   std::map<type_info_key,type_info*,type_info_key_compare>  m_types;
+   std::map<type_info_key,gpgpu_type_info*,type_info_key_compare>  m_types;
    std::list<symbol*> m_globals;
    std::list<symbol*> m_consts;
    std::map<std::string,function_info*> m_function_info_lookup;

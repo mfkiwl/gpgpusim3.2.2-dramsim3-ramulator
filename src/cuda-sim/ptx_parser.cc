@@ -62,7 +62,7 @@ int g_alignment_spec = -1;
 int g_extern_spec = 0;
 
 // variable declaration stuff:
-type_info *g_var_type = NULL;
+gpgpu_type_info *g_var_type = NULL;
 
 // instruction definition stuff:
 const symbol *g_pred;
@@ -352,7 +352,7 @@ void add_identifier( const char *identifier, int array_dim, unsigned array_ident
    }
    PTX_PARSE_DPRINTF("add_identifier \"%s\" (%u)", identifier, g_ident_add_uid);
    g_ident_add_uid++;
-   type_info *type = g_var_type;
+   gpgpu_type_info *type = g_var_type;
    type_info_key ti = type->get_key();
    int basic_type;
    int regnum;

@@ -2042,7 +2042,7 @@ static int load_static_globals( symbol_table *symtab, unsigned min_gaddr, unsign
 		if ( global->has_initializer() ) {
 			printf( "GPGPU-Sim PTX:     initializing '%s' ... ", global->name().c_str() );
 			unsigned addr=global->get_address();
-			const type_info *type = global->type();
+			const gpgpu_type_info *type = global->type();
 			type_info_key ti=type->get_key();
 			size_t size;
 			int t;

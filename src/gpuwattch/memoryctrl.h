@@ -117,7 +117,7 @@ class DRAM : public Component {
     ~DRAM();
 };
 
-class MemoryController : public Component {
+class gpgpu_MemoryController : public Component {
   public:
 	ParseXML *XML;
 	InputParameter interface_ip;
@@ -133,10 +133,10 @@ class MemoryController : public Component {
 	 
 
     //clock_network clockNetwork;
-    MemoryController(ParseXML *XML_interface,InputParameter* interface_ip_, enum MemoryCtrl_type mc_type_,enum Dram_type dram_type_);
+    gpgpu_MemoryController(ParseXML *XML_interface,InputParameter* interface_ip_, enum MemoryCtrl_type mc_type_,enum Dram_type dram_type_);
     void set_mc_param();
     void computeEnergy(bool is_tdp=true);
     void displayEnergy(uint32_t indent = 0,int plevel = 100, bool is_tdp=true);
-    ~MemoryController();
+    ~gpgpu_MemoryController();
 };
 #endif /* MEMORYCTRL_H_ */

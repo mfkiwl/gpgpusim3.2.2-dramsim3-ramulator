@@ -35,6 +35,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../DRAMSim2/MultiChannelMemorySystem.h"
+
 #define DRAM_READ 'R'  //define read and write states
 #define DRAM_WRITE 'W'
 #define BANK_IDLE 'I'
@@ -42,6 +44,9 @@
 
 class dram_req_t {
 public:
+
+
+
    dram_req_t( class mem_fetch *data );
 
    unsigned int row;
@@ -113,6 +118,11 @@ public:
    class memory_partition_unit *m_memory_partition_unit;
    unsigned int id;
 
+  //incluyo este objeto como miembro global de la clase para contener el objeto DramSim2 y
+  //poder acceder a él desde cualquier método
+   MultiChannelMemorySystem *objDramSim2;
+
+
    // Power Model
    void set_dram_power_stats(unsigned &cmd,
 								unsigned &activity,
@@ -135,7 +145,11 @@ private:
 
    const struct memory_config *m_config;
 
-    std::map<new_addr_type, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
+ //En src/abstract_hardware_model.h:69 vemos que el tipo new_addr_type es unsigned long long :typedef unsigned long long new_addr_type;
+
+ //Sin embargo tal definición es accesible desde aqui, luego uso el mismo tipo de dato para crear el diccionario que contendrá los pares new_addr_type:mem_fetch
+  std::map<unsigned long long, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
+  //  std::map<new_addr_type, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
 
    bankgrp_t **bkgrp;
 

@@ -161,7 +161,7 @@ struct memory_config {
          tCCDL = 0;
          tRTPL = 0;
          sscanf(gpgpu_dram_timing_opt,"%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d",
-                &nbk,&tCCD,&tRRD,&tRCD,&tRAS,&tRP,&tRC,&CL,&WL,&tCDLR,&tWR,&nbkgrp,&tCCDL,&tRTPL);
+                &nbk,&tCCD,&tRRD,&tRCD,&tRAS,&tRP,&tRC,&CL,&W_L,&tCDLR,&tWR,&nbkgrp,&tCCDL,&tRTPL);
       } else {
          // named dram timing options (unordered)
          option_parser_t dram_opp = option_parser_create();
@@ -177,7 +177,7 @@ struct memory_config {
          option_parser_register(dram_opp, "WR",   OPT_UINT32, &tWR,   "last data-in to row precharge", "");
 
          option_parser_register(dram_opp, "CL", OPT_UINT32, &CL, "CAS latency", "");
-         option_parser_register(dram_opp, "WL", OPT_UINT32, &WL, "Write latency", "");
+         option_parser_register(dram_opp, "WL", OPT_UINT32, &W_L, "Write latency", "");
 
          //Disabling bank groups if their values are not specified
          option_parser_register(dram_opp, "nbkgrp", OPT_UINT32, &nbkgrp, "number of bank groups", "1");
@@ -197,10 +197,10 @@ struct memory_config {
       }
       bk_tag_length = i;
       assert(nbkgrp>0 && "Number of bank groups cannot be zero");
-      tRCDWR = tRCD-(WL+1);
-      tRTW = (CL+(BL/data_command_freq_ratio)+2-WL);
-      tWTR = (WL+(BL/data_command_freq_ratio)+tCDLR);
-      tWTP = (WL+(BL/data_command_freq_ratio)+tWR);
+      tRCDWR = tRCD-(W_L+1);
+      tRTW = (CL+(BL/data_command_freq_ratio)+2-W_L);
+      tWTR = (W_L+(BL/data_command_freq_ratio)+tCDLR);
+      tWTP = (W_L+(BL/data_command_freq_ratio)+tWR);
       dram_atom_size = BL * busW * gpu_n_mem_per_ctrlr; // burst length x bus width x # chips per partition
 
       assert( m_n_sub_partition_per_memory_channel > 0 );
@@ -252,7 +252,7 @@ struct memory_config {
    unsigned tWR;    //Last data-in to Row precharge
 
    unsigned CL;     //CAS latency
-   unsigned WL;     //WRITE latency
+   unsigned W_L;     //WRITE latency
    unsigned BL;     //Burst Length in bytes (4 in GDDR3, 8 in GDDR5)
    unsigned tRTW;   //time to switch from read to write
    unsigned tWTR;   //time to switch from write to read
@@ -263,6 +263,7 @@ struct memory_config {
    unsigned bk_tag_length; //number of bits that define a bank inside a bank group
 
    unsigned nbk;
+
 
    unsigned data_command_freq_ratio; // frequency ratio between DRAM data bus and command bus (2 for GDDR3, 4 for GDDR5)
    unsigned dram_atom_size; // number of bytes transferred per read or write command
@@ -279,7 +280,7 @@ struct memory_config {
    char *dramsim2_controller_ini;
    char *dramsim2_dram_ini;
    char *dramsim2_vis_file;
-   unsigned dramsim2_total_memory_megs;
+   unsigned *dramsim2_total_memory_megs;
 };
 
 // global counters and flags (please try not to add to this list!!!)
@@ -372,7 +373,8 @@ private:
     friend class gpgpu_sim;
 };
 
-class gpgpu_sim : public gpgpu_t {
+class gpgpu_sim : public gpgpu_t
+{
 public:
    gpgpu_sim( const gpgpu_sim_config &config );
 

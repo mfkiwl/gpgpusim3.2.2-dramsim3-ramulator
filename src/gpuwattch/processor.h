@@ -64,7 +64,7 @@ class Processor : public Component
     vector<SharedCache *> l1dirarray;
     vector<SharedCache *> l2dirarray;
     vector<NoC *>  nocs;
-    MemoryController * mc;
+    gpgpu_MemoryController * mc;
     NIUController    * niu;
     PCIeController   * pcie;
     FlashController  * flashcontroller;

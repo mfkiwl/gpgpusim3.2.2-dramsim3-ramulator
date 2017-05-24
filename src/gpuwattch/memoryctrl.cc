@@ -728,7 +728,7 @@ DRAM::DRAM(ParseXML *XML_interface,InputParameter* interface_ip_, enum Dram_type
 		set_dram_param();
 
 }
-MemoryController::MemoryController(ParseXML *XML_interface,InputParameter* interface_ip_, enum MemoryCtrl_type mc_type_,enum Dram_type dram_type_)
+gpgpu_MemoryController::gpgpu_MemoryController(ParseXML *XML_interface,InputParameter* interface_ip_, enum MemoryCtrl_type mc_type_,enum Dram_type dram_type_)
 :XML(XML_interface),
  interface_ip(*interface_ip_),
  mc_type(mc_type_),
@@ -796,7 +796,7 @@ MemoryController::MemoryController(ParseXML *XML_interface,InputParameter* inter
 
 
 }
-void MemoryController::computeEnergy(bool is_tdp)
+void gpgpu_MemoryController::computeEnergy(bool is_tdp)
 {
 
   rt_power.reset(); //Jingwen
@@ -843,7 +843,7 @@ void MemoryController::computeEnergy(bool is_tdp)
 	}
 }
 
-void MemoryController::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void gpgpu_MemoryController::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
 {
 	string indent_str(indent, ' ');
 	string indent_str_next(indent+2, ' ');
@@ -916,7 +916,7 @@ void DRAM::set_dram_param()
 	dramp.const_coeff		= XML->sys.mc.dram_const_coeff;
 }
 
-void MemoryController::set_mc_param()
+void gpgpu_MemoryController::set_mc_param()
 {
 
 	if (mc_type==MC)
@@ -983,7 +983,7 @@ MCFrontEnd ::~MCFrontEnd(){
 	if(writeBuffer) 	       {delete writeBuffer; writeBuffer = 0;}
 }
 
-MemoryController ::~MemoryController(){
+gpgpu_MemoryController ::~gpgpu_MemoryController(){
 
 	if(frontend) 	               {delete frontend; frontend = 0;}
 	if(transecEngine) 	           {delete transecEngine; transecEngine = 0;}

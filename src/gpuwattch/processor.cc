@@ -271,9 +271,9 @@ Processor::Processor(ParseXML *XML_interface)
   if (XML->sys.mc.number_mcs >0 && XML->sys.mc.memory_channels_per_mc>0)
   {
 	  if(XML->sys.architecture==1) // 1 for fermi
-		mc = new MemoryController(XML, &interface_ip, MC,GDDR5);
+		mc = new gpgpu_MemoryController(XML, &interface_ip, MC,GDDR5);
 	  else if (XML->sys.architecture==2) // 2 for quadro
-		mc = new MemoryController(XML, &interface_ip, MC,GDDR3);
+		mc = new gpgpu_MemoryController(XML, &interface_ip, MC,GDDR3);
 	  else {
 		printf("Architecture %d not defined!\n", XML->sys.architecture);
 		printf("use 1 for fermi and 2 for quadro!\n");

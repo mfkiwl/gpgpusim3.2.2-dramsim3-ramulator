@@ -35,7 +35,7 @@
 #include "../option_parser.h"
 #include "mem_fetch.h"
 #include "dram.h"
-#include "dramsim2.h"
+//#include "dramsim2.h"
 #include "gpu-cache.h"
 #include "histogram.h"
 #include "l2cache.h"

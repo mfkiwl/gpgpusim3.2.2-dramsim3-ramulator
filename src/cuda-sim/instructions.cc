@@ -111,7 +111,7 @@ ptx_reg_t ptx_thread_info::get_operand_value( const operand_info &op, operand_in
     	 } else if ( op.is_memory_operand() ) {
             // a few options here...
             const symbol *sym = op.get_symbol();
-            const type_info *type = sym->type();
+            const gpgpu_type_info *type = sym->type();
             const type_info_key &info = type->get_key();
 
             if ( info.is_reg() ) {
@@ -297,7 +297,7 @@ unsigned get_operand_nbits( const operand_info &op )
 {
    if ( op.is_reg() ) {
       const symbol *sym = op.get_symbol();
-      const type_info *typ = sym->type();
+      const gpgpu_type_info *typ = sym->type();
       type_info_key t = typ->get_key();
       switch( t.scalar_type() ) {
       case PRED_TYPE: 
@@ -2250,7 +2250,7 @@ void decode_space( memory_space_t &space, ptx_thread_info *thread, const operand
    if( space == param_space_unclassified ) {
       // need to op to determine whether it refers to a kernel param or local param
       const symbol *s = op.get_symbol();
-      const type_info *t = s->type();
+      const gpgpu_type_info *t = s->type();
       type_info_key ti = t->get_key();
       if( ti.is_param_kernel() )
          space = param_space_kernel;
