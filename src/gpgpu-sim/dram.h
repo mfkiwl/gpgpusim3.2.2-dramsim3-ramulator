@@ -148,6 +148,7 @@ private:
  //En src/abstract_hardware_model.h:69 vemos que el tipo new_addr_type es unsigned long long :typedef unsigned long long new_addr_type;
 
  //Sin embargo tal definición es accesible desde aqui, luego uso el mismo tipo de dato para crear el diccionario que contendrá los pares new_addr_type:mem_fetch
+
   std::map<unsigned long long, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
   //  std::map<new_addr_type, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
 
