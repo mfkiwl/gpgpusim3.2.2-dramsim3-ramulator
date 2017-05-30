@@ -112,16 +112,22 @@ std::string sys(sys_desc_file);
 }
 
 */
+
     std::string dev(m_config->dramsim2_controller_ini);
     std::string sys(m_config->dramsim2_dram_ini);
     std::string vis(m_config->dramsim2_vis_file);
+    //unsigned int tunk = *m_config->dramsim2_total_memory_megs;
 
 
    //LA SIGUIENTE LINEA ESTÁ COPIADA DEL EJEMPLO DE USO DE DRAMSIM2 PARA COMPROBAR QUE ES POSIBLE LLAMARLO DESDE AQUI
    //SUSTITUIRLA POR LA INVOCACION EQUIVALENTE USANDO NUESTROS PARÁMETROS
+   //objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", tunk, &vis);
+   objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, &vis);
 
-   objDramSim2 = new MultiChannelMemorySystem("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini", "..", "example_app", 16384);
-   //objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, vis);
+   //objDramSim2 = new MultiChannelMemorySystem("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini", "..", "example_app", 16384);
+
+   //objDramSim2 = new MultiChannelMemorySystem(dev, sys, nulo,nulo, m_config->dramsim2_total_memory_megs, vis);
+   //objDramSim2 = new getMemorySystemInstance(dev, sys, nulo,nulo,(unsigned)16384, nulo);
 
   //  objDramSim2 = new MultiChannelMemorySystem( string(m_config->dramsim2_controller_ini),string(m_config->dramsim2_dram_ini), "", "", m_config->dramsim2_total_memory_megs,string(m_config->dramsim2_vis_file));
 //  objDramSim2 = new MultiChannelMemorySystem( str1, str2,"", "",m_config->dramsim2_total_memory_megs, str3);
