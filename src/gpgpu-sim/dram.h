@@ -34,6 +34,7 @@
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "../DRAMSim2/MultiChannelMemorySystem.h"
 
 #include "../DRAMSim2/MultiChannelMemorySystem.h"
 
@@ -97,6 +98,9 @@ struct mem_fetch;
 class dram_t
 {
 public:
+
+   MultiChannelMemorySystem *objDramSim2;
+
    dram_t( unsigned int parition_id, const struct memory_config *config, class memory_stats_t *stats,
            class memory_partition_unit *mp );
 

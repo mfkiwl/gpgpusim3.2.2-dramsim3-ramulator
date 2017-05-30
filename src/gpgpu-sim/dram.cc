@@ -43,8 +43,11 @@
 #include "mem_fetch.h"
 #include "l2cache.h"
 
+<<<<<<< HEAD
 //#include "../DRAMSim2/MultiChannelMemorySystem.h"
 
+=======
+>>>>>>> master
 
 //#include "../DRAMSim2/DRAMSim.h"
 #include <string>
@@ -59,6 +62,8 @@ template class fifo_pipeline<mem_fetch>;
 template class fifo_pipeline<dram_req_t>;
 
 typedef std::pair<unsigned long long, mem_fetch> Taddr_memfetchPair;
+
+//MultiChannelMemorySystem::MultiChannelMemorySystem objDramSim2;
 
 /* callback functors */
 void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
@@ -90,11 +95,9 @@ void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
   returnq->push(mf_return);
 }
 
-
 dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, memory_stats_t *stats,
                 memory_partition_unit *mp )
 {
-
    id = partition_id;
    m_memory_partition_unit = mp;
    m_stats = stats;
@@ -131,6 +134,7 @@ std::string sys(sys_desc_file);
 
   //  objDramSim2 = new MultiChannelMemorySystem( string(m_config->dramsim2_controller_ini),string(m_config->dramsim2_dram_ini), "", "", m_config->dramsim2_total_memory_megs,string(m_config->dramsim2_vis_file));
 //  objDramSim2 = new MultiChannelMemorySystem( str1, str2,"", "",m_config->dramsim2_total_memory_megs, str3);
+
 /*
   MultiChannelMemorySystem::MultiChannelMemorySystem(const string &deviceIniFilename_, const string &systemIniFilename_, const string &pwd_, const string &traceFilename_, unsigned megsOfMemory_, string *visFilename_, const IniReader::OverrideMap *paramOverrides)
   	:megsOfMemory(megsOfMemory_), deviceIniFilename(deviceIniFilename_),
@@ -155,6 +159,11 @@ std::string sys(sys_desc_file);
 
 bool dram_t::full() const
 {
+
+  printf("*** METODO dram_t:full NO IMPLEMENTADO!") ;
+  exit(0);
+  return false;
+
   //BUSCAR EN EL CORREO LA LLAMADA A 'FULL' DE DRAMSIM2
   printf("*** METODO dram_t:full NO IMPLEMENTADO!") ;
   exit(0);
