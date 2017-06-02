@@ -99,7 +99,7 @@ class dram_t
 {
 public:
 
-   MultiChannelMemorySystem *objDramSim2;
+   //MultiChannelMemorySystem *objDramSim2;
 
    dram_t( unsigned int parition_id, const struct memory_config *config, class memory_stats_t *stats,
            class memory_partition_unit *mp );

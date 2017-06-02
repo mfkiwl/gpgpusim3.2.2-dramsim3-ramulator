@@ -26,8 +26,8 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-default: libgpgpu_ptx_sim.a 
- 
+default: libgpgpu_ptx_sim.a
+
 INTEL=0
 DEBUG?=0
 TRACE?=0
@@ -43,11 +43,12 @@ include ../../version_detection.mk
 OUTPUT_DIR=$(SIM_OBJ_FILES_DIR)/cuda-sim
 
 OPT	:=  -O3 -g3 -Wall -Wno-unused-function -Wno-sign-compare
+#OPT	:=  -O3 -g3 -Wall -Wno-unused-function -Wno-sign-compare -L./Dramsim2 -ldramsim
 ifeq ($(DEBUG),1)
 	OPT := -g3 -Wall  -Wno-unused-function -Wno-sign-compare
 endif
 OPT += -I$(CUDA_INSTALL_PATH)/include  -I$(OUTPUT_DIR)/ -I.
-OPT += -fPIC 
+OPT += -fPIC
 
 ifeq ($(TRACE),1)
 	OPT += -DTRACING_ON=1
@@ -56,7 +57,7 @@ endif
 CXX_OPT = $(OPT)
 ifeq ($(INTEL),1)
     CXX_OPT += -std=c++0x
-else 
+else
 ifeq ($(GNUC_CPP0X),1)
     CXX_OPT += -std=c++0x
 endif
@@ -75,13 +76,13 @@ depend:
 	touch $(OUTPUT_DIR)/Makefile.makedepend
 	makedepend -f$(OUTPUT_DIR)/Makefile.makedepend -p$(OUTPUT_DIR)/ $(SRCS) 2> /dev/null
 
-libgpgpu_ptx_sim.a: $(OBJS) 
+libgpgpu_ptx_sim.a: $(OBJS)
 	ar rcs $(OUTPUT_DIR)/libgpgpu_ptx_sim.a $(OUTPUT_DIR)/ptx.tab.o $(OUTPUT_DIR)/lex.ptx_.o $(OUTPUT_DIR)/ptxinfo.tab.o $(OUTPUT_DIR)/lex.ptxinfo_.o $(OBJS)
 
 $(OUTPUT_DIR)/ptx.tab.o: $(OUTPUT_DIR)/ptx.tab.c
 	$(CPP) -c $(OPT) -DYYDEBUG $(OUTPUT_DIR)/ptx.tab.c -o $(OUTPUT_DIR)/ptx.tab.o
 
-$(OUTPUT_DIR)/lex.ptx_.o: $(OUTPUT_DIR)/lex.ptx_.c 
+$(OUTPUT_DIR)/lex.ptx_.o: $(OUTPUT_DIR)/lex.ptx_.c
 	$(CPP) -c $(OPT) $(OUTPUT_DIR)/lex.ptx_.c -o $(OUTPUT_DIR)/lex.ptx_.o
 
 $(OUTPUT_DIR)/ptxinfo.tab.o: $(OUTPUT_DIR)/ptxinfo.tab.c
@@ -97,16 +98,16 @@ $(OUTPUT_DIR)/ptxinfo.tab.c: ptxinfo.y
 	bison --name-prefix=ptxinfo_ -v -d ptxinfo.y --file-prefix=$(OUTPUT_DIR)/ptxinfo
 
 $(OUTPUT_DIR)/lex.ptx_.c: ptx.l
-	flex --outfile=$(OUTPUT_DIR)/lex.ptx_.c ptx.l 
+	flex --outfile=$(OUTPUT_DIR)/lex.ptx_.c ptx.l
 
 $(OUTPUT_DIR)/lex.ptxinfo_.c: ptxinfo.l
-	flex --outfile=$(OUTPUT_DIR)/lex.ptxinfo_.c ptxinfo.l 
+	flex --outfile=$(OUTPUT_DIR)/lex.ptxinfo_.c ptxinfo.l
 
 clean:
 	rm -f *~ *.o *.gcda *.gcno *.gcov libgpgpu_ptx_sim.a \
 		ptx.tab.h ptx.tab.c ptx.output lex.ptx_.c \
 		ptxinfo.tab.h ptxinfo.tab.c ptxinfo.output lex.ptxinfo_.c \
-		instructions.h ptx_parser_decode.def directed_tests.log 
+		instructions.h ptx_parser_decode.def directed_tests.log
 	rm -f $(OUTPUT_DIR)/decuda_pred_table/*.o
 	rm -f $(OUTPUT_DIR)/Makefile.makedepend $(OUTPUT_DIR)/Makefile.makedepend.bak
 
