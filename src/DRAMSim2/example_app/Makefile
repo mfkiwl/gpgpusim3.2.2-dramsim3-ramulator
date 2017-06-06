@@ -3,5 +3,5 @@
 dramsim_test: dramsim_test.cpp
 	$(CXX) -g -o dramsim_test dramsim_test.cpp -I../ -L../ -ldramsim -Wl,-rpath=../
 
-clean: 
+clean:
 	rm dramsim_test

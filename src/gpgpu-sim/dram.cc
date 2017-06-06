@@ -115,14 +115,18 @@ std::string sys(sys_desc_file);
 
     std::string dev(m_config->dramsim2_controller_ini);
     std::string sys(m_config->dramsim2_dram_ini);
-    std::string vis(m_config->dramsim2_vis_file);
-    //unsigned int tunk = *m_config->dramsim2_total_memory_megs;
 
+    vis = new std::string(m_config->dramsim2_vis_file);
+    //std::string vis(m_config->dramsim2_vis_file);
 
    //LA SIGUIENTE LINEA ESTÁ COPIADA DEL EJEMPLO DE USO DE DRAMSIM2 PARA COMPROBAR QUE ES POSIBLE LLAMARLO DESDE AQUI
    //SUSTITUIRLA POR LA INVOCACION EQUIVALENTE USANDO NUESTROS PARÁMETROS
    //objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", tunk, &vis);
-   objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, &vis);
+   objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, vis);
+
+
+    // printf("*** YUHUUUUUUUUUUU");
+     //printf("%s\n",vis.c_str());
 
    //objDramSim2 = new MultiChannelMemorySystem("ini/DDR2_micron_16M_8b_x8_sg3E.ini", "system.ini", "..", "example_app", 16384);
 
@@ -149,6 +153,7 @@ std::string sys(sys_desc_file);
 
    objDramSim2->RegisterCallbacks(read_cb, write_cb, NULL);
 
+
 }
 
 
@@ -163,9 +168,32 @@ bool dram_t::full() const
 
 unsigned dram_t::que_length() const
 {
-  printf("*** METODO dram_t:que_length NO IMPLEMENTADO!") ;
+  printf("*****************\n");
+  printf("*  _        _   *\n");
+  printf("*  O        O   *\n");
+  printf("*       |       *\n");
+  printf("*  *        *   *\n");
+  printf("*   ********    *\n");
+  printf("*****************\n");
+  printf("oo\n");
+  printf("*** ATENCION: METODO dram_t:que_length NO IMPLEMENTADO!\n") ;
   exit(0);
 //IMPRIMIR MENSAJE DE 'NO IMPLEMENTADO' Y SALIR
+
+/* que_length ORIGINAL:
+unsigned dram_t::que_length() const
+{
+   unsigned nreqs = 0;
+   if (m_config->scheduler_type == DRAM_FRFCFS ) {
+      nreqs = m_frfcfs_scheduler->num_pending();
+   } else {
+      nreqs = mrqq->get_length();
+   }
+   return nreqs;
+}
+*/
+
+
 }
 
 bool dram_t::returnq_full() const

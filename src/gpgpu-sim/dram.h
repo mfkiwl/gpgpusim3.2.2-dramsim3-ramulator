@@ -34,6 +34,7 @@
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 
 #include "../DRAMSim2/MultiChannelMemorySystem.h"
 
@@ -121,6 +122,7 @@ public:
   //incluyo este objeto como miembro global de la clase para contener el objeto DramSim2 y
   //poder acceder a él desde cualquier método
    MultiChannelMemorySystem *objDramSim2;
+   std::string  *vis;
 
 
    // Power Model
