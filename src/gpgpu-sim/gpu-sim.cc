@@ -1131,6 +1131,9 @@ void shader_core_ctx::issue_block2core( kernel_info_t &kernel )
 
 void dram_t::dram_log( int task )
 {
+	//printf("Llamada a dram_log (gpu-sim.cc linea#1134)\n");
+	//printf("Anulada porque solo se usa para sacar estadisticas del simulador de ram nativo de gpgpusim\n");
+	// COMENTADO PORQUE DA ERROR Y NO NOS DA INFORMACION DE DRAMSIM2
    if (task == SAMPLELOG) {
       StatAddSample(mrqq_Dist, que_length());
    } else if (task == DUMPLOG) {

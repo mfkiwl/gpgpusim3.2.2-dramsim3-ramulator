@@ -74,6 +74,7 @@ void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
 	printf("[Callback] read complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
 
   returnq->push(mf_return);
+  //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
 }
 
 void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
@@ -88,6 +89,7 @@ void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
 	printf("[Callback] write complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
 
   returnq->push(mf_return);
+  //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
 }
 
 
@@ -158,16 +160,42 @@ std::string sys(sys_desc_file);
 
 
 
-bool dram_t::full() const
+bool dram_t::full(new_addr_type addr) const
 {
   //BUSCAR EN EL CORREO LA LLAMADA A 'FULL' DE DRAMSIM2
-  printf("*** METODO dram_t:full NO IMPLEMENTADO!") ;
-  exit(0);
-  return false;
+  bool b=not objDramSim2->willAcceptTransaction(addr);
+  printf("*** dram_t::full devuelve ") ;
+  fputs(b ? "true)\n" : "false)\n", stdout);
+  //exit(0);
+  return b;
+
+
+
+  /*CODIGO original
+  bool dram_t::full() const
+{
+    if(m_config->scheduler_type == DRAM_FRFCFS ){
+        if(m_config->gpgpu_frfcfs_dram_sched_queue_size == 0 ) return false;
+        return m_frfcfs_scheduler->num_pending() >= m_config->gpgpu_frfcfs_dram_sched_queue_size;
+    }
+   else return mrqq->full();
+}
+
+BORRAR:
+bool b=backup_de_MF.size()>=5;
+std::cout << "El tamaño de la cola es " << backup_de_MF.size() << '\n';
+printf("*** METODO dram_t:full NO IMPLEMENTADO! (devolviendo ") ;
+fputs(b ? "true)\n" : "false)\n", stdout);
+//exit(0);
+return b;
+
+
+*/
 }
 
 unsigned dram_t::que_length() const
 {
+
   printf("*****************\n");
   printf("*  _        _   *\n");
   printf("*  O        O   *\n");
@@ -175,9 +203,13 @@ unsigned dram_t::que_length() const
   printf("*  *        *   *\n");
   printf("*   ********    *\n");
   printf("*****************\n");
-  printf("oo\n");
-  printf("*** ATENCION: METODO dram_t:que_length NO IMPLEMENTADO!\n") ;
-  exit(0);
+  printf("\n");
+  std::cout << "El tamaño de la cola es " << backup_de_MF.size() << '\n';
+  //printf("Tamaño de la cola: %u",(unsigned) backup_de_MF.size());
+
+  return backup_de_MF.size();
+  //return (unsigned) backup_de_MF.size();
+
 //IMPRIMIR MENSAJE DE 'NO IMPLEMENTADO' Y SALIR
 
 /* que_length ORIGINAL:
@@ -251,6 +283,7 @@ void dram_t::push( class mem_fetch *data )
 
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
    objDramSim2->addTransaction(data->is_write(), data->get_addr());
+   printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
 
 }
 

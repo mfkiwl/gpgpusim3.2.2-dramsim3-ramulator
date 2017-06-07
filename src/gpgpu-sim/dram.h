@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include "../abstract_hardware_model.h"
 
 #include "../DRAMSim2/MultiChannelMemorySystem.h"
 
@@ -101,7 +102,7 @@ public:
    dram_t( unsigned int parition_id, const struct memory_config *config, class memory_stats_t *stats,
            class memory_partition_unit *mp );
 
-   bool full() const;
+   bool full(new_addr_type addr) const;
    void print( FILE* simFile ) const;
    void visualize() const;
    void print_stat( FILE* simFile );

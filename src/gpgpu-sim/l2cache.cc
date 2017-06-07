@@ -243,8 +243,8 @@ void memory_partition_unit::dram_cycle()
   //} //HASTA AQUI el código exclusivo de la simulacion de ram por parte del modulo nativo de gpgpu-sim
 
     m_dram->cycle();
-    m_dram->dram_log(SAMPLELOG);
-
+    //m_dram->dram_log(SAMPLELOG);
+/*
     if( !m_dram->full() ) {
         // L2->DRAM queue to DRAM latency queue
         // Arbitrate among multiple L2 subpartitions
@@ -264,14 +264,37 @@ void memory_partition_unit::dram_cycle()
                 break;  // the DRAM should only accept one request per cycle
             }
         }
+    }*/
+
+    // L2->DRAM queue to DRAM latency queue
+    // Arbitrate among multiple L2 subpartitions
+    int last_issued_partition = m_arbitration_metadata.last_borrower();
+    for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
+        int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel;
+        if (!m_sub_partition[spid]->L2_dram_queue_empty() && can_issue_to_dram(spid)) {
+            mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
+            if( !m_dram->full(mf->get_addr()) ) {
+                m_sub_partition[spid]->L2_dram_queue_pop();
+                MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
+                //dram_delay_t d;
+                //d.req = mf;
+                //d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + m_config->dram_latency;
+                //m_dram_latency_queue.push_back(d);
+                m_dram->push(mf);
+                mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+                m_arbitration_metadata.borrow_credit(spid);
+                break;  // the DRAM should only accept one request per cycle
+            }
+        }
     }
 
+
     // DRAM latency queue
-    if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
+    /*if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
         mem_fetch* mf = m_dram_latency_queue.front().req;
         m_dram_latency_queue.pop_front();
         m_dram->push(mf);
-    }
+    }*/
 }
 
 void memory_partition_unit::set_done( mem_fetch *mf )
