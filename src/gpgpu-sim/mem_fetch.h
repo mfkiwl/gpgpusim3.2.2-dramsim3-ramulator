@@ -49,18 +49,18 @@ enum mf_type {
 
 class mem_fetch {
 public:
-    mem_fetch( const mem_access_t &access, 
+    mem_fetch( const mem_access_t &access,
                const warp_inst_t *inst,
-               unsigned ctrl_size, 
+               unsigned ctrl_size,
                unsigned wid,
-               unsigned sid, 
-               unsigned tpc, 
+               unsigned sid,
+               unsigned tpc,
                const class memory_config *config );
    ~mem_fetch();
 
    void set_status( enum mem_fetch_status status, unsigned long long cycle );
-   void set_reply() 
-   { 
+   void set_reply()
+   {
        assert( m_access.get_type() != L1_WRBK_ACC && m_access.get_type() != L2_WRBK_ACC );
        if( m_type==READ_REQUEST ) {
            assert( !get_is_write() );

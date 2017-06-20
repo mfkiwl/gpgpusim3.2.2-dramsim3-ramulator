@@ -37,6 +37,9 @@
 
 #include "SystemConfiguration.h"
 
+#include "../gpgpu-sim/mem_fetch.h"
+
+
 namespace DRAMSim
 {
 enum BusPacketType
@@ -65,8 +68,10 @@ public:
 	uint64_t physicalAddress;
 	void *data;
 
+	mem_fetch *mf;
+
 	//Functions
-	BusPacket(BusPacketType packtype, uint64_t physicalAddr, unsigned col, unsigned rw, unsigned r, unsigned b, void *dat, ostream &dramsim_log_);
+	BusPacket(BusPacketType packtype, uint64_t physicalAddr, unsigned col, unsigned rw, unsigned r, unsigned b, void *dat, ostream &dramsim_log_, mem_fetch *mf);
 
 	void print();
 	void print(uint64_t currentClockCycle, bool dataStart);

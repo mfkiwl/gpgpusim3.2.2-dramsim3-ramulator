@@ -40,7 +40,6 @@
 #include "dram.h"
 #include "mem_latency_stat.h"
 #include "dram_sched.h"
-#include "mem_fetch.h"
 #include "l2cache.h"
 
 //#include "../DRAMSim2/MultiChannelMemorySystem.h"
@@ -58,38 +57,55 @@ int PRINT_CYCLE = 0;
 template class fifo_pipeline<mem_fetch>;
 template class fifo_pipeline<dram_req_t>;
 
-typedef std::pair<unsigned long long, mem_fetch> Taddr_memfetchPair;
+//typedef std::pair<unsigned long long, class mem_fetch*> Taddr_memfetchPair;
 
 /* callback functors */
-void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
+void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return)
 {
+    returnq->push(mf_return);
+    ql--; //disminuimos que_length
+
+
   //recuperar de la lista  el mem_Fetch asociado a esta operacion:
-
+ /*
   mem_fetch *mf_return;
-  std::map<new_addr_type, mem_fetch>::iterator it;
+
+  std::map<new_addr_type, class mem_fetch*>::iterator it;
   it=backup_de_MF.find((new_addr_type) address);
-  if(it != backup_de_MF.end()) mf_return = &it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
-  backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
+  if(it != backup_de_MF.end()){
+     mf_return = it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
+   }
+     //backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
+     printf("[Callback] read complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
+     backup_de_MF.erase(it);
 
-	printf("[Callback] read complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
 
-  returnq->push(mf_return);
+
+
   //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
+  */
 }
 
-void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle)
+void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return)
 {
-  //recuperar de la lista  el mem_Fetch asociado a esta operacion.
-  mem_fetch *mf_return;
-  std::map<new_addr_type, mem_fetch>::iterator it;
-  it=backup_de_MF.find((new_addr_type) address);
-  if(it != backup_de_MF.end()) mf_return = &it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
-  backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
-
-	printf("[Callback] write complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
 
   returnq->push(mf_return);
+  ql--; //disminuimos que_length
+
+  /*
+  //recuperar de la lista  el mem_Fetch asociado a esta operacion.
+  mem_fetch *mf_return;
+  std::map<new_addr_type, class mem_fetch*>::iterator it;
+  it=backup_de_MF.find((new_addr_type) address);
+  if(it != backup_de_MF.end()){
+    mf_return = it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
+  }
+  printf("[Callback] write complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
+  backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
+
+
   //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
+  */
 }
 
 
@@ -101,6 +117,8 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
    m_memory_partition_unit = mp;
    m_stats = stats;
    m_config = config;
+
+   ql=0; //que_length = 0;
 
 /*
 
@@ -150,8 +168,8 @@ std::string sys(sys_desc_file);
   returnq = new fifo_pipeline<mem_fetch>("dramreturnq",0,m_config->gpgpu_dram_return_queue_size==0?1024:m_config->gpgpu_dram_return_queue_size);
 
 
-  TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::read_complete);
-  TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t>(this, &dram_t::write_complete);
+  TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t, mem_fetch>(this, &dram_t::read_complete);
+  TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t, mem_fetch>(this, &dram_t::write_complete);
 
    objDramSim2->RegisterCallbacks(read_cb, write_cb, NULL);
 
@@ -204,10 +222,11 @@ unsigned dram_t::que_length() const
   printf("*   ********    *\n");
   printf("*****************\n");
   printf("\n");
-  std::cout << "El tamaño de la cola es " << backup_de_MF.size() << '\n';
-  //printf("Tamaño de la cola: %u",(unsigned) backup_de_MF.size());
 
-  return backup_de_MF.size();
+  //std::cout << "El tamaño de la cola es " << backup_de_MF.size() << '\n';
+  printf("Tamaño de la cola: %u", ql);
+
+  //return backup_de_MF.size();
   //return (unsigned) backup_de_MF.size();
 
 //IMPRIMIR MENSAJE DE 'NO IMPLEMENTADO' Y SALIR
@@ -275,15 +294,16 @@ void dram_t::push( class mem_fetch *data )
 
     //typedef std::pair<unsigned long long, mem_fetch> Taddr_memfetchPair;
 
-    backup_de_MF.insert(Taddr_memfetchPair(data->get_addr(), *data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
+    //backup_de_MF.insert(Taddr_memfetchPair(data->get_addr(), data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
 
     //backup_de_MF.insert(std::make_pair(data->get_addr(), data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
 
 
 
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   objDramSim2->addTransaction(data->is_write(), data->get_addr());
+   objDramSim2->addTransaction(data->is_write(), data->get_addr(), data);
    printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
+   ql++; //aumentamos que_length
 
 }
 

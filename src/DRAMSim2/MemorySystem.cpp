@@ -2,20 +2,20 @@
 *  Copyright (c) 2010-2011, Elliott Cooper-Balis
 *                             Paul Rosenfeld
 *                             Bruce Jacob
-*                             University of Maryland 
+*                             University of Maryland
 *                             dramninjas [at] gmail [dot] com
 *  All rights reserved.
-*  
+*
 *  Redistribution and use in source and binary forms, with or without
 *  modification, are permitted provided that the following conditions are met:
-*  
+*
 *     * Redistributions of source code must retain the above copyright notice,
 *        this list of conditions and the following disclaimer.
-*  
+*
 *     * Redistributions in binary form must reproduce the above copyright notice,
 *        this list of conditions and the following disclaimer in the documentation
 *        and/or other materials provided with the distribution.
-*  
+*
 *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -39,6 +39,8 @@
 #include "MemorySystem.h"
 #include "IniReader.h"
 #include <unistd.h>
+
+
 
 using namespace std;
 
@@ -69,8 +71,8 @@ MemorySystem::MemorySystem(unsigned id, unsigned int megsOfMemory, CSVWriter &cs
 
 	//calculate number of devices
 	/************************
-	  This code has always been problematic even though it's pretty simple. I'll try to explain it 
-	  for my own sanity. 
+	  This code has always been problematic even though it's pretty simple. I'll try to explain it
+	  for my own sanity.
 
 	  There are two main variables here that we could let the user choose:
 	  NUM_RANKS or TOTAL_STORAGE.  Since the density and width of the part is
@@ -82,28 +84,28 @@ MemorySystem::MemorySystem(unsigned id, unsigned int megsOfMemory, CSVWriter &cs
 
 	  However, users don't care (or know) about ranks, they care about total
 	  storage, so maybe it's better to let them choose and just throw an error
-	  if they choose something invalid. 
+	  if they choose something invalid.
 
-	  A bit of background: 
+	  A bit of background:
 
 	  Each column contains DEVICE_WIDTH bits. A row contains NUM_COLS columns.
-	  Each bank contains NUM_ROWS rows. Therefore, the total storage per DRAM device is: 
+	  Each bank contains NUM_ROWS rows. Therefore, the total storage per DRAM device is:
 	  		PER_DEVICE_STORAGE = NUM_ROWS*NUM_COLS*DEVICE_WIDTH*NUM_BANKS (in bits)
 
 	 A rank *must* have a 64 bit output bus (JEDEC standard), so each rank must have:
-	  		NUM_DEVICES_PER_RANK = 64/DEVICE_WIDTH  
-			(note: if you have multiple channels ganged together, the bus width is 
+	  		NUM_DEVICES_PER_RANK = 64/DEVICE_WIDTH
+			(note: if you have multiple channels ganged together, the bus width is
 			effectively NUM_CHANS * 64/DEVICE_WIDTH)
-	 
+
 	If we multiply these two numbers to get the storage per rank (in bits), we get:
-			PER_RANK_STORAGE = PER_DEVICE_STORAGE*NUM_DEVICES_PER_RANK = NUM_ROWS*NUM_COLS*NUM_BANKS*64 
+			PER_RANK_STORAGE = PER_DEVICE_STORAGE*NUM_DEVICES_PER_RANK = NUM_ROWS*NUM_COLS*NUM_BANKS*64
 
 	Finally, to get TOTAL_STORAGE, we need to multiply by NUM_RANKS
 			TOTAL_STORAGE = PER_RANK_STORAGE*NUM_RANKS (total storage in bits)
 
 	So one could compute this in reverse -- compute NUM_DEVICES,
 	PER_DEVICE_STORAGE, and PER_RANK_STORAGE first since all these parameters
-	are set by the device ini. Then, TOTAL_STORAGE/PER_RANK_STORAGE = NUM_RANKS 
+	are set by the device ini. Then, TOTAL_STORAGE/PER_RANK_STORAGE = NUM_RANKS
 
 	The only way this could run into problems is if TOTAL_STORAGE < PER_RANK_STORAGE,
 	which could happen for very dense parts.
@@ -125,7 +127,7 @@ MemorySystem::MemorySystem(unsigned id, unsigned int megsOfMemory, CSVWriter &cs
 	}
 
 	NUM_DEVICES = JEDEC_DATA_BUS_BITS/DEVICE_WIDTH;
-	TOTAL_STORAGE = (NUM_RANKS * megsOfStoragePerRank); 
+	TOTAL_STORAGE = (NUM_RANKS * megsOfStoragePerRank);
 
 	DEBUG("CH. " <<systemID<<" TOTAL_STORAGE : "<< TOTAL_STORAGE << "MB | "<<NUM_RANKS<<" Ranks | "<< NUM_DEVICES <<" Devices per rank");
 
@@ -151,7 +153,7 @@ MemorySystem::MemorySystem(unsigned id, unsigned int megsOfMemory, CSVWriter &cs
 
 MemorySystem::~MemorySystem()
 {
-	/* the MemorySystem should exist for all time, nothing should be destroying it */  
+	/* the MemorySystem should exist for all time, nothing should be destroying it */
 //	ERROR("MEMORY SYSTEM DESTRUCTOR with ID "<<systemID);
 //	abort();
 
@@ -176,14 +178,14 @@ bool MemorySystem::WillAcceptTransaction()
 	return memoryController->WillAcceptTransaction();
 }
 
-bool MemorySystem::addTransaction(bool isWrite, uint64_t addr)
+bool MemorySystem::addTransaction(bool isWrite, uint64_t addr, mem_fetch *mf)
 {
 	TransactionType type = isWrite ? DATA_WRITE : DATA_READ;
-	Transaction *trans = new Transaction(type,addr,NULL);
+	Transaction *trans = new Transaction(type,addr,NULL,mf);
 	// push_back in memoryController will make a copy of this during
-	// addTransaction so it's kosher for the reference to be local 
+	// addTransaction so it's kosher for the reference to be local
 
-	if (memoryController->WillAcceptTransaction()) 
+	if (memoryController->WillAcceptTransaction())
 	{
 		return memoryController->addTransaction(trans);
 	}
@@ -261,4 +263,3 @@ extern "C"
 		;
 	}
 }
-

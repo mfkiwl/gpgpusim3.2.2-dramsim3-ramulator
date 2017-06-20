@@ -37,6 +37,9 @@
 #include <string>
 #include "../abstract_hardware_model.h"
 
+#include "mem_fetch.h"
+
+
 #include "../DRAMSim2/MultiChannelMemorySystem.h"
 
 #define DRAM_READ 'R'  //define read and write states
@@ -63,6 +66,8 @@ public:
    unsigned long long int addr;
    unsigned int insertion_time;
    class mem_fetch * data;
+
+   unsigned ql; //para llevar la cuenta de que_length al usar dramsim2
 };
 
 struct bankgrp_t
@@ -138,9 +143,9 @@ public:
 
 
                 /* callback functors */
-  void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle);
+  void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return);
 
-  void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle);
+  void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return);
 
 private:
    void scheduler_fifo();
@@ -152,8 +157,7 @@ private:
 
  //Sin embargo tal definición es accesible desde aqui, luego uso el mismo tipo de dato para crear el diccionario que contendrá los pares new_addr_type:mem_fetch
 
-  std::map<unsigned long long, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
-  //  std::map<new_addr_type, mem_fetch> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
+  //  NO NECESARIO std::map<unsigned long long, class mem_fetch*> backup_de_MF; //contendrá los mem_fecth mientras son ejecutados por dramsim2
 
    bankgrp_t **bkgrp;
 

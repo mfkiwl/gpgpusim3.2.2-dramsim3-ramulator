@@ -2,20 +2,20 @@
 *  Copyright (c) 2010-2011, Elliott Cooper-Balis
 *                             Paul Rosenfeld
 *                             Bruce Jacob
-*                             University of Maryland 
+*                             University of Maryland
 *                             dramninjas [at] gmail [dot] com
 *  All rights reserved.
-*  
+*
 *  Redistribution and use in source and binary forms, with or without
 *  modification, are permitted provided that the following conditions are met:
-*  
+*
 *     * Redistributions of source code must retain the above copyright notice,
 *        this list of conditions and the following disclaimer.
-*  
+*
 *     * Redistributions in binary form must reproduce the above copyright notice,
 *        this list of conditions and the following disclaimer in the documentation
 *        and/or other materials provided with the distribution.
-*  
+*
 *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -113,11 +113,11 @@ CommandQueue::~CommandQueue()
 	//ERROR("COMMAND QUEUE destructor");
 	size_t bankMax = NUM_RANKS;
 	if (queuingStructure == PerRank) {
-		bankMax = 1; 
+		bankMax = 1;
 	}
 	for (size_t r=0; r< NUM_RANKS; r++)
 	{
-		for (size_t b=0; b<bankMax; b++) 
+		for (size_t b=0; b<bankMax; b++)
 		{
 			for (size_t i=0; i<queues[r][b].size(); i++)
 			{
@@ -185,7 +185,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 
 	/* Now we need to find a packet to issue. When the code picks a packet, it will set
 		 *busPacket = [some eligible packet]
-		 
+
 		 First the code looks if any refreshes need to go
 		 Then it looks for data packets
 		 Otherwise, it starts looking for rows to close (in open page)
@@ -241,7 +241,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 			//	reset flags and rank pointer
 			if (!foundActiveOrTooEarly && bankStates[refreshRank][0].currentBankState != PowerDown)
 			{
-				*busPacket = new BusPacket(REFRESH, 0, 0, 0, refreshRank, 0, 0, dramsim_log);
+				*busPacket = new BusPacket(REFRESH, 0, 0, 0, refreshRank, 0, 0, dramsim_log, NULL);
 				refreshRank = -1;
 				refreshWaiting = false;
 				sendingREF = true;
@@ -310,7 +310,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 						break;
 					}
 				}
-				else 
+				else
 				{
 					nextRankAndBank(nextRank, nextBank);
 					if (startingRank == nextRank && startingBank == nextBank)
@@ -375,7 +375,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 					if (closeRow && currentClockCycle >= bankStates[refreshRank][b].nextPrecharge)
 					{
 						rowAccessCounters[refreshRank][b]=0;
-						*busPacket = new BusPacket(PRECHARGE, 0, 0, 0, refreshRank, b, 0, dramsim_log);
+						*busPacket = new BusPacket(PRECHARGE, 0, 0, 0, refreshRank, b, 0, dramsim_log, NULL);
 						sendingREForPRE = true;
 					}
 					break;
@@ -394,7 +394,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 			//	reset flags and rank pointer
 			if (sendREF && bankStates[refreshRank][0].currentBankState != PowerDown)
 			{
-				*busPacket = new BusPacket(REFRESH, 0, 0, 0, refreshRank, 0, 0, dramsim_log);
+				*busPacket = new BusPacket(REFRESH, 0, 0, 0, refreshRank, 0, 0, dramsim_log, NULL);
 				refreshRank = -1;
 				refreshWaiting = false;
 				sendingREForPRE = true;
@@ -441,7 +441,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 							if (i>0 && queue[i-1]->busPacketType == ACTIVATE)
 							{
 								rowAccessCounters[(*busPacket)->rank][(*busPacket)->bank]++;
-								// i is being returned, but i-1 is being thrown away, so must delete it here 
+								// i is being returned, but i-1 is being thrown away, so must delete it here
 								delete (queue[i-1]);
 
 								// remove both i-1 (the activate) and i (we've saved the pointer in *busPacket)
@@ -471,9 +471,9 @@ bool CommandQueue::pop(BusPacket **busPacket)
 						break;
 					}
 				}
-				else 
+				else
 				{
-					nextRankAndBank(nextRank, nextBank); 
+					nextRankAndBank(nextRank, nextBank);
 					if (startingRank == nextRank && startingBank == nextBank)
 					{
 						break;
@@ -516,7 +516,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 							{
 								sendingPRE = true;
 								rowAccessCounters[nextRankPRE][nextBankPRE] = 0;
-								*busPacket = new BusPacket(PRECHARGE, 0, 0, 0, nextRankPRE, nextBankPRE, 0, dramsim_log);
+								*busPacket = new BusPacket(PRECHARGE, 0, 0, 0, nextRankPRE, nextBankPRE, 0, dramsim_log, NULL);
 								break;
 							}
 						}
@@ -557,7 +557,7 @@ bool CommandQueue::pop(BusPacket **busPacket)
 //check if a rank/bank queue has room for a certain number of bus packets
 bool CommandQueue::hasRoomFor(unsigned numberToEnqueue, unsigned rank, unsigned bank)
 {
-	vector<BusPacket *> &queue = getCommandQueue(rank, bank); 
+	vector<BusPacket *> &queue = getCommandQueue(rank, bank);
 	return (CMD_QUEUE_DEPTH - queue.size() >= numberToEnqueue);
 }
 
@@ -598,10 +598,10 @@ void CommandQueue::print()
 	}
 }
 
-/** 
+/**
  * return a reference to the queue for a given rank, bank. Since we
  * don't always have a per bank queuing structure, sometimes the bank
- * argument is ignored (and the 0th index is returned 
+ * argument is ignored (and the 0th index is returned
  */
 vector<BusPacket *> &CommandQueue::getCommandQueue(unsigned rank, unsigned bank)
 {
@@ -616,7 +616,7 @@ vector<BusPacket *> &CommandQueue::getCommandQueue(unsigned rank, unsigned bank)
 	else
 	{
 		ERROR("Unknown queue structure");
-		abort(); 
+		abort();
 	}
 
 }

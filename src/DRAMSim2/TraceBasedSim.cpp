@@ -2,20 +2,20 @@
 *  Copyright (c) 2010-2011, Elliott Cooper-Balis
 *                             Paul Rosenfeld
 *                             Bruce Jacob
-*                             University of Maryland 
+*                             University of Maryland
 *                             dramninjas [at] gmail [dot] com
 *  All rights reserved.
-*  
+*
 *  Redistribution and use in source and binary forms, with or without
 *  modification, are permitted provided that the following conditions are met:
-*  
+*
 *     * Redistributions of source code must retain the above copyright notice,
 *        this list of conditions and the following disclaimer.
-*  
+*
 *     * Redistributions in binary form must reproduce the above copyright notice,
 *        this list of conditions and the following disclaimer in the documentation
 *        and/or other materials provided with the distribution.
-*  
+*
 *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -61,26 +61,26 @@ ofstream visDataOut; //mostly used in MemoryController
 #ifdef RETURN_TRANSACTIONS
 class TransactionReceiver
 {
-	private: 
-		map<uint64_t, list<uint64_t> > pendingReadRequests; 
-		map<uint64_t, list<uint64_t> > pendingWriteRequests; 
+	private:
+		map<uint64_t, list<uint64_t> > pendingReadRequests;
+		map<uint64_t, list<uint64_t> > pendingWriteRequests;
 
-	public: 
+	public:
 		void add_pending(const Transaction &t, uint64_t cycle)
 		{
 			// C++ lists are ordered, so the list will always push to the back and
 			// remove at the front to ensure ordering
 			if (t.transactionType == DATA_READ)
 			{
-				pendingReadRequests[t.address].push_back(cycle); 
+				pendingReadRequests[t.address].push_back(cycle);
 			}
 			else if (t.transactionType == DATA_WRITE)
 			{
-				pendingWriteRequests[t.address].push_back(cycle); 
+				pendingWriteRequests[t.address].push_back(cycle);
 			}
 			else
 			{
-				ERROR("This should never happen"); 
+				ERROR("This should never happen");
 				exit(-1);
 			}
 		}
@@ -88,18 +88,18 @@ class TransactionReceiver
 		void read_complete(unsigned id, uint64_t address, uint64_t done_cycle)
 		{
 			map<uint64_t, list<uint64_t> >::iterator it;
-			it = pendingReadRequests.find(address); 
+			it = pendingReadRequests.find(address);
 			if (it == pendingReadRequests.end())
 			{
-				ERROR("Cant find a pending read for this one"); 
+				ERROR("Cant find a pending read for this one");
 				exit(-1);
 			}
 			else
 			{
 				if (it->second.size() == 0)
 				{
-					ERROR("Nothing here, either"); 
-					exit(-1); 
+					ERROR("Nothing here, either");
+					exit(-1);
 				}
 			}
 
@@ -112,18 +112,18 @@ class TransactionReceiver
 		void write_complete(unsigned id, uint64_t address, uint64_t done_cycle)
 		{
 			map<uint64_t, list<uint64_t> >::iterator it;
-			it = pendingWriteRequests.find(address); 
+			it = pendingWriteRequests.find(address);
 			if (it == pendingWriteRequests.end())
 			{
-				ERROR("Cant find a pending read for this one"); 
+				ERROR("Cant find a pending read for this one");
 				exit(-1);
 			}
 			else
 			{
 				if (it->second.size() == 0)
 				{
-					ERROR("Nothing here, either"); 
-					exit(-1); 
+					ERROR("Nothing here, either");
+					exit(-1);
 				}
 			}
 
@@ -334,18 +334,18 @@ void alignTransactionAddress(Transaction &trans)
 	trans.address <<= throwAwayBits;
 }
 
-/** 
+/**
  * Override options can be specified on the command line as -o key1=value1,key2=value2
- * this method should parse the key-value pairs and put them into a map 
- **/ 
+ * this method should parse the key-value pairs and put them into a map
+ **/
 IniReader::OverrideMap *parseParamOverrides(const string &kv_str)
 {
-	IniReader::OverrideMap *kv_map = new IniReader::OverrideMap(); 
+	IniReader::OverrideMap *kv_map = new IniReader::OverrideMap();
 	size_t start = 0, comma=0, equal_sign=0;
 	// split the commas if they are there
 	while (1)
 	{
-		equal_sign = kv_str.find('=', start); 
+		equal_sign = kv_str.find('=', start);
 		if (equal_sign == string::npos)
 		{
 			break;
@@ -358,13 +358,13 @@ IniReader::OverrideMap *parseParamOverrides(const string &kv_str)
 		}
 
 		string key = kv_str.substr(start, equal_sign-start);
-		string value = kv_str.substr(equal_sign+1, comma-equal_sign-1); 
+		string value = kv_str.substr(equal_sign+1, comma-equal_sign-1);
 
-		(*kv_map)[key] = value; 
+		(*kv_map)[key] = value;
 		start = comma+1;
 
 	}
-	return kv_map; 
+	return kv_map;
 }
 
 int main(int argc, char **argv)
@@ -378,8 +378,8 @@ int main(int argc, char **argv)
 	string *visFilename = NULL;
 	unsigned megsOfMemory=2048;
 	bool useClockCycle=true;
-	
-	IniReader::OverrideMap *paramOverrides = NULL; 
+
+	IniReader::OverrideMap *paramOverrides = NULL;
 
 	unsigned numCycles=1000;
 	//getopt stuff
@@ -450,7 +450,7 @@ int main(int argc, char **argv)
 			useClockCycle=false;
 			break;
 		case 'o':
-			paramOverrides = parseParamOverrides(string(optarg)); 
+			paramOverrides = parseParamOverrides(string(optarg));
 			break;
 		case 'v':
 			visFilename = new string(optarg);
@@ -509,14 +509,14 @@ int main(int argc, char **argv)
 
 	MultiChannelMemorySystem *memorySystem = new MultiChannelMemorySystem(deviceIniFilename, systemIniFilename, pwdString, traceFileName, megsOfMemory, visFilename, paramOverrides);
 	// set the frequency ratio to 1:1
-	memorySystem->setCPUClockSpeed(0); 
+	memorySystem->setCPUClockSpeed(0);
 
-	// don't need this anymore 
+	// don't need this anymore
 	delete paramOverrides;
 
 
 #ifdef RETURN_TRANSACTIONS
-	TransactionReceiver transactionReceiver; 
+	TransactionReceiver transactionReceiver;
 	/* create and register our callback functions */
 	Callback_t *read_cb = new Callback<TransactionReceiver, void, unsigned, uint64_t, uint64_t>(&transactionReceiver, &TransactionReceiver::read_complete);
 	Callback_t *write_cb = new Callback<TransactionReceiver, void, unsigned, uint64_t, uint64_t>(&transactionReceiver, &TransactionReceiver::write_complete);
@@ -552,8 +552,8 @@ int main(int argc, char **argv)
 				if (line.size() > 0)
 				{
 					data = parseTraceFileLine(line, addr, transType,clockCycle, traceType,useClockCycle);
-					trans = new Transaction(transType, addr, data);
-					alignTransactionAddress(*trans); 
+					trans = new Transaction(transType, addr, data, NULL);
+					alignTransactionAddress(*trans);
 
 					if (i>=clockCycle)
 					{
@@ -564,10 +564,10 @@ int main(int argc, char **argv)
 						else
 						{
 #ifdef RETURN_TRANSACTIONS
-							transactionReceiver.add_pending(trans, i); 
+							transactionReceiver.add_pending(trans, i);
 #endif
 							// the memory system accepted our request so now it takes ownership of it
-							trans = NULL; 
+							trans = NULL;
 						}
 					}
 					else
@@ -584,7 +584,7 @@ int main(int argc, char **argv)
 			else
 			{
 				//we're out of trace, set pending=false and let the thing spin without adding transactions
-				pendingTrans = false; 
+				pendingTrans = false;
 			}
 		}
 
@@ -594,7 +594,7 @@ int main(int argc, char **argv)
 			if (!pendingTrans)
 			{
 #ifdef RETURN_TRANSACTIONS
-				transactionReceiver.add_pending(trans, i); 
+				transactionReceiver.add_pending(trans, i);
 #endif
 				trans=NULL;
 			}

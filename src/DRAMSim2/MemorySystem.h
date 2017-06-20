@@ -2,20 +2,20 @@
 *  Copyright (c) 2010-2011, Elliott Cooper-Balis
 *                             Paul Rosenfeld
 *                             Bruce Jacob
-*                             University of Maryland 
+*                             University of Maryland
 *                             dramninjas [at] gmail [dot] com
 *  All rights reserved.
-*  
+*
 *  Redistribution and use in source and binary forms, with or without
 *  modification, are permitted provided that the following conditions are met:
-*  
+*
 *     * Redistributions of source code must retain the above copyright notice,
 *        this list of conditions and the following disclaimer.
-*  
+*
 *     * Redistributions in binary form must reproduce the above copyright notice,
 *        this list of conditions and the following disclaimer in the documentation
 *        and/or other materials provided with the distribution.
-*  
+*
 *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -47,9 +47,12 @@
 #include "CSVWriter.h"
 #include <deque>
 
+#include "../gpgpu-sim/mem_fetch.h"
+
+
 namespace DRAMSim
 {
-typedef CallbackBase<void,unsigned,uint64_t,uint64_t> Callback_t;
+typedef CallbackBase<void,unsigned,uint64_t,uint64_t,mem_fetch> Callback_t;
 class MemorySystem : public SimulatorObject
 {
 	ostream &dramsim_log;
@@ -59,7 +62,7 @@ public:
 	virtual ~MemorySystem();
 	void update();
 	bool addTransaction(Transaction *trans);
-	bool addTransaction(bool isWrite, uint64_t addr);
+	bool addTransaction(bool isWrite, uint64_t addr, mem_fetch *mf);
 	void printStats(bool finalStats);
 	bool WillAcceptTransaction();
 	void RegisterCallbacks(
@@ -70,7 +73,7 @@ public:
 	//fields
 	MemoryController *memoryController;
 	vector<Rank *> *ranks;
-	deque<Transaction *> pendingTransactions; 
+	deque<Transaction *> pendingTransactions;
 
 
 	//function pointers
@@ -86,4 +89,3 @@ private:
 }
 
 #endif
-
