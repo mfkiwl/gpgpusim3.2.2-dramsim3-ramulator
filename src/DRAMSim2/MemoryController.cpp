@@ -211,7 +211,7 @@ void MemoryController::update()
 			//inform upper levels that a write is done
 			if (parentMemorySystem->WriteDataDone!=NULL)
 			{
-				(*parentMemorySystem->WriteDataDone)(parentMemorySystem->systemID,outgoingDataPacket->physicalAddress, currentClockCycle);
+				(*parentMemorySystem->WriteDataDone)(parentMemorySystem->systemID,outgoingDataPacket->physicalAddress, currentClockCycle,outgoingDataPacket->mf);
 			}
 
 			(*ranks)[outgoingDataPacket->rank]->receiveFromBus(outgoingDataPacket);

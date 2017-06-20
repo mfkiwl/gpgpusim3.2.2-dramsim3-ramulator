@@ -44,7 +44,7 @@ using std::dec;
 
 namespace DRAMSim {
 
-Transaction::Transaction(TransactionType transType, uint64_t addr, void *dat, mem_fetch *mf) :
+Transaction::Transaction(TransactionType transType, uint64_t addr, void *dat, void *mf) :
 	transactionType(transType),
 	address(addr),
 	data(dat),

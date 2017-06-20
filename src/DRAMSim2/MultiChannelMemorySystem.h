@@ -35,8 +35,6 @@
 #include "ClockDomain.h"
 #include "CSVWriter.h"
 
-#include "../gpgpu-sim/mem_fetch.h"
-
 namespace DRAMSim {
 
 
@@ -48,7 +46,7 @@ class MultiChannelMemorySystem : public SimulatorObject
 		virtual ~MultiChannelMemorySystem();
 			bool addTransaction(Transaction *trans);
 			bool addTransaction(const Transaction &trans);
-			bool addTransaction(bool isWrite, uint64_t addr, mem_fetch *mf);
+			bool addTransaction(bool isWrite, uint64_t addr, void *mf);
 			bool willAcceptTransaction();
 			bool willAcceptTransaction(uint64_t addr);
 			void update();

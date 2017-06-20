@@ -47,7 +47,7 @@ using namespace std;
 
 BusPacket::BusPacket(BusPacketType packtype, uint64_t physicalAddr,
 		unsigned col, unsigned rw, unsigned r, unsigned b, void *dat,
-		ostream &dramsim_log_, mem_fetch *mf) :
+		ostream &dramsim_log_, void *mf) :
 	dramsim_log(dramsim_log_),
 	busPacketType(packtype),
 	column(col),

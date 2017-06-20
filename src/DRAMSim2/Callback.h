@@ -32,9 +32,6 @@
 
 #include <stdint.h> // uint64_t
 
-#include "../gpgpu-sim/mem_fetch.h"
-
-
 #ifndef CALLBACK_H
 #define CALLBACK_H
 
@@ -47,7 +44,7 @@ class CallbackBase
 {
 public:
 	virtual ~CallbackBase() = 0;
-	virtual ReturnT operator()(Param1T, Param2T, Param3T, Param4T) = 0;
+	virtual ReturnT operator()(Param1T, Param2T, Param3T, Param4T*) = 0;
 };
 
 template <typename Return, typename Param1T, typename Param2T, typename Param3T, typename Param4T>
@@ -58,7 +55,7 @@ typename Param1T, typename Param2T, typename Param3T, typename Param4T >
 class Callback: public CallbackBase<ReturnT,Param1T,Param2T,Param3T,Param4T>
 {
 private:
-	typedef ReturnT (ConsumerT::*PtrMember)(Param1T,Param2T,Param3T,Param4T);
+	typedef ReturnT (ConsumerT::*PtrMember)(Param1T,Param2T,Param3T,Param4T*);
 
 public:
 	Callback( ConsumerT* const object, PtrMember member) :
@@ -66,12 +63,12 @@ public:
 	{
 	}
 
-	Callback( const Callback<ConsumerT,ReturnT,Param1T,Param2T,Param3T,Param4T>& e ) :
+	Callback( const Callback<ConsumerT,ReturnT,Param1T,Param2T,Param3T,Param4T*>& e ) :
 			object(e.object), member(e.member)
 	{
 	}
 
-	ReturnT operator()(Param1T param1, Param2T param2, Param3T param3, Param4T param4)
+	ReturnT operator()(Param1T param1, Param2T param2, Param3T param3, Param4T* param4)
 	{
 		return (const_cast<ConsumerT*>(object)->*member)
 		       (param1,param2,param3,param4);
@@ -83,7 +80,7 @@ private:
 	const PtrMember  member;
 };
 
-typedef CallbackBase <void, unsigned, uint64_t, uint64_t, *mem_fetch> TransactionCompleteCB;
+typedef CallbackBase <void, unsigned, uint64_t, uint64_t,void> TransactionCompleteCB;
 } // namespace DRAMSim
 
 #endif

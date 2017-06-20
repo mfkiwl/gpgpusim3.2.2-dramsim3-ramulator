@@ -67,7 +67,7 @@ public:
    unsigned int insertion_time;
    class mem_fetch * data;
 
-   unsigned ql; //para llevar la cuenta de que_length al usar dramsim2
+
 };
 
 struct bankgrp_t
@@ -129,7 +129,7 @@ public:
   //poder acceder a él desde cualquier método
    MultiChannelMemorySystem *objDramSim2;
    std::string  *vis;
-
+  unsigned ql; //para llevar la cuenta de que_length al usar dramsim2
 
    // Power Model
    void set_dram_power_stats(unsigned &cmd,
@@ -143,9 +143,9 @@ public:
 
 
                 /* callback functors */
-  void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return);
+  void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
 
-  void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return);
+  void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
 
 private:
    void scheduler_fifo();

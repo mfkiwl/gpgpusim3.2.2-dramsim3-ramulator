@@ -38,8 +38,6 @@
 #include "SystemConfiguration.h"
 #include "BusPacket.h"
 
-#include "../gpgpu-sim/mem_fetch.h"
-
 using std::ostream;
 
 namespace DRAMSim
@@ -62,11 +60,11 @@ public:
 	uint64_t timeAdded;
 	uint64_t timeReturned;
 
-  mem_fetch *mf;
+  void *mf;
 
 	friend ostream &operator<<(ostream &os, const Transaction &t);
 	//functions
-	Transaction(TransactionType transType, uint64_t addr, void *data, mem_fetch *mf);
+	Transaction(TransactionType transType, uint64_t addr, void *data, void *mf);
 	Transaction(const Transaction &t);
 
 	BusPacketType getBusPacketType()

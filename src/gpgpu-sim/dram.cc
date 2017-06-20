@@ -60,9 +60,9 @@ template class fifo_pipeline<dram_req_t>;
 //typedef std::pair<unsigned long long, class mem_fetch*> Taddr_memfetchPair;
 
 /* callback functors */
-void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return)
+void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
-    returnq->push(mf_return);
+    returnq->push((mem_fetch *) mf_return);
     ql--; //disminuimos que_length
 
 
@@ -86,10 +86,10 @@ void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, 
   */
 }
 
-void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, mem_fetch *mf_return)
+void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
 
-  returnq->push(mf_return);
+  returnq->push((mem_fetch *)mf_return);
   ql--; //disminuimos que_length
 
   /*
@@ -168,8 +168,8 @@ std::string sys(sys_desc_file);
   returnq = new fifo_pipeline<mem_fetch>("dramreturnq",0,m_config->gpgpu_dram_return_queue_size==0?1024:m_config->gpgpu_dram_return_queue_size);
 
 
-  TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t, mem_fetch>(this, &dram_t::read_complete);
-  TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t, mem_fetch>(this, &dram_t::write_complete);
+  TransactionCompleteCB *read_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t,void>(this, &dram_t::read_complete);
+  TransactionCompleteCB *write_cb = new Callback<dram_t, void, unsigned, uint64_t, uint64_t,void>(this, &dram_t::write_complete);
 
    objDramSim2->RegisterCallbacks(read_cb, write_cb, NULL);
 

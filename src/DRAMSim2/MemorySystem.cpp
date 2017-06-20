@@ -178,7 +178,7 @@ bool MemorySystem::WillAcceptTransaction()
 	return memoryController->WillAcceptTransaction();
 }
 
-bool MemorySystem::addTransaction(bool isWrite, uint64_t addr, mem_fetch *mf)
+bool MemorySystem::addTransaction(bool isWrite, uint64_t addr, void *mf)
 {
 	TransactionType type = isWrite ? DATA_WRITE : DATA_READ;
 	Transaction *trans = new Transaction(type,addr,NULL,mf);
