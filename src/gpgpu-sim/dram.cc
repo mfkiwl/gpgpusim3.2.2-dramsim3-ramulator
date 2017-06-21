@@ -62,8 +62,16 @@ template class fifo_pipeline<dram_req_t>;
 /* callback functors */
 void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
-    returnq->push((mem_fetch *) mf_return);
+
+    mem_fetch *data=(mem_fetch *)mf_return;
+
+    //std::cout << "Sale el memfetch por el read_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
+    returnq->push(data);
+
     ql--; //disminuimos que_length
+
+    data->set_reply();
+    data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
 
 
   //recuperar de la lista  el mem_Fetch asociado a esta operacion:
@@ -88,9 +96,19 @@ void dram_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, 
 
 void dram_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
+  mem_fetch *data=(mem_fetch *)mf_return;
+  //std::cout << "Sale el memfetch por el write_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
 
-  returnq->push((mem_fetch *)mf_return);
   ql--; //disminuimos que_length
+  data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+
+  if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
+     data->set_reply();
+     returnq->push(data);
+  } else {
+     m_memory_partition_unit->set_done(data);
+     delete data;
+  }
 
   /*
   //recuperar de la lista  el mem_Fetch asociado a esta operacion.
@@ -182,8 +200,8 @@ bool dram_t::full(new_addr_type addr) const
 {
   //BUSCAR EN EL CORREO LA LLAMADA A 'FULL' DE DRAMSIM2
   bool b=not objDramSim2->willAcceptTransaction(addr);
-  printf("*** dram_t::full devuelve ") ;
-  fputs(b ? "true)\n" : "false)\n", stdout);
+  //printf("*** dram_t::full devuelve ") ;
+  //fputs(b ? "true)\n" : "false)\n", stdout);
   //exit(0);
   return b;
 
@@ -213,7 +231,10 @@ return b;
 
 unsigned dram_t::que_length() const
 {
-
+std::cout << "\nTamaño de la cola: " << ql << '\n';
+return ql;
+}
+/*
   printf("*****************\n");
   printf("*  _        _   *\n");
   printf("*  O        O   *\n");
@@ -222,9 +243,9 @@ unsigned dram_t::que_length() const
   printf("*   ********    *\n");
   printf("*****************\n");
   printf("\n");
-
+*/
   //std::cout << "El tamaño de la cola es " << backup_de_MF.size() << '\n';
-  printf("Tamaño de la cola: %u", ql);
+  //printf("Tamaño de la cola: %u", ql);
 
   //return backup_de_MF.size();
   //return (unsigned) backup_de_MF.size();
@@ -243,9 +264,6 @@ unsigned dram_t::que_length() const
    return nreqs;
 }
 */
-
-
-}
 
 bool dram_t::returnq_full() const
 {
@@ -302,7 +320,8 @@ void dram_t::push( class mem_fetch *data )
 
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
    objDramSim2->addTransaction(data->is_write(), data->get_addr(), data);
-   printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
+   //printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
+   //std::cout << "Entra el memfetch #" << data->get_addr() << "-- es un write? =" << data->is_write() << "\n";
    ql++; //aumentamos que_length
 
 }
@@ -364,7 +383,7 @@ class mem_fetch* dram_t::return_queue_top()
 
 void dram_t::print( FILE* simFile) const
 {
-   unsigned i;
+   /*unsigned i;
    fprintf(simFile,"DRAM[%d]: %d bks, busW=%d BL=%d CL=%d, ",
            id, m_config->nbk, m_config->busW, m_config->BL, m_config->CL );
    fprintf(simFile,"tRRD=%d tCCD=%d, tRCD=%d tRAS=%d tRP=%d tRC=%d\n",
@@ -384,7 +403,8 @@ void dram_t::print( FILE* simFile) const
    for (i=0;i<10;i++) fprintf(simFile, " %d", dram_eff_bins[i]);
    fprintf(simFile, "\n");
    if(m_config->scheduler_type== DRAM_FRFCFS)
-       fprintf(simFile, "mrqq: max=%d avg=%g\n", max_mrqs, (float)ave_mrqs/n_cmd);
+       fprintf(simFile, "mrqq: max=%d avg=%g\n", max_mrqs, (float)ave_mrqs/n_cmd);*/
+  fprintf(simFile, "dramsim no imprime estadisticas!!\n");
 }
 
 void dram_t::visualize() const
