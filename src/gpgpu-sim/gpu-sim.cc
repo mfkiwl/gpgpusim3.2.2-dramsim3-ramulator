@@ -46,6 +46,7 @@
 #include "shader.h"
 #include "icnt_wrapper.h"
 #include "dram.h"
+#include "dram_ds2.h"
 #include "addrdec.h"
 #include "stat-tool.h"
 #include "l2cache.h"

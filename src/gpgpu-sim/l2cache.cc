@@ -78,10 +78,12 @@ memory_partition_unit::memory_partition_unit( unsigned partition_id,
       printf("\nUsando simulador nativo de GPGPU-Sim\n");}
 
     else if (m_config->dram_simulator==1){ //SIMULADOR == DRAMSIM2
-      m_dram = new dram_t(m_id,m_config,m_stats,this);
+      m_dram = new dramsim2_t(m_id,m_config,m_stats,this);
       printf("\nUsando Dramsim2\n");
-    } // exit(0);}
-
+    } else if (m_config->dram_simulator==2){ //SIMULADOR == RAMULATOR
+        m_dram = new dramramulator_t(m_id,m_config,m_stats,this);
+        printf("\nUsando Ramulator\n");
+      }
       else exit(0);
 
     m_sub_partition = new memory_sub_partition*[m_config->m_n_sub_partition_per_memory_channel];
