@@ -252,7 +252,7 @@ struct memory_config {
    unsigned tWR;    //Last data-in to Row precharge
 
    unsigned CL;     //CAS latency
-   unsigned W_L;     //WRITE latency
+   unsigned W_L;     //WRITE latency  ** RENOMBRADO DESDE "WL" A "W_L" POR CONFLICTO CON UN NOMBRE DE DRAMSIM2
    unsigned BL;     //Burst Length in bytes (4 in GDDR3, 8 in GDDR5)
    unsigned tRTW;   //time to switch from read to write
    unsigned tWTR;   //time to switch from write to read

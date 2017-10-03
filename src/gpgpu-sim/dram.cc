@@ -54,7 +54,7 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
    RTWc = 0;
    WTRc = 0;
 
-   rw = READ; //read mode is default
+   rw = DRAM_READ; //read mode is default
 
 	bkgrp = (bankgrp_t**) calloc(sizeof(bankgrp_t*), m_config->nbkgrp);
 	bkgrp[0] = (bankgrp_t*) calloc(sizeof(bank_t), m_config->nbkgrp);
@@ -68,24 +68,24 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
 
    bk = (bank_t**) calloc(sizeof(bank_t*),m_config->nbk);
    bk[0] = (bank_t*) calloc(sizeof(bank_t),m_config->nbk);
-   for (unsigned i=1;i<m_config->nbk;i++) 
+   for (unsigned i=1;i<m_config->nbk;i++)
       bk[i] = bk[0] + i;
    for (unsigned i=0;i<m_config->nbk;i++) {
       bk[i]->state = BANK_IDLE;
       bk[i]->bkgrpindex = i/(m_config->nbk/m_config->nbkgrp);
    }
-   prio = 0;  
+   prio = 0;
    rwq = new fifo_pipeline<dram_req_t>("rwq",m_config->CL,m_config->CL+1);
    mrqq = new fifo_pipeline<dram_req_t>("mrqq",0,2);
-   returnq = new fifo_pipeline<mem_fetch>("dramreturnq",0,m_config->gpgpu_dram_return_queue_size==0?1024:m_config->gpgpu_dram_return_queue_size); 
+   returnq = new fifo_pipeline<mem_fetch>("dramreturnq",0,m_config->gpgpu_dram_return_queue_size==0?1024:m_config->gpgpu_dram_return_queue_size);
    m_frfcfs_scheduler = NULL;
    if ( m_config->scheduler_type == DRAM_FRFCFS )
       m_frfcfs_scheduler = new frfcfs_scheduler(m_config,this,stats);
    n_cmd = 0;
    n_activity = 0;
-   n_nop = 0; 
-   n_act = 0; 
-   n_pre = 0; 
+   n_nop = 0;
+   n_act = 0;
+   n_pre = 0;
    n_rd = 0;
    n_wr = 0;
    n_req = 0;
@@ -102,20 +102,20 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
 
    n_cmd_partial = 0;
    n_activity_partial = 0;
-   n_nop_partial = 0;  
-   n_act_partial = 0;  
-   n_pre_partial = 0;  
+   n_nop_partial = 0;
+   n_act_partial = 0;
+   n_pre_partial = 0;
    n_req_partial = 0;
    ave_mrqs_partial = 0;
    bwutil_partial = 0;
 
    if ( queue_limit() )
       mrqq_Dist = StatCreate("mrqq_length",1, queue_limit());
-   else //queue length is unlimited; 
+   else //queue length is unlimited;
       mrqq_Dist = StatCreate("mrqq_length",1,64); //track up to 64 entries
 }
 
-bool dram_t::full() const 
+bool dram_t::full() const
 {
     if(m_config->scheduler_type == DRAM_FRFCFS ){
         if(m_config->gpgpu_frfcfs_dram_sched_queue_size == 0 ) return false;
@@ -140,9 +140,9 @@ bool dram_t::returnq_full() const
    return returnq->full();
 }
 
-unsigned int dram_t::queue_limit() const 
-{ 
-   return m_config->gpgpu_frfcfs_dram_sched_queue_size; 
+unsigned int dram_t::queue_limit() const
+{
+   return m_config->gpgpu_frfcfs_dram_sched_queue_size;
 }
 
 
@@ -154,18 +154,18 @@ dram_req_t::dram_req_t( class mem_fetch *mf )
 
    const addrdec_t &tlx = mf->get_tlx_addr();
 
-   bk  = tlx.bk; 
-   row = tlx.row; 
-   col = tlx.col; 
+   bk  = tlx.bk;
+   row = tlx.row;
+   col = tlx.col;
    nbytes = mf->get_data_size();
 
    timestamp = gpu_tot_sim_cycle + gpu_sim_cycle;
    addr = mf->get_addr();
    insertion_time = (unsigned) gpu_sim_cycle;
-   rw = data->get_is_write()?WRITE:READ;
+   rw = data->get_is_write()?DRAM_WRITE:DRAM_READ;
 }
 
-void dram_t::push( class mem_fetch *data ) 
+void dram_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
 
@@ -193,7 +193,7 @@ void dram_t::scheduler_fifo()
       dram_req_t *head_mrqq = mrqq->top();
       head_mrqq->data->set_status(IN_PARTITION_MC_BANK_ARB_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
       bkn = head_mrqq->bk;
-      if (!bk[bkn]->mrq) 
+      if (!bk[bkn]->mrq)
          bk[bkn]->mrq = mrqq->pop();
    }
 }
@@ -208,13 +208,13 @@ void dram_t::cycle()
    if( !returnq->full() ) {
        dram_req_t *cmd = rwq->pop();
        if( cmd ) {
-#ifdef DRAM_VIEWCMD 
+#ifdef DRAM_VIEWCMD
            printf("\tDQ: BK%d Row:%03x Col:%03x", cmd->bk, cmd->row, cmd->col + cmd->dqbytes);
 #endif
-           cmd->dqbytes += m_config->dram_atom_size; 
+           cmd->dqbytes += m_config->dram_atom_size;
            if (cmd->dqbytes >= cmd->nbytes) {
-              mem_fetch *data = cmd->data; 
-              data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle); 
+              mem_fetch *data = cmd->data;
+              data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
               if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
                  data->set_reply();
                  returnq->push(data);
@@ -224,7 +224,7 @@ void dram_t::cycle()
               }
               delete cmd;
            }
-#ifdef DRAM_VIEWCMD 
+#ifdef DRAM_VIEWCMD
            printf("\n");
 #endif
        }
@@ -267,16 +267,16 @@ void dram_t::cycle()
          // correct row activated for a READ
          if ( !issued && !CCDc && !bk[j]->RCDc &&
               !(bkgrp[grp]->CCDLc) &&
-              (bk[j]->curr_row == bk[j]->mrq->row) && 
-              (bk[j]->mrq->rw == READ) && (WTRc == 0 )  &&
+              (bk[j]->curr_row == bk[j]->mrq->row) &&
+              (bk[j]->mrq->rw == DRAM_READ) && (WTRc == 0 )  &&
               (bk[j]->state == BANK_ACTIVE) &&
               !rwq->full() ) {
-            if (rw==WRITE) {
-               rw=READ;
+            if (rw==DRAM_WRITE) {
+               rw=DRAM_READ;
                rwq->set_min_length(m_config->CL);
             }
             rwq->push(bk[j]->mrq);
-            bk[j]->mrq->txbytes += m_config->dram_atom_size; 
+            bk[j]->mrq->txbytes += m_config->dram_atom_size;
             CCDc = m_config->tCCD;
             bkgrp[grp]->CCDLc = m_config->tCCDL;
             RTWc = m_config->tRTW;
@@ -292,7 +292,7 @@ void dram_t::cycle()
             printf("\tRD  Bk:%d Row:%03x Col:%03x \n",
                    j, bk[j]->curr_row,
                    bk[j]->mrq->col + bk[j]->mrq->txbytes - m_config->dram_atom_size);
-#endif            
+#endif
             // transfer done
             if ( !(bk[j]->mrq->txbytes < bk[j]->mrq->nbytes) ) {
                bk[j]->mrq = NULL;
@@ -301,21 +301,21 @@ void dram_t::cycle()
             // correct row activated for a WRITE
             if ( !issued && !CCDc && !bk[j]->RCDWRc &&
                  !(bkgrp[grp]->CCDLc) &&
-                 (bk[j]->curr_row == bk[j]->mrq->row)  && 
-                 (bk[j]->mrq->rw == WRITE) && (RTWc == 0 )  &&
+                 (bk[j]->curr_row == bk[j]->mrq->row)  &&
+                 (bk[j]->mrq->rw == DRAM_WRITE) && (RTWc == 0 )  &&
                  (bk[j]->state == BANK_ACTIVE) &&
                  !rwq->full() ) {
-            if (rw==READ) {
-               rw=WRITE;
-               rwq->set_min_length(m_config->WL);
+            if (rw==DRAM_READ) {
+               rw=DRAM_WRITE;
+               rwq->set_min_length(m_config->W_L);
             }
             rwq->push(bk[j]->mrq);
 
-            bk[j]->mrq->txbytes += m_config->dram_atom_size; 
+            bk[j]->mrq->txbytes += m_config->dram_atom_size;
             CCDc = m_config->tCCD;
             bkgrp[grp]->CCDLc = m_config->tCCDL;
-            WTRc = m_config->tWTR; 
-            bk[j]->WTPc = m_config->tWTP; 
+            WTRc = m_config->tWTR;
+            bk[j]->WTPc = m_config->tWTP;
             issued = true;
             n_wr++;
             bwutil += m_config->BL/m_config->data_command_freq_ratio;
@@ -323,10 +323,10 @@ void dram_t::cycle()
 #ifdef DRAM_VERIFY
             PRINT_CYCLE=1;
             printf("\tWR  Bk:%d Row:%03x Col:%03x \n",
-                   j, bk[j]->curr_row, 
+                   j, bk[j]->curr_row,
                    bk[j]->mrq->col + bk[j]->mrq->txbytes - m_config->dram_atom_size);
-#endif  
-            // transfer done 
+#endif
+            // transfer done
             if ( !(bk[j]->mrq->txbytes < bk[j]->mrq->nbytes) ) {
                bk[j]->mrq = NULL;
             }
@@ -334,7 +334,7 @@ void dram_t::cycle()
 
          else
             // bank is idle
-            if ( !issued && !RRDc && 
+            if ( !issued && !RRDc &&
                  (bk[j]->state == BANK_IDLE) &&
                  !bk[j]->RPc && !bk[j]->RCc ) {
 #ifdef DRAM_VERIFY
@@ -342,7 +342,7 @@ void dram_t::cycle()
             printf("\tACT BK:%d NewRow:%03x From:%03x \n",
                    j,bk[j]->mrq->row,bk[j]->curr_row);
 #endif
-            // activate the row with current memory request 
+            // activate the row with current memory request
             bk[j]->curr_row = bk[j]->mrq->row;
             bk[j]->state = BANK_ACTIVE;
             RRDc = m_config->tRRD;
@@ -358,10 +358,10 @@ void dram_t::cycle()
 
          else
             // different row activated
-            if ( (!issued) && 
+            if ( (!issued) &&
                  (bk[j]->curr_row != bk[j]->mrq->row) &&
-                 (bk[j]->state == BANK_ACTIVE) && 
-                 (!bk[j]->RASc && !bk[j]->WTPc && 
+                 (bk[j]->state == BANK_ACTIVE) &&
+                 (!bk[j]->RASc && !bk[j]->WTPc &&
 				  !bk[j]->RTPc &&
 				  !bkgrp[grp]->RTPLc) ) {
             // make the bank idle again
@@ -421,12 +421,12 @@ void dram_t::cycle()
 }
 
 //if mrq is being serviced by dram, gets popped after CL latency fulfilled
-class mem_fetch* dram_t::return_queue_pop() 
+class mem_fetch* dram_t::return_queue_pop()
 {
     return returnq->pop();
 }
 
-class mem_fetch* dram_t::return_queue_top() 
+class mem_fetch* dram_t::return_queue_top()
 {
     return returnq->top();
 }
@@ -434,7 +434,7 @@ class mem_fetch* dram_t::return_queue_top()
 void dram_t::print( FILE* simFile) const
 {
    unsigned i;
-   fprintf(simFile,"DRAM[%d]: %d bks, busW=%d BL=%d CL=%d, ", 
+   fprintf(simFile,"DRAM[%d]: %d bks, busW=%d BL=%d CL=%d, ",
            id, m_config->nbk, m_config->busW, m_config->BL, m_config->CL );
    fprintf(simFile,"tRRD=%d tCCD=%d, tRCD=%d tRAS=%d tRP=%d tRC=%d\n",
            m_config->tCCD, m_config->tRRD, m_config->tRCD, m_config->tRAS, m_config->tRP, m_config->tRC );
@@ -452,16 +452,16 @@ void dram_t::print( FILE* simFile) const
    fprintf(simFile, "\ndram_eff_bins:");
    for (i=0;i<10;i++) fprintf(simFile, " %d", dram_eff_bins[i]);
    fprintf(simFile, "\n");
-   if(m_config->scheduler_type== DRAM_FRFCFS) 
+   if(m_config->scheduler_type== DRAM_FRFCFS)
        fprintf(simFile, "mrqq: max=%d avg=%g\n", max_mrqs, (float)ave_mrqs/n_cmd);
 }
 
 void dram_t::visualize() const
 {
-   printf("RRDc=%d CCDc=%d mrqq.Length=%d rwq.Length=%d\n", 
+   printf("RRDc=%d CCDc=%d mrqq.Length=%d rwq.Length=%d\n",
           RRDc, CCDc, mrqq->get_length(),rwq->get_length());
    for (unsigned i=0;i<m_config->nbk;i++) {
-      printf("BK%d: state=%c curr_row=%03x, %2d %2d %2d %2d %p ", 
+      printf("BK%d: state=%c curr_row=%03x, %2d %2d %2d %2d %p ",
              i, bk[i]->state, bk[i]->curr_row,
              bk[i]->RCDc, bk[i]->RASc,
              bk[i]->RPc, bk[i]->RCc,
@@ -470,11 +470,11 @@ void dram_t::visualize() const
          printf("txf: %d %d", bk[i]->mrq->nbytes, bk[i]->mrq->txbytes);
       printf("\n");
    }
-   if ( m_frfcfs_scheduler ) 
+   if ( m_frfcfs_scheduler )
       m_frfcfs_scheduler->print(stdout);
 }
 
-void dram_t::print_stat( FILE* simFile ) 
+void dram_t::print_stat( FILE* simFile )
 {
    fprintf(simFile,"DRAM (%d): n_cmd=%d n_nop=%d n_act=%d n_pre=%d n_req=%d n_rd=%d n_write=%d bw_util=%.4g ",
            id, n_cmd, n_nop, n_act, n_pre, n_req, n_rd, n_wr,
@@ -492,7 +492,7 @@ void dram_t::print_stat( FILE* simFile )
 void dram_t::visualizer_print( gzFile visualizer_file )
 {
    // dram specific statistics
-   gzprintf(visualizer_file,"dramncmd: %u %u\n",id, n_cmd_partial);  
+   gzprintf(visualizer_file,"dramncmd: %u %u\n",id, n_cmd_partial);
    gzprintf(visualizer_file,"dramnop: %u %u\n",id,n_nop_partial);
    gzprintf(visualizer_file,"dramnact: %u %u\n",id,n_act_partial);
    gzprintf(visualizer_file,"dramnpre: %u %u\n",id,n_pre_partial);
@@ -501,15 +501,15 @@ void dram_t::visualizer_print( gzFile visualizer_file )
             n_cmd_partial?(ave_mrqs_partial/n_cmd_partial ):0);
 
    // utilization and efficiency
-   gzprintf(visualizer_file,"dramutil: %u %u\n",  
+   gzprintf(visualizer_file,"dramutil: %u %u\n",
             id,n_cmd_partial?100*bwutil_partial/n_cmd_partial:0);
-   gzprintf(visualizer_file,"drameff: %u %u\n", 
+   gzprintf(visualizer_file,"drameff: %u %u\n",
             id,n_activity_partial?100*bwutil_partial/n_activity_partial:0);
 
    // reset for next interval
    bwutil_partial = 0;
    n_activity_partial = 0;
-   ave_mrqs_partial = 0; 
+   ave_mrqs_partial = 0;
    n_cmd_partial = 0;
    n_nop_partial = 0;
    n_act_partial = 0;
@@ -518,17 +518,17 @@ void dram_t::visualizer_print( gzFile visualizer_file )
 
    // dram access type classification
    for (unsigned j = 0; j < m_config->nbk; j++) {
-      gzprintf(visualizer_file,"dramglobal_acc_r: %u %u %u\n", id, j, 
+      gzprintf(visualizer_file,"dramglobal_acc_r: %u %u %u\n", id, j,
                m_stats->mem_access_type_stats[GLOBAL_ACC_R][id][j]);
-      gzprintf(visualizer_file,"dramglobal_acc_w: %u %u %u\n", id, j, 
+      gzprintf(visualizer_file,"dramglobal_acc_w: %u %u %u\n", id, j,
                m_stats->mem_access_type_stats[GLOBAL_ACC_W][id][j]);
-      gzprintf(visualizer_file,"dramlocal_acc_r: %u %u %u\n", id, j, 
+      gzprintf(visualizer_file,"dramlocal_acc_r: %u %u %u\n", id, j,
                m_stats->mem_access_type_stats[LOCAL_ACC_R][id][j]);
-      gzprintf(visualizer_file,"dramlocal_acc_w: %u %u %u\n", id, j, 
+      gzprintf(visualizer_file,"dramlocal_acc_w: %u %u %u\n", id, j,
                m_stats->mem_access_type_stats[LOCAL_ACC_W][id][j]);
-      gzprintf(visualizer_file,"dramconst_acc_r: %u %u %u\n", id, j, 
+      gzprintf(visualizer_file,"dramconst_acc_r: %u %u %u\n", id, j,
                m_stats->mem_access_type_stats[CONST_ACC_R][id][j]);
-      gzprintf(visualizer_file,"dramtexture_acc_r: %u %u %u\n", id, j, 
+      gzprintf(visualizer_file,"dramtexture_acc_r: %u %u %u\n", id, j,
                m_stats->mem_access_type_stats[TEXTURE_ACC_R][id][j]);
    }
 }

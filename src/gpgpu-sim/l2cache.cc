@@ -78,10 +78,10 @@ memory_partition_unit::memory_partition_unit( unsigned partition_id,
       printf("\nUsando simulador nativo de GPGPU-Sim\n");}
 
     else if (m_config->dram_simulator==1){ //SIMULADOR == DRAMSIM2
-      m_dram = new dramsim2_t(m_id,m_config,m_stats,this);
+      m_dram = new dram_ds2_t(m_id,m_config,m_stats,this);
       printf("\nUsando Dramsim2\n");
     } else if (m_config->dram_simulator==2){ //SIMULADOR == RAMULATOR
-        m_dram = new dramramulator_t(m_id,m_config,m_stats,this);
+      //  m_dram = new dram_ramulator_t(m_id,m_config,m_stats,this);
         printf("\nUsando Ramulator\n");
       }
       else exit(0);
