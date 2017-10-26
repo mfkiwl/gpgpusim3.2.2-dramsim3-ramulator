@@ -35,7 +35,7 @@
 #include "../option_parser.h"
 #include "mem_fetch.h"
 #include "dram.h"
-//#include "dramsim2.h"
+#include "dram_ds2.h"
 #include "gpu-cache.h"
 #include "histogram.h"
 #include "l2cache.h"
@@ -214,6 +214,75 @@ int memory_partition_unit::global_sub_partition_id_to_local_id(int global_sub_pa
 void memory_partition_unit::dram_cycle()
 {
 
+if (m_dram->type == dram_gpgpu)
+{
+  // pop completed memory request from dram and push it to dram-to-L2 queue
+// of the original sub partition
+mem_fetch* mf_return = m_dram->return_queue_top();
+if (mf_return) {
+    unsigned dest_global_spid = mf_return->get_sub_partition_id();
+    int dest_spid = global_sub_partition_id_to_local_id(dest_global_spid);
+    assert(m_sub_partition[dest_spid]->get_id() == dest_global_spid);
+    if (!m_sub_partition[dest_spid]->dram_L2_queue_full()) {
+        if( mf_return->get_access_type() == L1_WRBK_ACC ) {
+            m_sub_partition[dest_spid]->set_done(mf_return);
+            delete mf_return;
+        } else {
+            m_sub_partition[dest_spid]->dram_L2_queue_push(mf_return);
+            mf_return->set_status(IN_PARTITION_DRAM_TO_L2_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+            m_arbitration_metadata.return_credit(dest_spid);
+            MEMPART_DPRINTF("mem_fetch request %p return from dram to sub partition %d\n", mf_return, dest_spid);
+        }
+        m_dram->return_queue_pop();
+    }
+} else {
+    m_dram->return_queue_pop();
+}
+
+m_dram->cycle();
+m_dram->dram_log(SAMPLELOG);
+
+if( !m_dram->full() ) {
+    // L2->DRAM queue to DRAM latency queue
+    // Arbitrate among multiple L2 subpartitions
+    int last_issued_partition = m_arbitration_metadata.last_borrower();
+    for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
+        int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel;
+        if (!m_sub_partition[spid]->L2_dram_queue_empty() && can_issue_to_dram(spid)) {
+            mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
+            m_sub_partition[spid]->L2_dram_queue_pop();
+            MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
+            dram_delay_t d;
+            d.req = mf;
+            d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + m_config->dram_latency;
+            m_dram_latency_queue.push_back(d);
+            mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+            m_arbitration_metadata.borrow_credit(spid);
+            break;  // the DRAM should only accept one request per cycle
+        }
+    }
+}
+
+// DRAM latency queue
+if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
+    mem_fetch* mf = m_dram_latency_queue.front().req;
+    m_dram_latency_queue.pop_front();
+    m_dram->push(mf);
+}
+}
+
+
+if (m_dram->type == dramsim2) //
+{
+/*if (typeid(*m_dram) == typeid(dram_t())){
+
+}
+else if (typeid(*m_dram) == typeid(dram_ds2_t()))
+{
+
+}else{
+  //tunk;
+}*/
    //LA EJECUCION DE ESTE BLOQUE IF SOLO SE DEBE REALIZAR CUANDO UTILIZE EL SIMULADOR DE RAM NATIVO
    //EN CASO CONTRARIO, HA DE ESTAR EN UNA FUNCION APARTE, QUE SE PASA COMO PARAMETRO
 
@@ -275,7 +344,11 @@ void memory_partition_unit::dram_cycle()
         int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel;
         if (!m_sub_partition[spid]->L2_dram_queue_empty() && can_issue_to_dram(spid)) {
             mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
-            if( !m_dram->full(mf->get_addr()) ) {
+
+//USAR DYNAMIC CAST:
+            //original: if m_dram->full(mf->get_addr()){}
+            //if( !((dram_ds2_t *) &m_dram)->full(mf->get_addr()) ) {
+            if (!((dynamic_cast<dram_ds2_t*>(m_dram))->full(mf->get_addr()))) {
                 m_sub_partition[spid]->L2_dram_queue_pop();
                 MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
                 //dram_delay_t d;
@@ -289,7 +362,7 @@ void memory_partition_unit::dram_cycle()
             }
         }
     }
-
+}
 
     // DRAM latency queue
     /*if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {

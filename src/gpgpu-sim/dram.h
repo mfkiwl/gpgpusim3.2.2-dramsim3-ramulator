@@ -35,6 +35,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//este include para poder declarar read_complete y write_complete
+#include "../abstract_hardware_model.h"
+
 /*
 ESTE BLOQUE LO SUSTITUIMOS POR EL DE ABAJO POR CONFLICTOS DE LAS ETIQUETAS CON LAS DE DRAMSIM2
 
@@ -98,11 +101,31 @@ struct bank_t
 
 struct mem_fetch;
 
+enum dram_type{
+  dram_gpgpu = 0,
+  dramsim2,
+  ramulator
+};
+
 class dram_t
 {
 public:
+
+   int type;
+   dram_t();
+
    dram_t( unsigned int parition_id, const struct memory_config *config, class memory_stats_t *stats,
            class memory_partition_unit *mp );
+
+//esto no debe ir aqui, pero si no lo pongo casca:
+
+           /* callback functions */
+        //   void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
+          // void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
+
+//hasta aqui
+
+
 
    bool full() const;
    void print( FILE* simFile ) const;
@@ -132,7 +155,11 @@ public:
 								unsigned &wr,
 								unsigned &req) const;
 
-private:
+//añadido para que sea polimorfica
+
+   virtual ~dram_t() {};
+
+protected: //originalmente 'PRIVATE' pero modificado para poder acceder desde clases hijas
    void scheduler_fifo();
    void scheduler_frfcfs();
 
