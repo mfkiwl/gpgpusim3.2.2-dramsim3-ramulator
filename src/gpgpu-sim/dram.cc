@@ -117,6 +117,11 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
       mrqq_Dist = StatCreate("mrqq_length",1,64); //track up to 64 entries
 }
 
+ bool dram_t::full(new_addr_type addr) const
+ {
+   return false;
+ }
+
 bool dram_t::full() const
 {
     if(m_config->scheduler_type == DRAM_FRFCFS ){

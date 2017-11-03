@@ -346,9 +346,10 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
             mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
 
 //USAR DYNAMIC CAST:
-            //original: if m_dram->full(mf->get_addr()){}
+            //original:
+            if (!m_dram->full(mf->get_addr())){
             //if( !((dram_ds2_t *) &m_dram)->full(mf->get_addr()) ) {
-            if (!((dynamic_cast<dram_ds2_t*>(m_dram))->full(mf->get_addr()))) {
+            //if (!((dynamic_cast<dram_ds2_t*>(m_dram))->full(mf->get_addr()))) {
                 m_sub_partition[spid]->L2_dram_queue_pop();
                 MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
                 //dram_delay_t d;

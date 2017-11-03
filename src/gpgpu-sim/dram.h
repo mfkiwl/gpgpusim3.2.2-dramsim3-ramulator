@@ -117,36 +117,28 @@ public:
    dram_t( unsigned int parition_id, const struct memory_config *config, class memory_stats_t *stats,
            class memory_partition_unit *mp );
 
-//esto no debe ir aqui, pero si no lo pongo casca:
+   virtual bool full() const;
+   virtual bool full(new_addr_type addr) const;
 
-           /* callback functions */
-        //   void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
-          // void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
+   virtual void print( FILE* simFile ) const;
+   virtual void visualize() const;
+   virtual void print_stat( FILE* simFile );
+   virtual unsigned que_length() const;
+   virtual bool returnq_full() const;
+   virtual unsigned int queue_limit() const;
+   virtual void visualizer_print( gzFile visualizer_file );
 
-//hasta aqui
-
-
-
-   bool full() const;
-   void print( FILE* simFile ) const;
-   void visualize() const;
-   void print_stat( FILE* simFile );
-   unsigned que_length() const;
-   bool returnq_full() const;
-   unsigned int queue_limit() const;
-   void visualizer_print( gzFile visualizer_file );
-
-   class mem_fetch* return_queue_pop();
-   class mem_fetch* return_queue_top();
-   void push( class mem_fetch *data );
-   void cycle();
-   void dram_log (int task);
+   virtual class mem_fetch* return_queue_pop();
+   virtual class mem_fetch* return_queue_top();
+   virtual void push( class mem_fetch *data );
+   virtual void cycle();
+   virtual void dram_log (int task);
 
    class memory_partition_unit *m_memory_partition_unit;
    unsigned int id;
 
    // Power Model
-   void set_dram_power_stats(unsigned &cmd,
+   virtual void set_dram_power_stats(unsigned &cmd,
 								unsigned &activity,
 								unsigned &nop,
 								unsigned &act,
