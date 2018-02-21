@@ -9,7 +9,8 @@ OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
 #   g++ 4.x due to an internal compiler error when processing lambda functions.
 CXX := clang++
 # CXX := g++-5
-CXXFLAGS := -O3 -std=c++11 -g -Wall
+#CXXFLAGS := -O3 -std=c++11 -g -Wall
+CXXFLAGS := -fPIC -O3 -std=c++11 -g -Wall
 
 .PHONY: all clean depend
 
@@ -37,6 +38,8 @@ ramulator: $(MAIN) $(OBJS) $(SRCDIR)/*.h | depend
 
 libramulator.a: $(OBJS) $(OBJDIR)/Gem5Wrapper.o
 	libtool -static -o $@ $(OBJS) $(OBJDIR)/Gem5Wrapper.o
+
+#libtool --mode=link gcc -static -o ramulator.a src/ src/Gem5Wrapper.o
 
 $(OBJS): | $(OBJDIR)
 
