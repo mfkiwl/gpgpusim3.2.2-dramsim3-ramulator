@@ -1,0 +1,10 @@
+called: /usr/bin/gcc
+	/home/carbaior/gpgpu-sim_distribution
+	gcc
+	--version
+
+called: /usr/bin/gcc
+	/home/carbaior/gpgpu-sim_distribution
+	gcc
+	--version
+

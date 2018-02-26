@@ -1,0 +1,1459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="build">
+        <df name="gcc-4.4.7">
+          <df name="cuda-4020">
+            <df name="debug">
+              <df name="cuda-sim">
+                <in>lex.ptx_.c</in>
+                <in>lex.ptxinfo_.c</in>
+                <in>ptx.tab.c</in>
+                <in>ptxinfo.tab.c</in>
+              </df>
+            </df>
+          </df>
+        </df>
+      </df>
+      <df name="cuobjdump_to_ptxplus">
+        <in>cuobjdumpInst.cc</in>
+        <in>cuobjdumpInstList.cc</in>
+        <in>cuobjdump_to_ptxplus.cc</in>
+        <in>ptx.tab.c</in>
+      </df>
+      <df name="libcuda">
+        <in>cuda_runtime_api.cc</in>
+        <in>cuobjdump_lexer.c</in>
+        <in>cuobjdump_parser.c</in>
+      </df>
+      <df name="src">
+        <df name="cuda-sim">
+          <df name="decuda_pred_table">
+            <in>decuda_pred_table.cc</in>
+          </df>
+          <in>cuda-sim.cc</in>
+          <in>cuda_device_printf.cc</in>
+          <in>instructions.cc</in>
+          <in>memory.cc</in>
+          <in>ptx-stats.cc</in>
+          <in>ptx_ir.cc</in>
+          <in>ptx_loader.cc</in>
+          <in>ptx_parser.cc</in>
+          <in>ptx_sim.cc</in>
+        </df>
+        <df name="DRAMSim2">
+          <df name="example_app">
+            <in>dramsim_test.cpp</in>
+          </df>
+        </df>
+        <df name="gpgpu-sim">
+          <in>addrdec.cc</in>
+          <in>dram.cc</in>
+          <in>dram_sched.cc</in>
+          <in>gpu-cache.cc</in>
+          <in>gpu-misc.cc</in>
+          <in>gpu-sim.cc</in>
+          <in>histogram.cc</in>
+          <in>icnt_wrapper.cc</in>
+          <in>l2cache.cc</in>
+          <in>mem_fetch.cc</in>
+          <in>mem_latency_stat.cc</in>
+          <in>power_interface.cc</in>
+          <in>power_stat.cc</in>
+          <in>scoreboard.cc</in>
+          <in>shader.cc</in>
+          <in>stack.cc</in>
+          <in>stat-tool.cc</in>
+          <in>traffic_breakdown.cc</in>
+          <in>visualizer.cc</in>
+        </df>
+        <df name="gpuwattch">
+          <df name="cacti">
+            <in>Ucache.cc</in>
+            <in>arbiter.cc</in>
+            <in>area.cc</in>
+            <in>bank.cc</in>
+            <in>basic_circuit.cc</in>
+            <in>cacti_interface.cc</in>
+            <in>component.cc</in>
+            <in>crossbar.cc</in>
+            <in>decoder.cc</in>
+            <in>htree2.cc</in>
+            <in>io.cc</in>
+            <in>mat.cc</in>
+            <in>nuca.cc</in>
+            <in>parameter.cc</in>
+            <in>router.cc</in>
+            <in>subarray.cc</in>
+            <in>technology.cc</in>
+            <in>uca.cc</in>
+            <in>wire.cc</in>
+          </df>
+          <in>XML_Parse.cc</in>
+          <in>array.cc</in>
+          <in>basic_components.cc</in>
+          <in>core.cc</in>
+          <in>gpgpu_sim_wrapper.cc</in>
+          <in>interconnect.cc</in>
+          <in>iocontrollers.cc</in>
+          <in>logic.cc</in>
+          <in>main.cc</in>
+          <in>memoryctrl.cc</in>
+          <in>noc.cc</in>
+          <in>processor.cc</in>
+          <in>sharedcache.cc</in>
+          <in>xmlParser.cc</in>
+        </df>
+        <df name="intersim2">
+          <df name="allocators">
+            <in>allocator.cpp</in>
+            <in>islip.cpp</in>
+            <in>loa.cpp</in>
+            <in>maxsize.cpp</in>
+            <in>pim.cpp</in>
+            <in>selalloc.cpp</in>
+            <in>separable.cpp</in>
+            <in>separable_input_first.cpp</in>
+            <in>separable_output_first.cpp</in>
+            <in>wavefront.cpp</in>
+          </df>
+          <df name="arbiters">
+            <in>arbiter.cpp</in>
+            <in>matrix_arb.cpp</in>
+            <in>prio_arb.cpp</in>
+            <in>roundrobin_arb.cpp</in>
+            <in>tree_arb.cpp</in>
+          </df>
+          <df name="networks">
+            <in>anynet.cpp</in>
+            <in>cmesh.cpp</in>
+            <in>dragonfly.cpp</in>
+            <in>fattree.cpp</in>
+            <in>flatfly_onchip.cpp</in>
+            <in>fly.cpp</in>
+            <in>kncube.cpp</in>
+            <in>network.cpp</in>
+            <in>qtree.cpp</in>
+            <in>tree4.cpp</in>
+          </df>
+          <df name="power">
+            <in>buffer_monitor.cpp</in>
+            <in>power_module.cpp</in>
+            <in>switch_monitor.cpp</in>
+          </df>
+          <df name="routers">
+            <in>chaos_router.cpp</in>
+            <in>event_router.cpp</in>
+            <in>iq_router.cpp</in>
+            <in>router.cpp</in>
+          </df>
+          <in>batchtrafficmanager.cpp</in>
+          <in>booksim_config.cpp</in>
+          <in>buffer.cpp</in>
+          <in>buffer_state.cpp</in>
+          <in>config_utils.cpp</in>
+          <in>credit.cpp</in>
+          <in>flit.cpp</in>
+          <in>flitchannel.cpp</in>
+          <in>gputrafficmanager.cpp</in>
+          <in>injection.cpp</in>
+          <in>interconnect_interface.cpp</in>
+          <in>intersim_config.cpp</in>
+          <in>lex.yy.c</in>
+          <in>main.cpp</in>
+          <in>misc_utils.cpp</in>
+          <in>module.cpp</in>
+          <in>outputset.cpp</in>
+          <in>packet_reply_info.cpp</in>
+          <in>rng_double_wrapper.cpp</in>
+          <in>rng_wrapper.cpp</in>
+          <in>routefunc.cpp</in>
+          <in>stats.cpp</in>
+          <in>traffic.cpp</in>
+          <in>trafficmanager.cpp</in>
+          <in>vc.cpp</in>
+          <in>y.tab.c</in>
+        </df>
+        <in>abstract_hardware_model.cc</in>
+        <in>debug.cc</in>
+        <in>gpgpusim_entrypoint.cc</in>
+        <in>option_parser.cc</in>
+        <in>statwrapper.cc</in>
+        <in>stream_manager.cc</in>
+        <in>trace.cc</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>nbproject/private/launcher.properties</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-std=c89"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+        <preBuild>
+          <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
+          <preBuildCommand></preBuildCommand>
+        </preBuild>
+      </makefileType>
+      <item path="build/gcc-4.4.7/cuda-4020/debug/cuda-sim/lex.ptx_.c"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="build/gcc-4.4.7/cuda-4020/debug/cuda-sim/lex.ptxinfo_.c"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="build/gcc-4.4.7/cuda-4020/debug/cuda-sim/ptx.tab.c"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>YYDEBUG=1</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="build/gcc-4.4.7/cuda-4020/debug/cuda-sim/ptxinfo.tab.c"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>YYDEBUG=1</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="cuobjdump_to_ptxplus/cuobjdumpInst.cc"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>cuobjdump_to_ptxplus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="cuobjdump_to_ptxplus/cuobjdumpInstList.cc"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>cuobjdump_to_ptxplus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="cuobjdump_to_ptxplus/cuobjdump_to_ptxplus.cc"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>cuobjdump_to_ptxplus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="cuobjdump_to_ptxplus/ptx.tab.c" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>cuobjdump_to_ptxplus</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <folder path="0/build">
+        <ccTool>
+          <incDir>
+            <pElem>build/gcc-4.4.7/cuda-4020/debug/cuda-sim</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </folder>
+      <folder path="0/libcuda">
+        <cTool>
+          <incDir>
+            <pElem>libcuda</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>libcuda</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/src">
+        <cTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/src/DRAMSim2">
+        <ccTool>
+          <incDir>
+            <pElem>src/DRAMSim2</pElem>
+            <pElem>src/DRAMSim2/example_app</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/src/cuda-sim">
+        <ccTool>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </folder>
+      <folder path="0/src/cuda-sim/decuda_pred_table">
+        <ccTool>
+          <incDir>
+            <pElem>src/cuda-sim/decuda_pred_table</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/src/gpgpu-sim">
+        <ccTool>
+          <preprocessorList>
+            <Elem>DEBUG=1</Elem>
+            <Elem>GPGPUSIM_POWER_MODEL=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </folder>
+      <folder path="0/src/gpuwattch/cacti">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/src/intersim2/arbiters">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/arbiters</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/src/intersim2/routers">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="libcuda/cuda_runtime_api.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="libcuda/cuobjdump_lexer.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="libcuda/cuobjdump_parser.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="src/DRAMSim2/example_app/dramsim_test.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/abstract_hardware_model.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>DEBUG=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/cuda-sim.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>build/gcc-4.4.7/cuda-4020/debug/cuda-sim</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src/cuda-sim/decuda_pred_table</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/cuda_device_printf.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>__OPTIMIZE__=1</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/decuda_pred_table/decuda_pred_table.cc"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/cuda-sim/instructions.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>build/gcc-4.4.7/cuda-4020/debug/cuda-sim</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/usr/local/cuda/include/crt</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/memory.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/ptx-stats.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/ptx_ir.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>build/gcc-4.4.7/cuda-4020/debug/cuda-sim</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/ptx_loader.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>src/DRAMSim2</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>__OPTIMIZE__=1</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/ptx_parser.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>build/gcc-4.4.7/cuda-4020/release/cuda-sim</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>__OPTIMIZE__=1</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/cuda-sim/ptx_sim.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>build/gcc-4.4.7/cuda-4020/debug/cuda-sim</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/debug.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>DEBUG=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/addrdec.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/dram.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/dram_sched.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/gpu-cache.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/gpu-misc.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/gpu-sim.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>src/gpuwattch</pElem>
+            <pElem>src/gpuwattch/cacti</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/histogram.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/icnt_wrapper.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/l2cache.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/mem_fetch.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/mem_latency_stat.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/power_interface.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpuwattch</pElem>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/power_stat.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/scoreboard.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/shader.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/stack.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/stat-tool.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/traffic_breakdown.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpu-sim/visualizer.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpgpusim_entrypoint.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>DEBUG=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/XML_Parse.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/array.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/basic_components.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/cacti/Ucache.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/arbiter.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/area.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/bank.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/basic_circuit.cc"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/cacti_interface.cc"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/component.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/crossbar.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/decoder.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/htree2.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/io.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/mat.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/nuca.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/parameter.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/router.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/subarray.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/technology.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/uca.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/cacti/wire.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gpuwattch/core.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/gpgpu_sim_wrapper.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/interconnect.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/iocontrollers.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/logic.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/main.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/memoryctrl.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/noc.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/processor.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/sharedcache.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch/cacti</pElem>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gpuwattch/xmlParser.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpuwattch</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/allocator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/islip.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/loa.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/maxsize.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/pim.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/selalloc.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/separable.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/separable_input_first.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/allocators</pElem>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/separable_output_first.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/allocators</pElem>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/allocators/wavefront.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/arbiters/arbiter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/intersim2/arbiters/matrix_arb.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/intersim2/arbiters/prio_arb.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/intersim2/arbiters/roundrobin_arb.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/intersim2/arbiters/tree_arb.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/intersim2/batchtrafficmanager.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/booksim_config.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/buffer.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/buffer_state.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/config_utils.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/credit.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/flit.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/flitchannel.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/gputrafficmanager.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2/networks</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/injection.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/interconnect_interface.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/gpgpu-sim</pElem>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/power</pElem>
+            <pElem>src</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/intersim_config.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/lex.yy.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="src/intersim2/main.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/power</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/misc_utils.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/module.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/anynet.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2/networks</pElem>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/cmesh.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2/networks</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/dragonfly.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2/networks</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/fattree.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/networks</pElem>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/flatfly_onchip.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2/networks</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/fly.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/networks</pElem>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/kncube.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/networks</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/network.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2/networks</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/qtree.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/networks</pElem>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/networks/tree4.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/networks</pElem>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/outputset.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/packet_reply_info.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/power/buffer_monitor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/power</pElem>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/power/power_module.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/networks</pElem>
+            <pElem>src/intersim2/power</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/power/switch_monitor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/power</pElem>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/rng_double_wrapper.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/rng_wrapper.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/routefunc.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/routers/chaos_router.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/intersim2/routers/event_router.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/arbiters</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/routers/iq_router.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2/arbiters</pElem>
+            <pElem>src/intersim2/power</pElem>
+            <pElem>src/intersim2/allocators</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/routers/router.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/intersim2/stats.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/traffic.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/trafficmanager.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+            <pElem>src/intersim2/networks</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/vc.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src/intersim2/routers</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/intersim2/y.tab.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="src/option_parser.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>DEBUG=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/statwrapper.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/intersim2</pElem>
+            <pElem>src</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>DEBUG=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/stream_manager.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src/cuda-sim</pElem>
+            <pElem>src</pElem>
+            <pElem>src/gpgpu-sim</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>DEBUG=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/trace.cc" ex="false" tool="1" flavor2="0">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>CUDART_VERSION=4020</Elem>
+            <Elem>DEBUG=1</Elem>
+            <Elem>TRACING_ON=1</Elem>
+            <Elem>__GXX_EXPERIMENTAL_CXX0X__=1</Elem>
+            <Elem>__PIC__=2</Elem>
+            <Elem>__REGISTER_PREFIX__=</Elem>
+            <Elem>__STRICT_ANSI__=1</Elem>
+            <Elem>__USER_LABEL_PREFIX__=</Elem>
+            <Elem>__pic__=2</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

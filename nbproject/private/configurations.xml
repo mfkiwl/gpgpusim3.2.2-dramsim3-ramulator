@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="aerialvision">
+      </df>
+      <df name="bin">
+      </df>
+      <df name="build">
+        <df name="gcc-4.4.7">
+          <df name="cuda-0000">
+          </df>
+          <df name="cuda-4020">
+            <df name="debug">
+              <df name="cuda-sim">
+                <df name="decuda_pred_table">
+                </df>
+                <in>instructions.h</in>
+                <in>lex.ptx_.c</in>
+                <in>lex.ptxinfo_.c</in>
+                <in>ptx.tab.c</in>
+                <in>ptx.tab.h</in>
+                <in>ptx_parser_decode.def</in>
+                <in>ptxinfo.tab.c</in>
+                <in>ptxinfo.tab.h</in>
+              </df>
+              <df name="cuobjdump_to_ptxplus">
+              </df>
+              <df name="gpgpu-sim">
+              </df>
+              <df name="gpuwattch">
+                <df name="cacti">
+                </df>
+              </df>
+              <df name="intersim2">
+              </df>
+              <df name="libcuda">
+              </df>
+              <df name="libopencl">
+                <df name="bin">
+                </df>
+              </df>
+            </df>
+            <df name="release">
+              <df name="cuda-sim">
+                <df name="decuda_pred_table">
+                </df>
+                <in>instructions.h</in>
+                <in>lex.ptx_.c</in>
+                <in>lex.ptxinfo_.c</in>
+                <in>ptx.tab.c</in>
+                <in>ptx.tab.h</in>
+                <in>ptx_parser_decode.def</in>
+                <in>ptxinfo.tab.c</in>
+                <in>ptxinfo.tab.h</in>
+              </df>
+              <df name="cuobjdump_to_ptxplus">
+              </df>
+              <df name="gpgpu-sim">
+              </df>
+              <df name="gpuwattch">
+                <df name="cacti">
+                </df>
+              </df>
+              <df name="intersim2">
+              </df>
+              <df name="libcuda">
+              </df>
+              <df name="libopencl">
+                <df name="bin">
+                </df>
+              </df>
+            </df>
+          </df>
+        </df>
+      </df>
+      <df name="configs">
+        <df name="GTX480">
+        </df>
+        <df name="QuadroFX5600">
+        </df>
+        <df name="QuadroFX5800">
+        </df>
+        <df name="TeslaC2050">
+        </df>
+      </df>
+      <df name="cuobjdump_to_ptxplus">
+        <in>cuobjdumpInst.cc</in>
+        <in>cuobjdumpInst.h</in>
+        <in>cuobjdumpInstList.cc</in>
+        <in>cuobjdumpInstList.h</in>
+        <in>cuobjdump_to_ptxplus.cc</in>
+        <in>elf.l</in>
+        <in>elf.y</in>
+        <in>elf_lexer.cc</in>
+        <in>elf_parser.cc</in>
+        <in>header.l</in>
+        <in>header.y</in>
+        <in>header_lexer.cc</in>
+        <in>header_parser.cc</in>
+        <in>lex.ptx_.c</in>
+        <in>ptx.tab.c</in>
+        <in>ptx_parser.h</in>
+        <in>sass.l</in>
+        <in>sass.y</in>
+        <in>sass_lexer.cc</in>
+        <in>sass_parser.cc</in>
+      </df>
+      <df name="doc">
+        <df name="doxygen">
+        </df>
+      </df>
+      <df name="lib">
+        <df name="gcc-4.4.7">
+          <df name="cuda-0000">
+          </df>
+          <df name="cuda-4020">
+            <df name="debug">
+            </df>
+            <df name="release">
+            </df>
+          </df>
+        </df>
+      </df>
+      <df name="libcuda">
+        <in>cuda_runtime_api.cc</in>
+        <in>cuobjdump.l</in>
+        <in>cuobjdump.y</in>
+        <in>cuobjdump_lexer.c</in>
+        <in>cuobjdump_parser.c</in>
+        <in>cuobjdump_parser.h</in>
+      </df>
+      <df name="libopencl">
+        <in>nvopencl_wrapper.cc</in>
+        <in>opencl_runtime_api.cc</in>
+      </df>
+      <df name="scripts">
+      </df>
+      <df name="src">
+        <df name="cuda-sim">
+          <df name="decuda_pred_table">
+            <in>decuda_pred_table.cc</in>
+            <in>decuda_pred_table.h</in>
+          </df>
+          <in>cuda-math.h</in>
+          <in>cuda-sim.cc</in>
+          <in>cuda-sim.h</in>
+          <in>cuda_device_printf.cc</in>
+          <in>cuda_device_printf.h</in>
+          <in>instructions.cc</in>
+          <in>memory.cc</in>
+          <in>memory.h</in>
+          <in>opcodes.def</in>
+          <in>opcodes.h</in>
+          <in>ptx-stats.cc</in>
+          <in>ptx-stats.h</in>
+          <in>ptx.l</in>
+          <in>ptx.y</in>
+          <in>ptx_ir.cc</in>
+          <in>ptx_ir.h</in>
+          <in>ptx_loader.cc</in>
+          <in>ptx_loader.h</in>
+          <in>ptx_parser.cc</in>
+          <in>ptx_parser.h</in>
+          <in>ptx_sim.cc</in>
+          <in>ptx_sim.h</in>
+          <in>ptxinfo.l</in>
+          <in>ptxinfo.y</in>
+        </df>
+        <df name="DRAMSim2">
+          <df name="docs">
+          </df>
+          <df name="example_app">
+            <in>dramsim_test.cpp</in>
+            <in>dramsim_test.h</in>
+          </df>
+          <df name="ini">
+          </df>
+          <df name="traces">
+          </df>
+          <in>AddressMapping.cpp</in>
+          <in>AddressMapping.h</in>
+          <in>Bank.cpp</in>
+          <in>Bank.h</in>
+          <in>BankState.cpp</in>
+          <in>BankState.h</in>
+          <in>BusPacket.cpp</in>
+          <in>BusPacket.h</in>
+          <in>CSVWriter.h</in>
+          <in>Callback.h</in>
+          <in>ClockDomain.cpp</in>
+          <in>ClockDomain.h</in>
+          <in>CommandQueue.cpp</in>
+          <in>CommandQueue.h</in>
+          <in>DRAMSim.h</in>
+          <in>IniReader.cpp</in>
+          <in>IniReader.h</in>
+          <in>MemoryController.cpp</in>
+          <in>MemoryController.h</in>
+          <in>MemorySystem.cpp</in>
+          <in>MemorySystem.h</in>
+          <in>MultiChannelMemorySystem.cpp</in>
+          <in>MultiChannelMemorySystem.h</in>
+          <in>PrintMacros.cpp</in>
+          <in>PrintMacros.h</in>
+          <in>Rank.cpp</in>
+          <in>Rank.h</in>
+          <in>SimulatorObject.cpp</in>
+          <in>SimulatorObject.h</in>
+          <in>SystemConfiguration.h</in>
+          <in>TraceBasedSim.cpp</in>
+          <in>Transaction.cpp</in>
+          <in>Transaction.h</in>
+        </df>
+        <df name="gpgpu-sim">
+          <in>addrdec.cc</in>
+          <in>addrdec.h</in>
+          <in>delayqueue.h</in>
+          <in>dram.cc</in>
+          <in>dram.h</in>
+          <in>dram_sched.cc</in>
+          <in>dram_sched.h</in>
+          <in>gpu-cache.cc</in>
+          <in>gpu-cache.h</in>
+          <in>gpu-misc.cc</in>
+          <in>gpu-misc.h</in>
+          <in>gpu-sim.cc</in>
+          <in>gpu-sim.h</in>
+          <in>histogram.cc</in>
+          <in>histogram.h</in>
+          <in>icnt_wrapper.cc</in>
+          <in>icnt_wrapper.h</in>
+          <in>l2cache.cc</in>
+          <in>l2cache.h</in>
+          <in>l2cache_trace.h</in>
+          <in>mem_fetch.cc</in>
+          <in>mem_fetch.h</in>
+          <in>mem_fetch_status.tup</in>
+          <in>mem_latency_stat.cc</in>
+          <in>mem_latency_stat.h</in>
+          <in>power_interface.cc</in>
+          <in>power_interface.h</in>
+          <in>power_stat.cc</in>
+          <in>power_stat.h</in>
+          <in>scoreboard.cc</in>
+          <in>scoreboard.h</in>
+          <in>shader.cc</in>
+          <in>shader.h</in>
+          <in>shader_trace.h</in>
+          <in>stack.cc</in>
+          <in>stack.h</in>
+          <in>stat-tool.cc</in>
+          <in>stat-tool.h</in>
+          <in>stats.h</in>
+          <in>traffic_breakdown.cc</in>
+          <in>traffic_breakdown.h</in>
+          <in>visualizer.cc</in>
+          <in>visualizer.h</in>
+        </df>
+        <df name="gpuwattch">
+          <df name="cacti">
+            <in>Ucache.cc</in>
+            <in>Ucache.h</in>
+            <in>arbiter.cc</in>
+            <in>arbiter.h</in>
+            <in>area.cc</in>
+            <in>area.h</in>
+            <in>bank.cc</in>
+            <in>bank.h</in>
+            <in>basic_circuit.cc</in>
+            <in>basic_circuit.h</in>
+            <in>cacti.i</in>
+            <in>cacti_interface.cc</in>
+            <in>cacti_interface.h</in>
+            <in>component.cc</in>
+            <in>component.h</in>
+            <in>const.h</in>
+            <in>crossbar.cc</in>
+            <in>crossbar.h</in>
+            <in>decoder.cc</in>
+            <in>decoder.h</in>
+            <in>highradix.cc</in>
+            <in>highradix.h</in>
+            <in>htree2.cc</in>
+            <in>htree2.h</in>
+            <in>io.cc</in>
+            <in>io.h</in>
+            <in>main.cc</in>
+            <in>mat.cc</in>
+            <in>mat.h</in>
+            <in>nuca.cc</in>
+            <in>nuca.h</in>
+            <in>parameter.cc</in>
+            <in>parameter.h</in>
+            <in>router.cc</in>
+            <in>router.h</in>
+            <in>subarray.cc</in>
+            <in>subarray.h</in>
+            <in>technology.cc</in>
+            <in>uca.cc</in>
+            <in>uca.h</in>
+            <in>wire.cc</in>
+            <in>wire.h</in>
+          </df>
+          <df name="obj_dbg">
+          </df>
+          <df name="obj_opt">
+          </df>
+          <df name="results">
+          </df>
+          <in>XML_Parse.cc</in>
+          <in>XML_Parse.h</in>
+          <in>arch_const.h</in>
+          <in>array.cc</in>
+          <in>array.h</in>
+          <in>basic_components.cc</in>
+          <in>basic_components.h</in>
+          <in>core.cc</in>
+          <in>core.h</in>
+          <in>globalvar.h</in>
+          <in>gpgpu_sim_wrapper.cc</in>
+          <in>gpgpu_sim_wrapper.h</in>
+          <in>interconnect.cc</in>
+          <in>interconnect.h</in>
+          <in>iocontrollers.cc</in>
+          <in>iocontrollers.h</in>
+          <in>logic.cc</in>
+          <in>logic.h</in>
+          <in>main.cc</in>
+          <in>memoryctrl.cc</in>
+          <in>memoryctrl.h</in>
+          <in>noc.cc</in>
+          <in>noc.h</in>
+          <in>processor.cc</in>
+          <in>processor.h</in>
+          <in>sharedcache.cc</in>
+          <in>sharedcache.h</in>
+          <in>technology_xeon_core.cc</in>
+          <in>version.h</in>
+          <in>xmlParser.cc</in>
+          <in>xmlParser.h</in>
+        </df>
+        <df name="intersim2">
+          <df name="allocators">
+            <in>allocator.cpp</in>
+            <in>allocator.hpp</in>
+            <in>islip.cpp</in>
+            <in>islip.hpp</in>
+            <in>loa.cpp</in>
+            <in>loa.hpp</in>
+            <in>maxsize.cpp</in>
+            <in>maxsize.hpp</in>
+            <in>pim.cpp</in>
+            <in>pim.hpp</in>
+            <in>selalloc.cpp</in>
+            <in>selalloc.hpp</in>
+            <in>separable.cpp</in>
+            <in>separable.hpp</in>
+            <in>separable_input_first.cpp</in>
+            <in>separable_input_first.hpp</in>
+            <in>separable_output_first.cpp</in>
+            <in>separable_output_first.hpp</in>
+            <in>wavefront.cpp</in>
+            <in>wavefront.hpp</in>
+          </df>
+          <df name="arbiters">
+            <in>arbiter.cpp</in>
+            <in>arbiter.hpp</in>
+            <in>matrix_arb.cpp</in>
+            <in>matrix_arb.hpp</in>
+            <in>prio_arb.cpp</in>
+            <in>prio_arb.hpp</in>
+            <in>roundrobin_arb.cpp</in>
+            <in>roundrobin_arb.hpp</in>
+            <in>tree_arb.cpp</in>
+            <in>tree_arb.hpp</in>
+          </df>
+          <df name="examples">
+          </df>
+          <df name="networks">
+            <in>anynet.cpp</in>
+            <in>anynet.hpp</in>
+            <in>cmesh.cpp</in>
+            <in>cmesh.hpp</in>
+            <in>dragonfly.cpp</in>
+            <in>dragonfly.hpp</in>
+            <in>fattree.cpp</in>
+            <in>fattree.hpp</in>
+            <in>flatfly_onchip.cpp</in>
+            <in>flatfly_onchip.hpp</in>
+            <in>fly.cpp</in>
+            <in>fly.hpp</in>
+            <in>kncube.cpp</in>
+            <in>kncube.hpp</in>
+            <in>network.cpp</in>
+            <in>network.hpp</in>
+            <in>qtree.cpp</in>
+            <in>qtree.hpp</in>
+            <in>tree4.cpp</in>
+            <in>tree4.hpp</in>
+          </df>
+          <df name="power">
+            <in>buffer_monitor.cpp</in>
+            <in>buffer_monitor.hpp</in>
+            <in>power_module.cpp</in>
+            <in>power_module.hpp</in>
+            <in>switch_monitor.cpp</in>
+            <in>switch_monitor.hpp</in>
+          </df>
+          <df name="routers">
+            <in>chaos_router.cpp</in>
+            <in>chaos_router.hpp</in>
+            <in>event_router.cpp</in>
+            <in>event_router.hpp</in>
+            <in>iq_router.cpp</in>
+            <in>iq_router.hpp</in>
+            <in>router.cpp</in>
+            <in>router.hpp</in>
+          </df>
+          <in>batchtrafficmanager.cpp</in>
+          <in>batchtrafficmanager.hpp</in>
+          <in>booksim.hpp</in>
+          <in>booksim_config.cpp</in>
+          <in>booksim_config.hpp</in>
+          <in>buffer.cpp</in>
+          <in>buffer.hpp</in>
+          <in>buffer_state.cpp</in>
+          <in>buffer_state.hpp</in>
+          <in>channel.hpp</in>
+          <in>config.l</in>
+          <in>config.y</in>
+          <in>config_utils.cpp</in>
+          <in>config_utils.hpp</in>
+          <in>credit.cpp</in>
+          <in>credit.hpp</in>
+          <in>flit.cpp</in>
+          <in>flit.hpp</in>
+          <in>flitchannel.cpp</in>
+          <in>flitchannel.hpp</in>
+          <in>globals.hpp</in>
+          <in>gputrafficmanager.cpp</in>
+          <in>gputrafficmanager.hpp</in>
+          <in>injection.cpp</in>
+          <in>injection.hpp</in>
+          <in>interconnect_interface.cpp</in>
+          <in>interconnect_interface.hpp</in>
+          <in>intersim_config.cpp</in>
+          <in>intersim_config.hpp</in>
+          <in>lex.yy.c</in>
+          <in>main.cpp</in>
+          <in>misc_utils.cpp</in>
+          <in>misc_utils.hpp</in>
+          <in>module.cpp</in>
+          <in>module.hpp</in>
+          <in>outputset.cpp</in>
+          <in>outputset.hpp</in>
+          <in>packet_reply_info.cpp</in>
+          <in>packet_reply_info.hpp</in>
+          <in>pipefifo.hpp</in>
+          <in>random_utils.hpp</in>
+          <in>rng-double.c</in>
+          <in>rng.c</in>
+          <in>rng_double_wrapper.cpp</in>
+          <in>rng_wrapper.cpp</in>
+          <in>routefunc.cpp</in>
+          <in>routefunc.hpp</in>
+          <in>stats.cpp</in>
+          <in>stats.hpp</in>
+          <in>timed_module.hpp</in>
+          <in>traffic.cpp</in>
+          <in>traffic.hpp</in>
+          <in>trafficmanager.cpp</in>
+          <in>trafficmanager.hpp</in>
+          <in>vc.cpp</in>
+          <in>vc.hpp</in>
+          <in>y.tab.c</in>
+          <in>y.tab.h</in>
+        </df>
+        <in>abstract_hardware_model.cc</in>
+        <in>abstract_hardware_model.h</in>
+        <in>debug.cc</in>
+        <in>debug.h</in>
+        <in>gpgpusim_entrypoint.cc</in>
+        <in>gpgpusim_entrypoint.h</in>
+        <in>option_parser.cc</in>
+        <in>option_parser.h</in>
+        <in>statwrapper.cc</in>
+        <in>statwrapper.h</in>
+        <in>stream_manager.cc</in>
+        <in>stream_manager.h</in>
+        <in>tr1_hash_map.h</in>
+        <in>trace.cc</in>
+        <in>trace.h</in>
+        <in>trace_streams.tup</in>
+      </df>
+      <df name="tfg">
+      </df>
+    </df>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <rundir>.</rundir>
+        <buildfirst>false</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>

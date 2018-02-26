@@ -1,0 +1,3 @@
+/bin/sh: 1: /bin/nvcc: not found
+ERROR *** run 'source setup_environment' before 'make'; please see README.
+make: *** [check_setup_environment] Error 101
