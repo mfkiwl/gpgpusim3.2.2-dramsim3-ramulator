@@ -13,7 +13,7 @@ namespace ramulator
 class Request;
 class MemoryBase;
 
-class Gem5Wrapper 
+class Gem5Wrapper
 {
 private:
     MemoryBase *mem;
@@ -24,6 +24,8 @@ public:
     void tick();
     bool send(Request req);
     void finish(void);
+    //modificacion para usar con gpgpu-sim:
+    bool full(Request req)
 };
 
 } /*namespace ramulator*/

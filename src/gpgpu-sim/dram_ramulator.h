@@ -42,6 +42,7 @@
 #include "dram.h"
 
 #include "../ramulator-master/src/Request.h"
+#include "../ramulator-master/src/Gem5Wrapper.h"
 
 struct mem_fetch;
 
@@ -56,7 +57,7 @@ public:
    //poder acceder a él desde cualquier método
    //BUSCAR QUE OBJETO RAMULATOR EQUIVALE AL MultiChannelMemorySystem DE DRAMSIM2
 //   MultiChannelMemorySystem *objDramSim2;
-
+   Gem5Wrapper *objRamulator;
    std::string  *vis;
    unsigned ql; //para llevar la cuenta de que_length al usar ramulator
 

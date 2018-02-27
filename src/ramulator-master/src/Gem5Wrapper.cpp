@@ -20,7 +20,7 @@ using namespace ramulator;
 static map<string, function<MemoryBase *(const Config&, int)> > name_to_func = {
     {"DDR3", &MemoryFactory<DDR3>::create}, {"DDR4", &MemoryFactory<DDR4>::create},
     {"LPDDR3", &MemoryFactory<LPDDR3>::create}, {"LPDDR4", &MemoryFactory<LPDDR4>::create},
-    {"GDDR5", &MemoryFactory<GDDR5>::create}, 
+    {"GDDR5", &MemoryFactory<GDDR5>::create},
     {"WideIO", &MemoryFactory<WideIO>::create}, {"WideIO2", &MemoryFactory<WideIO2>::create},
     {"HBM", &MemoryFactory<HBM>::create},
     {"SALP-1", &MemoryFactory<SALP>::create}, {"SALP-2", &MemoryFactory<SALP>::create}, {"SALP-MASA", &MemoryFactory<SALP>::create},
@@ -52,4 +52,9 @@ bool Gem5Wrapper::send(Request req)
 
 void Gem5Wrapper::finish(void) {
     mem->finish();
+}
+
+bool Gem5Wrapper::full(Request req)
+{
+  return mem->full(req)
 }

@@ -35,6 +35,7 @@ public:
     virtual void finish(void) = 0;
     virtual long page_allocator(long addr, int coreid) = 0;
     virtual void record_core(int coreid) = 0;
+    virtual void full(Request req) = 0;
 };
 
 template <class T, template<typename> class Controller = Controller >
@@ -320,6 +321,39 @@ public:
         }
 
         return false;
+    }
+
+    bool full(Request req)
+    {
+
+      //CREADO PARA COMPATIBILIDAD CON gpgpu-sim
+      req.addr_vec.resize(addr_bits.size());
+      long addr = req.addr;
+      int coreid = req.coreid;
+
+      // Each transaction size is 2^tx_bits, so first clear the lowest tx_bits bits
+      clear_lower_bits(addr, tx_bits);
+
+      switch(int(type)){
+          case int(Type::ChRaBaRoCo):
+              for (int i = addr_bits.size() - 1; i >= 0; i--)
+                  req.addr_vec[i] = slice_lower_bits(addr, addr_bits[i]);
+              break;
+          case int(Type::RoBaRaCoCh):
+              req.addr_vec[0] = slice_lower_bits(addr, addr_bits[0]);
+              req.addr_vec[addr_bits.size() - 1] = slice_lower_bits(addr, addr_bits[addr_bits.size() - 1]);
+              for (int i = 1; i <= int(T::Level::Row); i++)
+                  req.addr_vec[i] = slice_lower_bits(addr, addr_bits[i]);
+              break;
+          default:
+              assert(false);
+      }
+
+      if(ctrls[req.addr_vec[0]]->try_enqueue(req)) {
+          return false;
+      }
+
+      return true;
     }
 
     int pending_requests()

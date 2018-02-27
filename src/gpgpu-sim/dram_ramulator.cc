@@ -143,6 +143,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
     vis = new std::string(m_config->dramsim2_vis_file);   //std::string vis(m_config->dramsim2_vis_file)  (probar, y si funciona borrar la declaracion de vis del .h);
 */
 
+    objRamulator = new Gem5Wrapper(PARAMETROS);
 //EL SIGUIENTE BLOQUE INICIALIZA UN OBJETO DRAMSIM2 Y CONFIGURA LOS CALLBACKS
 //ESCRIBIR LA EQUIVALENCIA CON RAMULATOR
 /*
@@ -158,13 +159,18 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 bool dram_ramulator_t::full(new_addr_type addr) const
 {
-  printf("*** METODO dram_t:full SI SE USA!") ;
-  exit(0);
+  //printf("*** METODO dram_t:full SI SE USA!") ;
+  //exit(0);
   //BUSCAR EL METODO DE RAMULATOR QUE INDICA SI ESTA LLENA LA COLA DE ENTRADA
   //bool b=not objDramSim2->willAcceptTransaction(addr);
   //printf("*** dram_t::full devuelve ") ;
   //fputs(b ? "true)\n" : "false)\n", stdout);
   //exit(0);
+  bool b = objRamulator->full(new Request(addr, Request::Type::READ, 0))
+  
+
+//AQUI HAY UN PROBLEMA Y ES QUE HAY DOS COLAS UNA PARA ESCRITURA Y OTRA PARA LECTURA
+
   return b;
 }
 
@@ -190,11 +196,25 @@ unsigned int dram_ramulator_t::queue_limit() const
 void dram_ramulator_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
+   Request req;
+   if (data->is_write()){
+     //meter en el request el callback de write_complete
+     //Request(long addr, Type type, function<void(Request&)> callback, void *mf, int coreid = 0)
+/**
+**  COMPROBAR COMO SE PASAN LOS CALLBACKS
+  **/
+     req = new Request(data->get_addr()), Request::Type::WRITE, write_complete, data, 0);
+   }else{
+     //meter en el request el callback de read_complete
+     req = new Request(data->get_addr()), Request::Type::READ, read_complete, data, 0);
+   }
+   }
 
-   //BUSCAR EL EQUIVALENTE A ADDTRANSACTION EN RAMULATOR
+  //BUSCAR EL EQUIVALENTE A ADDTRANSACTION EN RAMULATOR
    //objDramSim2->addTransaction(data->is_write(), data->get_addr(), data);
    //printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
    //std::cout << "Entra el memfetch #" << data->get_addr() << "-- es un write? =" << data->is_write() << "\n";
+   objRamulator->send(req);
    ql++; //aumentamos que_length
 
 }
@@ -218,7 +238,7 @@ void dram_ds2_t::scheduler_fifo()
 void dram_ramulator_t::cycle()
 {
   //BUSCAR LA EQUIVALENCIA DE CYCLE (UPDATE EN DS2) EN RAMULATOR
- //objDramSim2->update();
+  objRamulator->tick();
 }
 
 
