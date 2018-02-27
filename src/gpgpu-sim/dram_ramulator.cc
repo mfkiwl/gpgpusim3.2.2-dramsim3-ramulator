@@ -59,11 +59,12 @@ template class fifo_pipeline<dram_req_t>;
 //typedef std::pair<unsigned long long, class mem_fetch*> Taddr_memfetchPair;
 
 /* callback functors */
-void dram_ramulator_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
+void dram_ramulator_t::read_complete(Request *req)
+
+//void dram_ramulator_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
 
-    mem_fetch *data=(mem_fetch *)mf_return;
-
+    mem_fetch *data=(mem_fetch *)req->mf;
     //std::cout << "Sale el memfetch por el read_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
     returnq->push(data);
 
@@ -157,6 +158,8 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 bool dram_ramulator_t::full(new_addr_type addr) const
 {
+  printf("*** METODO dram_t:full SI SE USA!") ;
+  exit(0);
   //BUSCAR EL METODO DE RAMULATOR QUE INDICA SI ESTA LLENA LA COLA DE ENTRADA
   //bool b=not objDramSim2->willAcceptTransaction(addr);
   //printf("*** dram_t::full devuelve ") ;
