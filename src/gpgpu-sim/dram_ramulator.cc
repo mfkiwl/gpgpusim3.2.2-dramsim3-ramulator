@@ -94,9 +94,9 @@ void dram_ramulator_t::read_complete(Request *req)
   */
 }
 
-void dram_ramulator_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
+void dram_ramulator_t::write_complete(Request *req)
 {
-  mem_fetch *data=(mem_fetch *)mf_return;
+  mem_fetch *data=(mem_fetch *)req->mf;
   //std::cout << "Sale el memfetch por el write_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
 
   ql--; //disminuimos que_length

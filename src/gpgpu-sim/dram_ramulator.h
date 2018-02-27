@@ -41,7 +41,7 @@
 
 #include "dram.h"
 
-//#include "../DRAMSim2/MultiChannelMemorySystem.h"
+#include "../ramulator-master/src/Request.h"
 
 struct mem_fetch;
 
