@@ -313,12 +313,12 @@ public:
         return true;
     }
 
-    bool try_enqueue(Request& req)
+    bool full(Request& req)
     {
         Queue& queue = get_queue(req.type);
         if (queue.max == queue.size())
-            return false;
-        return true;
+            return true;
+        return false;
     }
 
 

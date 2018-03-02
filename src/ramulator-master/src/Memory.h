@@ -349,11 +349,7 @@ public:
               assert(false);
       }
 
-      if(ctrls[req.addr_vec[0]]->try_enqueue(req)) {
-          return false;
-      }
-
-      return true;
+      return ctrls[req.addr_vec[0]]->full());
     }
 
     int pending_requests()

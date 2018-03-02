@@ -157,7 +157,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 
 
-bool dram_ramulator_t::full(new_addr_type addr) const
+bool dram_ramulator_t::full(new_addr_type addr, Request::Type tipo) const
 {
   //printf("*** METODO dram_t:full SI SE USA!") ;
   //exit(0);
@@ -166,13 +166,11 @@ bool dram_ramulator_t::full(new_addr_type addr) const
   //printf("*** dram_t::full devuelve ") ;
   //fputs(b ? "true)\n" : "false)\n", stdout);
   //exit(0);
-  bool b = objRamulator->full(new Request(addr, Request::Type::READ, 0))
-  
-
-//AQUI HAY UN PROBLEMA Y ES QUE HAY DOS COLAS UNA PARA ESCRITURA Y OTRA PARA LECTURA
+  bool b = objRamulator->full(new Request(addr, tipo, 0))
 
   return b;
 }
+
 
 unsigned dram_ramulator_t::que_length() const
 {
@@ -203,10 +201,10 @@ void dram_ramulator_t::push( class mem_fetch *data )
 /**
 **  COMPROBAR COMO SE PASAN LOS CALLBACKS
   **/
-     req = new Request(data->get_addr()), Request::Type::WRITE, write_complete, data, 0);
+     req = new Request(data->get_addr()), Request::Type::WRITE, this::write_complete, data, 0);
    }else{
      //meter en el request el callback de read_complete
-     req = new Request(data->get_addr()), Request::Type::READ, read_complete, data, 0);
+     req = new Request(data->get_addr()), Request::Type::READ, this::read_complete, data, 0);
    }
    }
 
