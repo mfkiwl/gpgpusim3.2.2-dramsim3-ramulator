@@ -157,7 +157,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 
 
-bool dram_ramulator_t::full(new_addr_type addr, Request::Type tipo) const
+bool dram_ramulator_t::full(new_addr_type addr, mf_type tipo) const
 {
   //printf("*** METODO dram_t:full SI SE USA!") ;
   //exit(0);
@@ -166,9 +166,14 @@ bool dram_ramulator_t::full(new_addr_type addr, Request::Type tipo) const
   //printf("*** dram_t::full devuelve ") ;
   //fputs(b ? "true)\n" : "false)\n", stdout);
   //exit(0);
-  bool b = objRamulator->full(new Request(addr, tipo, 0))
+  Request req;
 
-  return b;
+  if (tipo == READ_REQUEST)
+   req=new Request(addr, Request::Type::READ, 0);
+  else
+   req=new Request(addr, Request::Type::WRITE,0);
+
+  return (objRamulator->full(req));
 }
 
 
