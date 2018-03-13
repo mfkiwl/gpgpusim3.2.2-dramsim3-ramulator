@@ -66,7 +66,7 @@ public:
    void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
 
 
-   bool full(new_addr_type addr) const;
+   bool full(new_addr_type addr, mf_type tipo) const;
 
    unsigned que_length() const;
 
