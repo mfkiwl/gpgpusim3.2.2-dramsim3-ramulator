@@ -281,6 +281,10 @@ struct memory_config {
    char *dramsim2_dram_ini;
    char *dramsim2_vis_file;
    unsigned dramsim2_total_memory_megs;
+
+   //parámetros para usar con ramulator: ruta al archivo de configuración del simulador:
+   char *ramulator_config_file;
+
 };
 
 // global counters and flags (please try not to add to this list!!!)

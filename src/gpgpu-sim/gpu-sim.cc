@@ -216,6 +216,11 @@ void memory_config::reg_options(class OptionParser * opp)
 		      						"Path to DramSim2 VIS output file (default ./dramsim_output)",
 											"./dramsim_output");
 
+		option_parser_register(opp, "-ramulator_config_file", OPT_CSTR, &ramulator_config_file,
+										  "Path to Ramulator configuration file",
+											"0");
+
+
 
     m_address_mapping.addrdec_setoption(opp);
 }

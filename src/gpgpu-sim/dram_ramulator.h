@@ -53,12 +53,9 @@ public:
    dram_ramulator_t( unsigned int partition_id, const struct memory_config *config, class memory_stats_t *stats,
            class memory_partition_unit *mp );
 
-   //incluyo este objeto como miembro global de la clase para contener el objeto DramSim2 y
-   //poder acceder a él desde cualquier método
-   //BUSCAR QUE OBJETO RAMULATOR EQUIVALE AL MultiChannelMemorySystem DE DRAMSIM2
-//   MultiChannelMemorySystem *objDramSim2;
+
    Gem5Wrapper *objRamulator;
-   std::string  *vis;
+   std::string  *cfg;
    unsigned ql; //para llevar la cuenta de que_length al usar ramulator
 
    /* callback functions */
