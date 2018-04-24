@@ -26,7 +26,7 @@ public:
     bool send(Request req);
     void finish(void);
     //modificacion para usar con gpgpu-sim:
-    bool full(Request req)
+    bool full(Request req);
 };
 
 } /*namespace ramulator*/

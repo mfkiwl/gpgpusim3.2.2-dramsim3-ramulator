@@ -81,7 +81,7 @@ memory_partition_unit::memory_partition_unit( unsigned partition_id,
       m_dram = new dram_ds2_t(m_id,m_config,m_stats,this);
       printf("\nUsando Dramsim2\n");
     } else if (m_config->dram_simulator==2){ //SIMULADOR == RAMULATOR
-      //  m_dram = new dram_ramulator_t(m_id,m_config,m_stats,this);
+      m_dram = new dram_ramulator_t(m_id,m_config,m_stats,this);
         printf("\nUsando Ramulator\n");
       }
       else exit(0);
@@ -365,7 +365,7 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
     }
 }
 
-if (m_dram->type == ramulator) //
+if (m_dram->type == dramulator) //
 {
 /*if (typeid(*m_dram) == typeid(dram_t())){
 

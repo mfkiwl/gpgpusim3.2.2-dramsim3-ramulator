@@ -35,10 +35,13 @@ Gem5Wrapper::Gem5Wrapper(const Config& configs, int cacheline)
     tCK = mem->clk_ns();
 }
 
-Gem5Wrapper::Gem5Wrapper(string config_file)
+Gem5Wrapper::Gem5Wrapper(string config_file, int cacheline)
 {
-    Config cfg = new Config(config_file):
-    
+    Config configs = new Config(config_file);
+    const string& std_name = configs["standard"];
+    assert(name_to_func.find(std_name) != name_to_func.end() && "unrecognized standard name");
+    mem = name_to_func[std_name](configs, cacheline);
+    tCK = mem->clk_ns();
 }
 
 Gem5Wrapper::~Gem5Wrapper() {

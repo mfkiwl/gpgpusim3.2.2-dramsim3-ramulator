@@ -132,7 +132,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 {
     ql=0; //que_length = 0;
-    type = ramulator;
+    type = dramulator;
 
 //AQUI HAY QUE SABER QUE FICHEROS CONTIENEN LA CONFIGURACION DE RAMULATOR PARA PASARSELO
 //AL CONSTRUCTOR
@@ -140,8 +140,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 //AQUI HAY QUE: INCLUIR UN CAMPO EN EL FICHERO CONFIGURACION GPGPU-SIM QUE RECOJA EL FICHERO DE CONFIGURACION DE RAMULATOR
 //CREAR EL CONSTRUCTOR Gem5Wrapper QUE ACEPTE FICHERO, CON EL CONSTRUIR UN OBJETO 'CONFIG' Y LLAMAR AL CONSTRUCTOR NORMAL.
     cfg = new std::string(m_config->ramulator_config_file);
-    objRamulator = new Gem5Wrapper(cfg);¿INT CACHELINE?
-//EL SIGUIENTE BLOQUE INICIALIZA UN OBJETO DRAMSIM2 Y CONFIGURA LOS CALLBACKS
+    objRamulator = new Gem5Wrapper(cfg, m_config->m_L2_config->get_line_sz()); //EL SIGUIENTE BLOQUE INICIALIZA UN OBJETO DRAMSIM2 Y CONFIGURA LOS CALLBACKS
 //ESCRIBIR LA EQUIVALENCIA CON RAMULATOR
 /*
     objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, vis);

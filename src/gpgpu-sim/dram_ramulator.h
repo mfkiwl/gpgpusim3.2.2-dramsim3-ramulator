@@ -41,7 +41,7 @@
 
 #include "dram.h"
 
-#include "../ramulator-master/src/Request.h"
+//#include "../ramulator-master/src/Request.h"
 #include "../ramulator-master/src/Gem5Wrapper.h"
 
 struct mem_fetch;

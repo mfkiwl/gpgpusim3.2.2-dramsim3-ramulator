@@ -35,7 +35,7 @@ public:
     virtual void finish(void) = 0;
     virtual long page_allocator(long addr, int coreid) = 0;
     virtual void record_core(int coreid) = 0;
-    virtual void full(Request req) = 0;
+    virtual bool full(Request req) = 0;
 };
 
 template <class T, template<typename> class Controller = Controller >
@@ -349,7 +349,7 @@ public:
               assert(false);
       }
 
-      return ctrls[req.addr_vec[0]]->full());
+      return ctrls[req.addr_vec[0]]->full(req);
     }
 
     int pending_requests()
