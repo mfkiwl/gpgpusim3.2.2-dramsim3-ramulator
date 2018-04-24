@@ -35,6 +35,11 @@ Gem5Wrapper::Gem5Wrapper(const Config& configs, int cacheline)
     tCK = mem->clk_ns();
 }
 
+Gem5Wrapper::Gem5Wrapper(string config_file)
+{
+    Config cfg = new Config(config_file):
+    
+}
 
 Gem5Wrapper::~Gem5Wrapper() {
     delete mem;

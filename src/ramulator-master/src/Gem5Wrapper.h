@@ -20,6 +20,7 @@ private:
 public:
     double tCK;
     Gem5Wrapper(const Config& configs, int cacheline);
+    Gem5Wrapper(string config_file);
     ~Gem5Wrapper();
     void tick();
     bool send(Request req);
