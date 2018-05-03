@@ -20,8 +20,8 @@ private:
     int subarrays;
     int cpu_tick;
     int mem_tick;
-    int core_num = 0;
-    long expected_limit_insts = 0;
+    int core_num; // = 0;
+    long expected_limit_insts; // = 0;
 
 public:
     Config() {}
@@ -115,4 +115,3 @@ public:
 } /* namespace ramulator */
 
 #endif /* _CONFIG_H */
-

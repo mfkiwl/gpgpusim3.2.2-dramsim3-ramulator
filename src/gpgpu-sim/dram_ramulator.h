@@ -41,7 +41,7 @@
 
 #include "dram.h"
 
-//#include "../ramulator-master/src/Request.h"
+#include "../ramulator-master/src/Request.h"
 #include "../ramulator-master/src/Gem5Wrapper.h"
 
 struct mem_fetch;
@@ -54,13 +54,13 @@ public:
            class memory_partition_unit *mp );
 
 
-   Gem5Wrapper *objRamulator;
+   ramulator::Gem5Wrapper *objRamulator;
    std::string  *cfg;
    unsigned ql; //para llevar la cuenta de que_length al usar ramulator
 
    /* callback functions */
-   void read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
-   void write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return);
+   void read_complete(ramulator::Request *req);
+   void write_complete(ramulator::Request *req);
 
 
    bool full(new_addr_type addr, mf_type tipo) const;
