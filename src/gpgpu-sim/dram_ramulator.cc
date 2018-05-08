@@ -140,7 +140,8 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 //AQUI HAY QUE: INCLUIR UN CAMPO EN EL FICHERO CONFIGURACION GPGPU-SIM QUE RECOJA EL FICHERO DE CONFIGURACION DE RAMULATOR
 //CREAR EL CONSTRUCTOR Gem5Wrapper QUE ACEPTE FICHERO, CON EL CONSTRUIR UN OBJETO 'CONFIG' Y LLAMAR AL CONSTRUCTOR NORMAL.
     cfg = new std::string(m_config->ramulator_config_file);
-    objRamulator = new ramulator::Gem5Wrapper(cfg, m_config->m_L2_config->get_line_sz()); //EL SIGUIENTE BLOQUE INICIALIZA UN OBJETO DRAMSIM2 Y CONFIGURA LOS CALLBACKS
+    objRamulator = new ramulator::Gem5Wrapper(cfg, m_config->m_L2_config.get_line_sz()); //EL SIGUIENTE BLOQUE INICIALIZA UN OBJETO DRAMSIM2 Y CONFIGURA LOS CALLBACKS
+
 //ESCRIBIR LA EQUIVALENCIA CON RAMULATOR
 /*
     objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, vis);
@@ -162,12 +163,15 @@ bool dram_ramulator_t::full(new_addr_type addr, mf_type tipo) const
   //printf("*** dram_t::full devuelve ") ;
   //fputs(b ? "true)\n" : "false)\n", stdout);
   //exit(0);
-  Request req;
+  ramulator::Request req;
+
 
   if (tipo == READ_REQUEST)
-   req=new Request(addr, Request::Type::READ, 0);
-  else
-   req=new Request(addr, Request::Type::WRITE,0);
+    ramulator::Request req(addr, ramulator::Request::Type::READ, 0);
+   //req = new ramulator::Request(addr, ramulator::Request::Type::READ, 0);
+ else
+    ramulator::Request req(addr, ramulator::Request::Type::WRITE, 0);
+   //req = new ramulator::Request(addr, ramulator::Request::Type::WRITE, 0);
 
   return (objRamulator->full(req));
 }
@@ -195,17 +199,17 @@ unsigned int dram_ramulator_t::queue_limit() const
 void dram_ramulator_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   Request req;
+   ramulator::Request req;
    if (data->is_write()){
      //meter en el request el callback de write_complete
      //Request(long addr, Type type, function<void(Request&)> callback, void *mf, int coreid = 0)
 /**
 **  COMPROBAR COMO SE PASAN LOS CALLBACKS
   **/
-     req = new Request(data->get_addr()), Request::Type::WRITE, this::write_complete, data, 0);
+     ramulator::Request req(data->get_addr(), ramulator::Request::Type::WRITE, this->write_complete, data, 0);
    }else{
      //meter en el request el callback de read_complete
-     req = new Request(data->get_addr()), Request::Type::READ, this::read_complete, data, 0);
+     ramulator::Request req(data->get_addr(), ramulator::Request::Type::READ, this->read_complete, data, 0);
    }
    }
 
