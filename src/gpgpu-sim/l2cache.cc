@@ -36,6 +36,7 @@
 #include "mem_fetch.h"
 #include "dram.h"
 #include "dram_ds2.h"
+#include "dram_ramulator.h"
 #include "gpu-cache.h"
 #include "histogram.h"
 #include "l2cache.h"

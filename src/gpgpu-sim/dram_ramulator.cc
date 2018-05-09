@@ -59,12 +59,12 @@ template class fifo_pipeline<dram_req_t>;
 //typedef std::pair<unsigned long long, class mem_fetch*> Taddr_memfetchPair;
 
 /* callback functors */
-void dram_ramulator_t::read_complete(ramulator::Request *req)
+void dram_ramulator_t::read_complete(ramulator::Request& req)
 
 //void dram_ramulator_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
 
-    mem_fetch *data=(mem_fetch *)req->mf;
+    mem_fetch *data=(mem_fetch *)req.mf;
     //std::cout << "Sale el memfetch por el read_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
     returnq->push(data);
 
@@ -94,9 +94,9 @@ void dram_ramulator_t::read_complete(ramulator::Request *req)
   */
 }
 
-void dram_ramulator_t::write_complete(ramulator::Request *req)
+void dram_ramulator_t::write_complete(ramulator::Request& req)
 {
-  mem_fetch *data=(mem_fetch *)req->mf;
+  mem_fetch *data=(mem_fetch *)req.mf;
   //std::cout << "Sale el memfetch por el write_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
 
   ql--; //disminuimos que_length
@@ -133,7 +133,8 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 {
     ql=0; //que_length = 0;
     type = dramulator;
-
+    read_cb_func=std::bind(&dram_ramulator_t::read_complete, this, std::placeholders::_1);
+    write_cb_func=std::bind(&dram_ramulator_t::write_complete, this, std::placeholders::_1);
 //AQUI HAY QUE SABER QUE FICHEROS CONTIENEN LA CONFIGURACION DE RAMULATOR PARA PASARSELO
 //AL CONSTRUCTOR
 
@@ -154,7 +155,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 
 
-bool dram_ramulator_t::full(new_addr_type addr, mf_type tipo) const
+bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
 {
   //printf("*** METODO dram_t:full SI SE USA!") ;
   //exit(0);
@@ -206,12 +207,12 @@ void dram_ramulator_t::push( class mem_fetch *data )
 /**
 **  COMPROBAR COMO SE PASAN LOS CALLBACKS
   **/
-     ramulator::Request req(data->get_addr(), ramulator::Request::Type::WRITE, this->write_complete, data, 0);
+     ramulator::Request req(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
    }else{
      //meter en el request el callback de read_complete
-     ramulator::Request req(data->get_addr(), ramulator::Request::Type::READ, this->read_complete, data, 0);
+     ramulator::Request req(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
    }
-   }
+
 
   //BUSCAR EL EQUIVALENTE A ADDTRANSACTION EN RAMULATOR
    //objDramSim2->addTransaction(data->is_write(), data->get_addr(), data);

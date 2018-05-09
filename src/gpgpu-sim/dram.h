@@ -34,6 +34,7 @@
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "mem_fetch.h"
 
 //este include para poder declarar read_complete y write_complete
 #include "../abstract_hardware_model.h"
@@ -119,6 +120,7 @@ public:
 
    virtual bool full() const;
    virtual bool full(new_addr_type addr) const;
+   virtual bool full(new_addr_type addr, enum mem_access_type type) const;
 
    virtual void print( FILE* simFile ) const;
    virtual void visualize() const;

@@ -31,7 +31,7 @@
 #include "dram.h"
 #include "mem_latency_stat.h"
 #include "dram_sched.h"
-#include "mem_fetch.h"
+
 #include "l2cache.h"
 
 #ifdef DRAM_VERIFY
