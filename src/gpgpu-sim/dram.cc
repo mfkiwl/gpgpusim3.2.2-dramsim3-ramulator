@@ -122,6 +122,12 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
    return false;
  }
 
+ bool dram_t::full(mem_fetch* mf) const
+ {
+   return false;
+ }
+
+
 bool dram_t::full() const
 {
     if(m_config->scheduler_type == DRAM_FRFCFS ){

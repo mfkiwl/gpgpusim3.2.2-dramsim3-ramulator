@@ -155,7 +155,8 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 
 
-bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
+//bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
+bool dram_ramulator_t::full(mem_fetch* mf) const
 {
   //printf("*** METODO dram_t:full SI SE USA!") ;
   //exit(0);
@@ -166,12 +167,12 @@ bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
   //exit(0);
   ramulator::Request req;
 
-
-  if (tipo == READ_REQUEST)
-    ramulator::Request req(addr, ramulator::Request::Type::READ, 0);
+//mf->get_addr(), mf->get_access_type()
+  if (mf->get_access_type() == READ_REQUEST)
+    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, 0);
    //req = new ramulator::Request(addr, ramulator::Request::Type::READ, 0);
  else
-    ramulator::Request req(addr, ramulator::Request::Type::WRITE, 0);
+    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, 0);
    //req = new ramulator::Request(addr, ramulator::Request::Type::WRITE, 0);
 
   return (objRamulator->full(req));

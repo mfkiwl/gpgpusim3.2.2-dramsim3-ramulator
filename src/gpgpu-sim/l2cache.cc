@@ -441,7 +441,8 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
 
 //USAR DYNAMIC CAST:
             //original:
-            if (!m_dram->full(mf->get_addr(), mf->get_access_type())){
+            //if (!m_dram->full(mf->get_addr(), mf->get_access_type())){
+            if (!m_dram->full(mf)){
             //if( !((dram_ds2_t *) &m_dram)->full(mf->get_addr()) ) {
             //if (!((dynamic_cast<dram_ds2_t*>(m_dram))->full(mf->get_addr()))) {
                 m_sub_partition[spid]->L2_dram_queue_pop();
