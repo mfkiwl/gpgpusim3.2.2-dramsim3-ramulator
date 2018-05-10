@@ -35,7 +35,7 @@ Gem5Wrapper::Gem5Wrapper(const Config& configs, int cacheline)
     tCK = mem->clk_ns();
 }
 
-Gem5Wrapper::Gem5Wrapper(string config_file, int cacheline)
+Gem5Wrapper::Gem5Wrapper(std::string& config_file, int cacheline)
 {
     Config configs = new Config(config_file);
     const string& std_name = configs["standard"];
@@ -64,5 +64,5 @@ void Gem5Wrapper::finish(void) {
 
 bool Gem5Wrapper::full(Request req)
 {
-  return mem->full(req)
+  return mem->full(req);
 }
