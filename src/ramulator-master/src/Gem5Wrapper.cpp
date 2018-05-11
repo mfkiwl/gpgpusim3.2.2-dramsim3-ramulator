@@ -37,7 +37,8 @@ Gem5Wrapper::Gem5Wrapper(const Config& configs, int cacheline)
 
 Gem5Wrapper::Gem5Wrapper(std::string& config_file, int cacheline)
 {
-    Config configs = new Config(config_file);
+    Config configs(config_file);
+  //Config configs("/home/carbaior/gpgpu-sim_distribution/src/ramulator-master/configs/GDDR5-config.cfg");
     const string& std_name = configs["standard"];
     assert(name_to_func.find(std_name) != name_to_func.end() && "unrecognized standard name");
     mem = name_to_func[std_name](configs, cacheline);

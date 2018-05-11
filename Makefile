@@ -144,7 +144,7 @@ $(SIM_LIB_DIR)/libcudart.so: makedirs $(LIBS) cudalib
 			$(SIM_OBJ_FILES_DIR)/libcuda/*.o \
 			$(SIM_OBJ_FILES_DIR)/cuda-sim/*.o \
 			$(SIM_OBJ_FILES_DIR)/cuda-sim/decuda_pred_table/*.o \
-			$(SIM_OBJ_FILES_DIR)/gpgpu-sim/*.o  -L/home/carbaior/gpgpu-sim_distribution/src/DRAMSim2/ -ldramsim -L/home/carbaior/gpgpu-sim_distribution/src/ramulator-master/ramulator.a \
+			$(SIM_OBJ_FILES_DIR)/gpgpu-sim/*.o  -L/home/carbaior/gpgpu-sim_distribution/src/DRAMSim2/ -ldramsim -L/home/carbaior/gpgpu-sim_distribution/src/ramulator-master/ -lramulator \
 			$(SIM_OBJ_FILES_DIR)/$(INTERSIM)/*.o \
 			$(SIM_OBJ_FILES_DIR)/*.o -lm -lz -lGL -pthread \
 			$(MCPAT) \

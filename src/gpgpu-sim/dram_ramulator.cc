@@ -140,7 +140,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 
 //AQUI HAY QUE: INCLUIR UN CAMPO EN EL FICHERO CONFIGURACION GPGPU-SIM QUE RECOJA EL FICHERO DE CONFIGURACION DE RAMULATOR
 //CREAR EL CONSTRUCTOR Gem5Wrapper QUE ACEPTE FICHERO, CON EL CONSTRUIR UN OBJETO 'CONFIG' Y LLAMAR AL CONSTRUCTOR NORMAL.
-    cfg = new std::string(m_config->ramulator_config_file);
+    std::string cfg(m_config->ramulator_config_file);
     objRamulator = new ramulator::Gem5Wrapper(cfg, m_config->m_L2_config.get_line_sz()); //EL SIGUIENTE BLOQUE INICIALIZA UN OBJETO DRAMSIM2 Y CONFIGURA LOS CALLBACKS
 
 //ESCRIBIR LA EQUIVALENCIA CON RAMULATOR
@@ -201,17 +201,17 @@ unsigned int dram_ramulator_t::queue_limit() const
 void dram_ramulator_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   ramulator::Request req;
+   ramulator::Request *req;
    if (data->is_write()){
      //meter en el request el callback de write_complete
      //Request(long addr, Type type, function<void(Request&)> callback, void *mf, int coreid = 0)
 /**
 **  COMPROBAR COMO SE PASAN LOS CALLBACKS
   **/
-     ramulator::Request req(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
+     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
    }else{
      //meter en el request el callback de read_complete
-     ramulator::Request req(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
+     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
    }
 
 
@@ -219,7 +219,7 @@ void dram_ramulator_t::push( class mem_fetch *data )
    //objDramSim2->addTransaction(data->is_write(), data->get_addr(), data);
    //printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
    //std::cout << "Entra el memfetch #" << data->get_addr() << "-- es un write? =" << data->is_write() << "\n";
-   objRamulator->send(req);
+   objRamulator->send(*req);
    ql++; //aumentamos que_length
 
 }
