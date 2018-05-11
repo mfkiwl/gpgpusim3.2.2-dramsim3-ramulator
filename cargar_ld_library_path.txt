@@ -1,1 +1,2 @@
-LD_LIBRARY_PATH=/home/carbaior/gpgpu-sim_distribution/lib/gcc-4.4.7/cuda-4020/debug:/home/carbaior/gpgpu-sim_distribution/lib/gcc-4.4.7/cuda-4020/debug:/usr/local/cuda/lib64:/home/carbaior/gpgpu-sim_distribution/src/DRAMSim2
+/home/carbaior/gpgpu-sim_distribution/lib/gcc-4.8.4/cuda-4020/debug:/home/carbaior/gpgpu-sim_distribution/src/ramulator-master:/home/carbaior/gpgpu-sim_distribution/src/DRAMSim2
+

@@ -209,9 +209,12 @@ void dram_ramulator_t::push( class mem_fetch *data )
 **  COMPROBAR COMO SE PASAN LOS CALLBACKS
   **/
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
+//BORRAR-lo pongo de momento porque ramulator no llama al callback
+    this->write_complete(*req);
    }else{
      //meter en el request el callback de read_complete
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
+
    }
 
 
