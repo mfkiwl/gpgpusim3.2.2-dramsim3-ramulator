@@ -80,6 +80,9 @@ public:
 
    void print( FILE* simFile) const;
 
+   //~dram_t();
+   ~dram_ramulator_t();
+
 };
 
 #endif /*DRAM_H*/

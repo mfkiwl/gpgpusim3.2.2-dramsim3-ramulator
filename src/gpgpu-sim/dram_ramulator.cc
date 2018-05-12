@@ -153,6 +153,11 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 */
 }
 
+dram_ramulator_t::~dram_ramulator_t() {
+  printf("*** se finaliza objRamulator!") ;
+  objRamulator->finish();
+  //delete objRamulator;
+}
 
 
 //bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
@@ -210,7 +215,7 @@ void dram_ramulator_t::push( class mem_fetch *data )
   **/
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
 //BORRAR-lo pongo de momento porque ramulator no llama al callback
-    this->write_complete(*req);
+  //  this->write_complete(*req);
    }else{
      //meter en el request el callback de read_complete
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);

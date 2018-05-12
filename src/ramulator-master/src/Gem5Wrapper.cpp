@@ -15,6 +15,9 @@
 #include "HBM.h"
 #include "SALP.h"
 
+#include "Statistics.h"
+
+
 using namespace ramulator;
 
 static map<string, function<MemoryBase *(const Config&, int)> > name_to_func = {
@@ -52,6 +55,7 @@ Gem5Wrapper::~Gem5Wrapper() {
 void Gem5Wrapper::tick()
 {
     mem->tick();
+    Stats::curTick++; // memory clock, global, for Statistics
 }
 
 bool Gem5Wrapper::send(Request req)
@@ -61,6 +65,7 @@ bool Gem5Wrapper::send(Request req)
 
 void Gem5Wrapper::finish(void) {
     mem->finish();
+    Stats::statlist.printall();
 }
 
 bool Gem5Wrapper::full(Request req)
