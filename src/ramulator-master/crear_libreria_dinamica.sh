@@ -1,0 +1,1 @@
+gcc -shared -fPIC -o libramulator.so ./obj/ALDRAM.o ./obj/Cache.o ./obj/Config.o ./obj/Controller.o ./obj/DDR3.o ./obj/DDR4.o ./obj/DSARP.o ./obj/GDDR5.o ./obj/Gem5Wrapper.o ./obj/HBM.o ./obj/LPDDR3.o ./obj/LPDDR4.o ./obj/MemoryFactory.o ./obj/Processor.o ./obj/Refresh.o ./obj/SALP.o ./obj/StatType.o ./obj/TLDRAM.o ./obj/WideIO2.o ./obj/WideIO.o
