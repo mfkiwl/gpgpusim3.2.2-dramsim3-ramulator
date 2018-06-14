@@ -452,7 +452,9 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
                 //d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + m_config->dram_latency;
                 //m_dram_latency_queue.push_back(d);
                 m_dram->push(mf);
-                mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+                //CAMBIADO PARA INTENTAR CORREGIR DEADLOCK - LINEA ORIGINAL DEBAJO
+                mf->set_status(IN_PARTITION_DRAM,gpu_sim_cycle+gpu_tot_sim_cycle);
+              //  mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
                 m_arbitration_metadata.borrow_credit(spid);
                 break;  // the DRAM should only accept one request per cycle
             }

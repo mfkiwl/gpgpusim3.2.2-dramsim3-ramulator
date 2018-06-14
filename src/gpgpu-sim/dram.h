@@ -57,6 +57,7 @@ class dram_req_t {
 public:
    dram_req_t( class mem_fetch *data );
 
+
    unsigned int row;
    unsigned int col;
    unsigned int bk;
@@ -138,6 +139,9 @@ public:
 
    class memory_partition_unit *m_memory_partition_unit;
    unsigned int id;
+
+   unsigned cont;
+
 
    // Power Model
    virtual void set_dram_power_stats(unsigned &cmd,

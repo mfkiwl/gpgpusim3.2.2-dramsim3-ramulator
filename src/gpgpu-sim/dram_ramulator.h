@@ -56,7 +56,7 @@ public:
 
    ramulator::Gem5Wrapper *objRamulator;
    std::string  *cfg;
-   unsigned ql; //para llevar la cuenta de que_length al usar ramulator
+   unsigned ql, cont; //para llevar la cuenta de que_length al usar ramulator
 
    std::function<void(ramulator::Request&)> read_cb_func;
    std::function<void(ramulator::Request&)> write_cb_func;

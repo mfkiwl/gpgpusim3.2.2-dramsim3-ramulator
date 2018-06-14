@@ -72,32 +72,18 @@ void dram_ramulator_t::read_complete(ramulator::Request& req)
 
     data->set_reply();
     data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+    cont--;
+    std::cout  << data->get_request_uid() << " Sale  --- es un read. id: " << id << " Pendientes: "<< cont << "\n";
 
-
-  //recuperar de la lista  el mem_Fetch asociado a esta operacion:
- /*
-  mem_fetch *mf_return;
-
-  std::map<new_addr_type, class mem_fetch*>::iterator it;
-  it=backup_de_MF.find((new_addr_type) address);
-  if(it != backup_de_MF.end()){
-     mf_return = it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
-   }
-     //backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
-     printf("[Callback] read complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
-     backup_de_MF.erase(it);
-
-
-
-
-  //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
-  */
 }
 
 void dram_ramulator_t::write_complete(ramulator::Request& req)
 {
   mem_fetch *data=(mem_fetch *)req.mf;
   //std::cout << "Sale el memfetch por el write_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
+  cont--;
+  std::cout  << data->get_request_uid() << " Sale  --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
+
 
   ql--; //disminuimos que_length
   data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
@@ -110,20 +96,6 @@ void dram_ramulator_t::write_complete(ramulator::Request& req)
      delete data;
   }
 
-  /*
-  //recuperar de la lista  el mem_Fetch asociado a esta operacion.
-  mem_fetch *mf_return;
-  std::map<new_addr_type, class mem_fetch*>::iterator it;
-  it=backup_de_MF.find((new_addr_type) address);
-  if(it != backup_de_MF.end()){
-    mf_return = it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
-  }
-  printf("[Callback] write complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
-  backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
-
-
-  //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
-  */
 }
 
 //dram_ds2_t::dram_ds2_t(){};
@@ -163,22 +135,18 @@ dram_ramulator_t::~dram_ramulator_t() {
 //bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
 bool dram_ramulator_t::full(mem_fetch* mf) const
 {
-  //printf("*** METODO dram_t:full SI SE USA!") ;
-  //exit(0);
-  //BUSCAR EL METODO DE RAMULATOR QUE INDICA SI ESTA LLENA LA COLA DE ENTRADA
-  //bool b=not objDramSim2->willAcceptTransaction(addr);
-  //printf("*** dram_t::full devuelve ") ;
-  //fputs(b ? "true)\n" : "false)\n", stdout);
-  //exit(0);
-  ramulator::Request req;
 
-//mf->get_addr(), mf->get_access_type()
+  ramulator::Request req;
+/*
   if (mf->get_access_type() == READ_REQUEST)
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, 0);
-   //req = new ramulator::Request(addr, ramulator::Request::Type::READ, 0);
- else
+  else
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, 0);
-   //req = new ramulator::Request(addr, ramulator::Request::Type::WRITE, 0);
+*/
+  if (mf->is_write())
+    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, 0);
+  else
+    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, 0);
 
   return (objRamulator->full(req));
 }
@@ -207,50 +175,24 @@ void dram_ramulator_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
    ramulator::Request *req;
+  //pongo el status por si  el error de deadlock es por eso
+   data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+   cont++;
    if (data->is_write()){
-     //meter en el request el callback de write_complete
-     //Request(long addr, Type type, function<void(Request&)> callback, void *mf, int coreid = 0)
-/**
-**  COMPROBAR COMO SE PASAN LOS CALLBACKS
-  **/
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
-//BORRAR-lo pongo de momento porque ramulator no llama al callback
-  //  this->write_complete(*req);
+     std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
    }else{
-     //meter en el request el callback de read_complete
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
+     std::cout  << data->get_request_uid() << " Entra --- es un read . id: " << id << " Pendientes: "<< cont << "\n";
+}
 
-   }
-
-
-  //BUSCAR EL EQUIVALENTE A ADDTRANSACTION EN RAMULATOR
-   //objDramSim2->addTransaction(data->is_write(), data->get_addr(), data);
-   //printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
-   //std::cout << "Entra el memfetch #" << data->get_addr() << "-- es un write? =" << data->is_write() << "\n";
    objRamulator->send(*req);
    ql++; //aumentamos que_length
-
 }
-/*
-void dram_ds2_t::scheduler_fifo()
-{
-   if (!mrqq->empty()) {
-      unsigned int bkn;
-      dram_req_t *head_mrqq = mrqq->top();
-      head_mrqq->data->set_status(IN_PARTITION_MC_BANK_ARB_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
-      bkn = head_mrqq->bk;
-      if (!bk[bkn]->mrq)
-         bk[bkn]->mrq = mrqq->pop();
-   }
-}
-*/
-
-//#define DEC2ZERO(x) x = (x)? (x-1) : 0;
-//#define SWAP(a,b) a ^= b; b ^= a; a ^= b;
 
 void dram_ramulator_t::cycle()
 {
-  //BUSCAR LA EQUIVALENCIA DE CYCLE (UPDATE EN DS2) EN RAMULATOR
+
   objRamulator->tick();
 }
 
