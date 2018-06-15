@@ -65,10 +65,10 @@ public:
    void read_complete(ramulator::Request& req);
    void write_complete(ramulator::Request& req);
 
-   //bool full(mem_fetch* mf) const;
+   bool full(mem_fetch* mf) const;
    //bool full(new_addr_type addr, enum mem_access_type tipo) const;
 
-   //unsigned que_length() const;
+   unsigned que_length() const;
 
    //bool returnq_full() const;
 

@@ -66,12 +66,13 @@ void dram_ramulator_t::read_complete(ramulator::Request& req)
 
     mem_fetch *data=(mem_fetch *)req.mf;
     //std::cout << "Sale el memfetch por el read_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
-    returnq->push(data);
+
 
     ql--; //disminuimos que_length
 
     data->set_reply();
     data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+    returnq->push(data);
     cont--;
     std::cout  << data->get_request_uid() << " Sale  --- es un read. id: " << id << " Pendientes: "<< cont << "\n";
 
@@ -131,37 +132,26 @@ dram_ramulator_t::~dram_ramulator_t() {
   //delete objRamulator;
 }
 */
-/*
+
 //bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
 bool dram_ramulator_t::full(mem_fetch* mf) const
 {
-//---
   ramulator::Request req;
-
   if (mf->is_write())
-    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, 0);
+    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, (int) id);
   else
-    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, 0);
+    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, (int) id);
 
   return (objRamulator->full(req));
-
 }
-*/
-/*
+
+
 unsigned dram_ramulator_t::que_length() const
 {
-  /*
-std::cout << "\nTamaño de la cola: " << ql << '\n';
-return ql;
+  std::cout << "Tamaño de la cola: " << ql << '\n';
+  return ql;
+}
 
-}
-*/
-/*
-bool dram_ramulator_t::returnq_full() const
-{
-   return returnq->full();
-}
-*/
 /*
 unsigned int dram_ramulator_t::queue_limit() const
 {
@@ -175,77 +165,29 @@ unsigned int dram_ramulator_t::queue_limit() const
 void dram_ramulator_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   dram_req_t *mrq = new dram_req_t(data);
   //pongo el status por si  el error de deadlock es por eso
-   data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+   data->set_status(IN_PARTITION_DRAM,gpu_sim_cycle+gpu_tot_sim_cycle);
    //esto igual hay que borrarlo:
-   mrqq->push(mrq);
-   n_req += 1;
-   n_req_partial += 1;
-   if ( m_config->scheduler_type == DRAM_FRFCFS ) {
-      unsigned nreqs = m_frfcfs_scheduler->num_pending();
-      if ( nreqs > max_mrqs_temp)
-         max_mrqs_temp = nreqs;
-   } else {
-      max_mrqs_temp = (max_mrqs_temp > mrqq->get_length())? max_mrqs_temp : mrqq->get_length();
-   }
-   m_stats->memlatstat_dram_access(data);
-   //----------------------------
-   /*
    cont++;
    ramulator::Request *req;
+   ql++; //aumentamos que_length
    if (data->is_write()){
-     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
+     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, (int)  id);
      std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
    }else{
-     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
+     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data,  (int) id);
      std::cout  << data->get_request_uid() << " Entra --- es un read.  id: " << id << " Pendientes: "<< cont << "\n";
    }
 
-   objRamulator->send(*req);
+
+   if (!objRamulator->send(*req)) std::cout  << " Error en el SEND de ramulator.\n";
    ql++; //aumentamos que_length
-   */
 }
 
 void dram_ramulator_t::cycle()
 {
   //std::cout  << " Ciclo de GPGPUSIM \n";
-  if( !returnq->full() ){
-    dram_req_t *cmd = rwq->pop();
-    mem_fetch *data = cmd->data;
-    ramulator::Request *req;
-    if (data->is_write()){
-      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
-      std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
-    }else{
-      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
-      std::cout  << data->get_request_uid() << " Entra --- es un read.  id: " << id << " Pendientes: "<< cont << "\n";
-    }
-    objRamulator->send(*req);
     objRamulator->tick();
-  }
-  switch (m_config->scheduler_type) {
-  case DRAM_FIFO: scheduler_fifo(); break;
-  case DRAM_FRFCFS: scheduler_frfcfs(); break;
- default:
-   printf("Error: Unknown DRAM scheduler type\n");
-   assert(0);
-   if ( m_config->scheduler_type == DRAM_FRFCFS ) {
-      unsigned nreqs = m_frfcfs_scheduler->num_pending();
-      if ( nreqs > max_mrqs) {
-         max_mrqs = nreqs;
-      }
-      ave_mrqs += nreqs;
-      ave_mrqs_partial += nreqs;
-   } else {
-      if (mrqq->get_length() > max_mrqs) {
-         max_mrqs = mrqq->get_length();
-      }
-      ave_mrqs += mrqq->get_length();
-      ave_mrqs_partial +=  mrqq->get_length();
-   }
-  }
-
 }
 
 
