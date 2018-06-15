@@ -65,14 +65,14 @@ public:
    void read_complete(ramulator::Request& req);
    void write_complete(ramulator::Request& req);
 
-   bool full(mem_fetch* mf) const;
+   //bool full(mem_fetch* mf) const;
    //bool full(new_addr_type addr, enum mem_access_type tipo) const;
 
-   unsigned que_length() const;
+   //unsigned que_length() const;
 
-   bool returnq_full() const;
+   //bool returnq_full() const;
 
-   unsigned int queue_limit() const;
+   //unsigned int queue_limit() const;
 
    void push( class mem_fetch *data );
 
@@ -81,7 +81,7 @@ public:
    void print( FILE* simFile) const;
 
    //~dram_t();
-   ~dram_ramulator_t();
+   //~dram_ramulator_t();
 
 };
 

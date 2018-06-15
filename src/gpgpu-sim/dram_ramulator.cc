@@ -124,45 +124,45 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
     objDramSim2->RegisterCallbacks(read_cb, write_cb, NULL);
 */
 }
-
+/*
 dram_ramulator_t::~dram_ramulator_t() {
   printf("*** se finaliza objRamulator!") ;
   objRamulator->finish();
   //delete objRamulator;
 }
-
-
+*/
+/*
 //bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
 bool dram_ramulator_t::full(mem_fetch* mf) const
 {
-
+//---
   ramulator::Request req;
-/*
-  if (mf->get_access_type() == READ_REQUEST)
-    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, 0);
-  else
-    ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, 0);
-*/
+
   if (mf->is_write())
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, 0);
   else
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, 0);
 
   return (objRamulator->full(req));
+
 }
-
-
+*/
+/*
 unsigned dram_ramulator_t::que_length() const
 {
+  /*
 std::cout << "\nTamaño de la cola: " << ql << '\n';
 return ql;
-}
 
+}
+*/
+/*
 bool dram_ramulator_t::returnq_full() const
 {
    return returnq->full();
 }
-
+*/
+/*
 unsigned int dram_ramulator_t::queue_limit() const
 {
   //MIRAR SI SE USA
@@ -170,30 +170,82 @@ unsigned int dram_ramulator_t::queue_limit() const
   exit(0);
    return m_config->gpgpu_frfcfs_dram_sched_queue_size;
 }
+*/
 
 void dram_ramulator_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   ramulator::Request *req;
+   dram_req_t *mrq = new dram_req_t(data);
   //pongo el status por si  el error de deadlock es por eso
    data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+   //esto igual hay que borrarlo:
+   mrqq->push(mrq);
+   n_req += 1;
+   n_req_partial += 1;
+   if ( m_config->scheduler_type == DRAM_FRFCFS ) {
+      unsigned nreqs = m_frfcfs_scheduler->num_pending();
+      if ( nreqs > max_mrqs_temp)
+         max_mrqs_temp = nreqs;
+   } else {
+      max_mrqs_temp = (max_mrqs_temp > mrqq->get_length())? max_mrqs_temp : mrqq->get_length();
+   }
+   m_stats->memlatstat_dram_access(data);
+   //----------------------------
+   /*
    cont++;
+   ramulator::Request *req;
    if (data->is_write()){
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
      std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
    }else{
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
-     std::cout  << data->get_request_uid() << " Entra --- es un read . id: " << id << " Pendientes: "<< cont << "\n";
-}
+     std::cout  << data->get_request_uid() << " Entra --- es un read.  id: " << id << " Pendientes: "<< cont << "\n";
+   }
 
    objRamulator->send(*req);
    ql++; //aumentamos que_length
+   */
 }
 
 void dram_ramulator_t::cycle()
 {
+  //std::cout  << " Ciclo de GPGPUSIM \n";
+  if( !returnq->full() ){
+    dram_req_t *cmd = rwq->pop();
+    mem_fetch *data = cmd->data;
+    ramulator::Request *req;
+    if (data->is_write()){
+      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, 0);
+      std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
+    }else{
+      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, 0);
+      std::cout  << data->get_request_uid() << " Entra --- es un read.  id: " << id << " Pendientes: "<< cont << "\n";
+    }
+    objRamulator->send(*req);
+    objRamulator->tick();
+  }
+  switch (m_config->scheduler_type) {
+  case DRAM_FIFO: scheduler_fifo(); break;
+  case DRAM_FRFCFS: scheduler_frfcfs(); break;
+ default:
+   printf("Error: Unknown DRAM scheduler type\n");
+   assert(0);
+   if ( m_config->scheduler_type == DRAM_FRFCFS ) {
+      unsigned nreqs = m_frfcfs_scheduler->num_pending();
+      if ( nreqs > max_mrqs) {
+         max_mrqs = nreqs;
+      }
+      ave_mrqs += nreqs;
+      ave_mrqs_partial += nreqs;
+   } else {
+      if (mrqq->get_length() > max_mrqs) {
+         max_mrqs = mrqq->get_length();
+      }
+      ave_mrqs += mrqq->get_length();
+      ave_mrqs_partial +=  mrqq->get_length();
+   }
+  }
 
-  objRamulator->tick();
 }
 
 

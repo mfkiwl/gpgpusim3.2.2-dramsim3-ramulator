@@ -54,7 +54,9 @@ Gem5Wrapper::~Gem5Wrapper() {
 
 void Gem5Wrapper::tick()
 {
+
     mem->tick();
+    //std::cout  << " Ciclo de Ramulator \n";
     //  Stats::curTick++; // memory clock, global, for Statistics
 
 }

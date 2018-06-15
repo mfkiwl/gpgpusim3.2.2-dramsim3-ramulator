@@ -275,19 +275,6 @@ if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dr
 
 if (m_dram->type == dramsim2) //
 {
-/*if (typeid(*m_dram) == typeid(dram_t())){
-
-}
-else if (typeid(*m_dram) == typeid(dram_ds2_t()))
-{
-
-}else{
-  //tunk;
-}*/
-   //LA EJECUCION DE ESTE BLOQUE IF SOLO SE DEBE REALIZAR CUANDO UTILIZE EL SIMULADOR DE RAM NATIVO
-   //EN CASO CONTRARIO, HA DE ESTAR EN UNA FUNCION APARTE, QUE SE PASA COMO PARAMETRO
-
-   //if  (m_config->dram_simulator==0){ //SIMULADOR = NATIVO
 
     // pop completed memory request from dram and push it to dram-to-L2 queue
     // of the original sub partition
@@ -311,9 +298,6 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
     } else {
         m_dram->return_queue_pop();
     }
-
-  //} //HASTA AQUI el código exclusivo de la simulacion de ram por parte del modulo nativo de gpgpu-sim
-
     m_dram->cycle();
     //m_dram->dram_log(SAMPLELOG);
 /*
@@ -358,7 +342,9 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
                 //d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + m_config->dram_latency;
                 //m_dram_latency_queue.push_back(d);
                 m_dram->push(mf);
-                mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+                //CAMBIADO PARA INTENTAR CORREGIR DEADLOCK - LINEA ORIGINAL DEBAJO
+                mf->set_status(IN_PARTITION_DRAM,gpu_sim_cycle+gpu_tot_sim_cycle);
+                //mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
                 m_arbitration_metadata.borrow_credit(spid);
                 break;  // the DRAM should only accept one request per cycle
             }
@@ -368,20 +354,6 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
 
 if (m_dram->type == dramulator) //
 {
-/*if (typeid(*m_dram) == typeid(dram_t())){
-
-}
-else if (typeid(*m_dram) == typeid(dram_ds2_t()))
-{
-
-}else{
-  //tunk;
-}*/
-   //LA EJECUCION DE ESTE BLOQUE IF SOLO SE DEBE REALIZAR CUANDO UTILIZE EL SIMULADOR DE RAM NATIVO
-   //EN CASO CONTRARIO, HA DE ESTAR EN UNA FUNCION APARTE, QUE SE PASA COMO PARAMETRO
-
-   //if  (m_config->dram_simulator==0){ //SIMULADOR = NATIVO
-
     // pop completed memory request from dram and push it to dram-to-L2 queue
     // of the original sub partition
     mem_fetch* mf_return = m_dram->return_queue_top();
@@ -404,9 +376,6 @@ else if (typeid(*m_dram) == typeid(dram_ds2_t()))
     } else {
         m_dram->return_queue_pop();
     }
-
-  //} //HASTA AQUI el código exclusivo de la simulacion de ram por parte del modulo nativo de gpgpu-sim
-
     m_dram->cycle();
     //m_dram->dram_log(SAMPLELOG);
 /*
