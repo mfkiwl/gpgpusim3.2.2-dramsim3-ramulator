@@ -67,7 +67,7 @@ void Controller<TLDRAM>::tick(){
                   channel->update_serving_requests(
                       req.addr_vec.data(), -1, clk);
           }
-            req.callback(req);//CALLBACK DE READ
+            req.callback(req);
             pending.pop_front();
         }
     }
@@ -78,7 +78,7 @@ void Controller<TLDRAM>::tick(){
     /*** 3. Should we schedule writes? ***/
     if (!write_mode) {
         // yes -- write queue is almost full or read queue is empty
-        if (writeq.size() >= int(0.8 * writeq.max) || readq.size() == 0)
+        if (writeq.size() >= int(0.8 * writeq.max) /*|| readq.size() == 0*/)
             write_mode = true;
     }
     else {
@@ -157,11 +157,17 @@ void Controller<TLDRAM>::tick(){
     }
     if (req->type == Request::Type::WRITE) {
         channel->update_serving_requests(req->addr_vec.data(), -1, clk);
-        req->callback(*req);
     }
 
     // remove request from queue
     queue->q.erase(req);
+}
+
+template<>
+void Controller<TLDRAM>::cmd_issue_autoprecharge(typename TLDRAM::Command& cmd,
+                                                    const vector<int>& addr_vec) {
+    //TLDRAM currently does not have autoprecharge commands
+    return;
 }
 
 } /* namespace ramulator */

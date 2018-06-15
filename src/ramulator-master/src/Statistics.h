@@ -2,7 +2,7 @@
 #define __STATISTICS_H
 
 #include <string>
-/*lo borro yo para que no maree
+
 // FIXME Find better way to decide where does it come from
 #if !defined(RAMULATOR)
 #define INTEGRATED_WITH_GEM5
@@ -11,9 +11,8 @@
 #ifdef INTEGRATED_WITH_GEM5
 #include "base/statistics.hh"
 #else
-*/
 #include "StatType.h"
-//#endif
+#endif
 
 /*
   IMPORTANT NOTE - Read this first!

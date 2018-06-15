@@ -55,7 +55,8 @@ Gem5Wrapper::~Gem5Wrapper() {
 void Gem5Wrapper::tick()
 {
     mem->tick();
-  //  Stats::curTick++; // memory clock, global, for Statistics
+    //  Stats::curTick++; // memory clock, global, for Statistics
+
 }
 
 bool Gem5Wrapper::send(Request req)
@@ -65,7 +66,7 @@ bool Gem5Wrapper::send(Request req)
 
 void Gem5Wrapper::finish(void) {
     mem->finish();
-  //  Stats::statlist.printall();
+    //  Stats::statlist.printall();
 }
 
 bool Gem5Wrapper::full(Request req)

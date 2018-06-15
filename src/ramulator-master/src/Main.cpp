@@ -30,6 +30,8 @@
 using namespace std;
 using namespace ramulator;
 
+bool ramulator::warmup_complete = false;
+
 template<typename T>
 void run_dramtrace(const Config& configs, Memory<T, Controller>& memory, const char* tracename) {
 
@@ -60,6 +62,11 @@ void run_dramtrace(const Config& configs, Memory<T, Controller>& memory, const c
                 else if (type == Request::Type::WRITE) writes++;
             }
         }
+        else {
+            memory.set_high_writeq_watermark(0.0f); // make sure that all write requests in the 
+                                                    // write queue are drained
+        }
+
         memory.tick();
         clks ++;
         Stats::curTick++; // memory clock, global, for Statistics
@@ -77,25 +84,64 @@ void run_cputrace(const Config& configs, Memory<T, Controller>& memory, const st
     int mem_tick = configs.get_mem_tick();
     auto send = bind(&Memory<T, Controller>::send, &memory, placeholders::_1);
     Processor proc(configs, files, send, memory);
-    for (long i = 0; ; i++) {
+
+    long warmup_insts = configs.get_warmup_insts();
+    bool is_warming_up = (warmup_insts != 0);
+
+    for(long i = 0; is_warming_up; i++){
         proc.tick();
-        Stats::curTick++; // processor clock, global, for Statistics
+        Stats::curTick++;
         if (i % cpu_tick == (cpu_tick - 1))
             for (int j = 0; j < mem_tick; j++)
                 memory.tick();
-      if (configs.calc_weighted_speedup()) {
-        if (proc.has_reached_limit()) {
-          break;
+
+        is_warming_up = false;
+        for(int c = 0; c < proc.cores.size(); c++){
+            if(proc.cores[c]->get_insts() < warmup_insts)
+                is_warming_up = true;
         }
-      } else {
-        if (configs.is_early_exit()) {
-          if (proc.finished())
-              break;
-        } else {
-          if (proc.finished() && (memory.pending_requests() == 0))
-              break;
+
+        if (is_warming_up && proc.has_reached_limit()) {
+            printf("WARNING: The end of the input trace file was reached during warmup. "
+                    "Consider changing warmup_insts in the config file. \n");
+            break;
         }
-      }
+
+    }
+
+    warmup_complete = true;
+    printf("Warmup complete! Resetting stats...\n");
+    Stats::reset_stats();
+    proc.reset_stats();
+    assert(proc.get_insts() == 0);
+    
+    printf("Starting the simulation...\n");
+
+    int tick_mult = cpu_tick * mem_tick;
+    for (long i = 0; ; i++) {
+        if (((i % tick_mult) % mem_tick) == 0) { // When the CPU is ticked cpu_tick times,
+                                                 // the memory controller should be ticked mem_tick times
+            proc.tick();
+            Stats::curTick++; // processor clock, global, for Statistics
+
+            if (configs.calc_weighted_speedup()) {
+                if (proc.has_reached_limit()) {
+                    break;
+                }
+            } else {
+                if (configs.is_early_exit()) {
+                    if (proc.finished())
+                    break;
+                } else {
+                if (proc.finished() && (memory.pending_requests() == 0))
+                    break;
+                }
+            }
+        }
+        
+        if (((i % tick_mult) % cpu_tick) == 0) // TODO_hasan: Better if the processor ticks the memory controller
+            memory.tick();
+
     }
     // This a workaround for statistics set only initially lost in the end
     memory.finish();
