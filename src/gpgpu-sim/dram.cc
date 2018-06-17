@@ -186,7 +186,7 @@ void dram_t::push( class mem_fetch *data )
    data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
    mrqq->push(mrq);
    cont++;
-   std::cout  << data->get_request_uid() << " Entra ---. id: " << id << " Pendientes: "<< cont << "\n";
+   //std::cout  << data->get_request_uid() << " Entra ---. id: " << id << " Pendientes: "<< cont << "\n";
    // stats...
    n_req += 1;
    n_req_partial += 1;
@@ -232,9 +232,9 @@ void dram_t::cycle()
               if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
                  data->set_reply();
                  returnq->push(data);
-                 cont--;
-                 std::cout  << data->get_request_uid() << " Sale  ---. id: " << id << " Pendientes: "<< cont << "\n";
-
+                // cont--;
+                 //std::cout  << data->get_request_uid() << " Sale  ---. id: " << id << " Pendientes: "<< cont << "\n";
+              //   if (data->get_request_uid()>1000) assert (0 && "deteniendo ejecución en request nº 1000");
               } else {
                  m_memory_partition_unit->set_done(data);
                  delete data;

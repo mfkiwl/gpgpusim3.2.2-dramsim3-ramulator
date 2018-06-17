@@ -58,15 +58,16 @@ public:
    std::string  *cfg;
    unsigned ql, cont; //para llevar la cuenta de que_length al usar ramulator
 
-   std::function<void(ramulator::Request&)> read_cb_func;
-   std::function<void(ramulator::Request&)> write_cb_func;
+
+   std::function<void(ramulator::Request&)> rw_cb_func;
+   //std::function<void(ramulator::Request&)> write_cb_func;
 
    /* callback functions */
-   void read_complete(ramulator::Request& req);
-   void write_complete(ramulator::Request& req);
+   //void read_complete(ramulator::Request& req);
+   void readwrite_complete(ramulator::Request& req);
 
    bool full(mem_fetch* mf) const;
-   //bool full(new_addr_type addr, enum mem_access_type tipo) const;
+   bool full() const;
 
    unsigned que_length() const;
 

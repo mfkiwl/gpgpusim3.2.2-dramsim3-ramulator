@@ -215,8 +215,7 @@ int memory_partition_unit::global_sub_partition_id_to_local_id(int global_sub_pa
 void memory_partition_unit::dram_cycle()
 {
 
-if (m_dram->type == dram_gpgpu)
-{
+//if (m_dram->type == dram_gpgpu){
   // pop completed memory request from dram and push it to dram-to-L2 queue
 // of the original sub partition
 mem_fetch* mf_return = m_dram->return_queue_top();
@@ -239,7 +238,6 @@ if (mf_return) {
 } else {
     m_dram->return_queue_pop();
 }
-
 m_dram->cycle();
 m_dram->dram_log(SAMPLELOG);
 
@@ -271,7 +269,7 @@ if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dr
     m_dram->push(mf);
 }
 }
-
+/*
 
 if (m_dram->type == dramsim2) //
 {
@@ -300,7 +298,7 @@ if (m_dram->type == dramsim2) //
     }
     m_dram->cycle();
     //m_dram->dram_log(SAMPLELOG);
-/*
+
     if( !m_dram->full() ) {
         // L2->DRAM queue to DRAM latency queue
         // Arbitrate among multiple L2 subpartitions
@@ -320,7 +318,7 @@ if (m_dram->type == dramsim2) //
                 break;  // the DRAM should only accept one request per cycle
             }
         }
-    }*/
+    }
 
     // L2->DRAM queue to DRAM latency queue
     // Arbitrate among multiple L2 subpartitions
@@ -377,8 +375,8 @@ if (m_dram->type == dramulator) //
         m_dram->return_queue_pop();
     }
     m_dram->cycle();
-    //m_dram->dram_log(SAMPLELOG);
-/*
+    m_dram->dram_log(SAMPLELOG);
+
     if( !m_dram->full() ) {
         // L2->DRAM queue to DRAM latency queue
         // Arbitrate among multiple L2 subpartitions
@@ -398,46 +396,16 @@ if (m_dram->type == dramulator) //
                 break;  // the DRAM should only accept one request per cycle
             }
         }
-    }*/
-
-    // L2->DRAM queue to DRAM latency queue
-    // Arbitrate among multiple L2 subpartitions
-    int last_issued_partition = m_arbitration_metadata.last_borrower();
-    for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
-        int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel;
-        if (!m_sub_partition[spid]->L2_dram_queue_empty() && can_issue_to_dram(spid)) {
-            mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
-
-//USAR DYNAMIC CAST:
-            //original:
-            //if (!m_dram->full(mf->get_addr(), mf->get_access_type())){
-            if (!m_dram->full(mf)){
-            //if( !((dram_ds2_t *) &m_dram)->full(mf->get_addr()) ) {
-            //if (!((dynamic_cast<dram_ds2_t*>(m_dram))->full(mf->get_addr()))) {
-                m_sub_partition[spid]->L2_dram_queue_pop();
-                MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
-                //dram_delay_t d;
-                //d.req = mf;
-                //d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + m_config->dram_latency;
-                //m_dram_latency_queue.push_back(d);
-                m_dram->push(mf);
-                //CAMBIADO PARA INTENTAR CORREGIR DEADLOCK - LINEA ORIGINAL DEBAJO
-                mf->set_status(IN_PARTITION_DRAM,gpu_sim_cycle+gpu_tot_sim_cycle);
-              //  mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
-                m_arbitration_metadata.borrow_credit(spid);
-                break;  // the DRAM should only accept one request per cycle
-            }
-        }
     }
-}
+
     // DRAM latency queue
-    /*if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
+    if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
         mem_fetch* mf = m_dram_latency_queue.front().req;
         m_dram_latency_queue.pop_front();
         m_dram->push(mf);
-    }*/
+    }
 }
-
+*/
 void memory_partition_unit::set_done( mem_fetch *mf )
 {
     unsigned global_spid = mf->get_sub_partition_id();
@@ -656,7 +624,7 @@ void memory_sub_partition::print_cache_stat(unsigned &accesses, unsigned &misses
 void memory_sub_partition::print( FILE *fp ) const
 {
     if ( !m_request_tracker.empty() ) {
-        fprintf(fp,"Memory Sub Parition %u: pending memory requests:\n", m_id);
+        fprintf(fp,"Memory Sub Partition %u: pending memory requests:\n", m_id);
         for ( std::set<mem_fetch*>::const_iterator r=m_request_tracker.begin(); r != m_request_tracker.end(); ++r ) {
             mem_fetch *mf = *r;
             if ( mf )
@@ -732,6 +700,7 @@ bool memory_sub_partition::busy() const
 void memory_sub_partition::push( mem_fetch* req, unsigned long long cycle )
 {
     if (req) {
+        //printf("PUSH en memory_sub_partition: %d\n",req->get_sub_partition_id() );
         m_request_tracker.insert(req);
         m_stats->memlatstat_icnt2mem_pop(req);
         if( req->istexture() ) {
@@ -750,6 +719,7 @@ void memory_sub_partition::push( mem_fetch* req, unsigned long long cycle )
 mem_fetch* memory_sub_partition::pop()
 {
     mem_fetch* mf = m_L2_icnt_queue->pop();
+    //printf("POP en memory_sub_partition: %d\n",mf->get_sub_partition_id() );
     m_request_tracker.erase(mf);
     if ( mf && mf->isatomic() )
         mf->do_atomic();
@@ -762,6 +732,7 @@ mem_fetch* memory_sub_partition::pop()
 
 mem_fetch* memory_sub_partition::top()
 {
+    //std::cout  << "TOP de memory_sub_partition " << "\n";
     mem_fetch *mf = m_L2_icnt_queue->top();
     if( mf && (mf->get_access_type() == L2_WRBK_ACC || mf->get_access_type() == L1_WRBK_ACC) ) {
         m_L2_icnt_queue->pop();

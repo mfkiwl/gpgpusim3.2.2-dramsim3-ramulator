@@ -767,6 +767,16 @@ void gpgpu_sim::print_stats()
 
 void gpgpu_sim::deadlock_check()
 {
+	/*
+	 if ((unsigned) (gpu_tot_sim_cycle-gpu_sim_cycle)>4294927296){
+		 printf("\n\nGPGPU-Sim uArch: ERROR ** deadlock detected: last writeback core %u @ gpu_sim_cycle %u (+ gpu_tot_sim_cycle %u) (%u cycles ago)\n",
+						gpu_sim_insn_last_update_sid,
+						(unsigned) gpu_sim_insn_last_update, (unsigned) (gpu_tot_sim_cycle-gpu_sim_cycle),
+						(unsigned) (gpu_sim_cycle - gpu_sim_insn_last_update ));
+		 printf("\n abortado en gpu-sim.cc#770\n");
+		 abort();
+	 }
+ */
    if (m_config.gpu_deadlock_detect && gpu_deadlock) {
       fflush(stdout);
       printf("\n\nGPGPU-Sim uArch: ERROR ** deadlock detected: last writeback core %u @ gpu_sim_cycle %u (+ gpu_tot_sim_cycle %u) (%u cycles ago)\n",

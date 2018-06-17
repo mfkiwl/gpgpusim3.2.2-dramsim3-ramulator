@@ -59,33 +59,25 @@ template class fifo_pipeline<dram_req_t>;
 //typedef std::pair<unsigned long long, class mem_fetch*> Taddr_memfetchPair;
 
 /* callback functors */
+/*
 void dram_ramulator_t::read_complete(ramulator::Request& req)
-
-//void dram_ramulator_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
-
     mem_fetch *data=(mem_fetch *)req.mf;
-    //std::cout << "Sale el memfetch por el read_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
-
+    data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
 
     ql--; //disminuimos que_length
-
     data->set_reply();
-    data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
     returnq->push(data);
     cont--;
-    std::cout  << data->get_request_uid() << " Sale  --- es un read. id: " << id << " Pendientes: "<< cont << "\n";
-
+    //std::cout  << data->get_request_uid() << " Sale  --- es un read. id: " << id << " Pendientes: "<< cont << "\n";
 }
 
-void dram_ramulator_t::write_complete(ramulator::Request& req)
+vo
+*/
+void dram_ramulator_t::readwrite_complete(ramulator::Request& req)
 {
   mem_fetch *data=(mem_fetch *)req.mf;
-  //std::cout << "Sale el memfetch por el write_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
-  cont--;
-  std::cout  << data->get_request_uid() << " Sale  --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
-
-
+  //std::cout  << data->get_request_uid() << " Sale  --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
   ql--; //disminuimos que_length
   data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
 
@@ -106,24 +98,11 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
 {
     ql=0; //que_length = 0;
     type = dramulator;
-    read_cb_func=std::bind(&dram_ramulator_t::read_complete, this, std::placeholders::_1);
-    write_cb_func=std::bind(&dram_ramulator_t::write_complete, this, std::placeholders::_1);
-//AQUI HAY QUE SABER QUE FICHEROS CONTIENEN LA CONFIGURACION DE RAMULATOR PARA PASARSELO
-//AL CONSTRUCTOR
+    rw_cb_func=std::bind(&dram_ramulator_t::readwrite_complete, this, std::placeholders::_1);
+    //write_cb_func=std::bind(&dram_ramulator_t::readwrite_complete, this, std::placeholders::_1);
 
-//AQUI HAY QUE: INCLUIR UN CAMPO EN EL FICHERO CONFIGURACION GPGPU-SIM QUE RECOJA EL FICHERO DE CONFIGURACION DE RAMULATOR
-//CREAR EL CONSTRUCTOR Gem5Wrapper QUE ACEPTE FICHERO, CON EL CONSTRUIR UN OBJETO 'CONFIG' Y LLAMAR AL CONSTRUCTOR NORMAL.
     std::string cfg(m_config->ramulator_config_file);
-    objRamulator = new ramulator::Gem5Wrapper(cfg, m_config->m_L2_config.get_line_sz()); //EL SIGUIENTE BLOQUE INICIALIZA UN OBJETO DRAMSIM2 Y CONFIGURA LOS CALLBACKS
-
-//ESCRIBIR LA EQUIVALENCIA CON RAMULATOR
-/*
-    objDramSim2 = new MultiChannelMemorySystem(dev, sys, "", "", m_config->dramsim2_total_memory_megs, vis);
-    returnq = new fifo_pipeline<mem_fetch>("dramreturnq",0,m_config->gpgpu_dram_return_queue_size==0?1024:m_config->gpgpu_dram_return_queue_size);
-    TransactionCompleteCB *read_cb = new Callback<dram_ds2_t, void, unsigned, uint64_t, uint64_t,void>(this, &dram_ds2_t::read_complete);
-    TransactionCompleteCB *write_cb = new Callback<dram_ds2_t, void, unsigned, uint64_t, uint64_t,void>(this, &dram_ds2_t::write_complete);
-    objDramSim2->RegisterCallbacks(read_cb, write_cb, NULL);
-*/
+    objRamulator = new ramulator::Gem5Wrapper(cfg, m_config->m_L2_config.get_line_sz());
 }
 /*
 dram_ramulator_t::~dram_ramulator_t() {
@@ -132,23 +111,28 @@ dram_ramulator_t::~dram_ramulator_t() {
   //delete objRamulator;
 }
 */
+bool dram_ramulator_t::full() const
+{
+  if (ql<2) return false; else return true;
+}
 
-//bool dram_ramulator_t::full(new_addr_type addr, enum mem_access_type tipo) const
 bool dram_ramulator_t::full(mem_fetch* mf) const
 {
+  //std::cout << "llamada a ramulator.full() " << ql << '\n';
+  bool b;
   ramulator::Request req;
   if (mf->is_write())
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, (int) id);
   else
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, (int) id);
-
-  return (objRamulator->full(req));
+  b=objRamulator->full(req);
+  if (b) std::cout << "ramulator.full() = true -- tam_cola=" << ql << '\n';
+  return (b);
 }
-
 
 unsigned dram_ramulator_t::que_length() const
 {
-  std::cout << "Tamaño de la cola: " << ql << '\n';
+  //std::cout << "Tamaño de la cola: " << ql << '\n';
   return ql;
 }
 
@@ -165,20 +149,17 @@ unsigned int dram_ramulator_t::queue_limit() const
 void dram_ramulator_t::push( class mem_fetch *data )
 {
    assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-  //pongo el status por si  el error de deadlock es por eso
    data->set_status(IN_PARTITION_DRAM,gpu_sim_cycle+gpu_tot_sim_cycle);
-   //esto igual hay que borrarlo:
-   cont++;
-   ramulator::Request *req;
-   ql++; //aumentamos que_length
-   if (data->is_write()){
-     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data, (int)  id);
-     std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
-   }else{
-     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data,  (int) id);
-     std::cout  << data->get_request_uid() << " Entra --- es un read.  id: " << id << " Pendientes: "<< cont << "\n";
-   }
 
+   ramulator::Request *req;
+
+   if (data->is_write()){
+     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->rw_cb_func, data, (int)  id);
+     //std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< cont << "\n";
+   }else{
+     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->rw_cb_func, data,  (int) id);
+     //std::cout  << data->get_request_uid() << " Entra --- es un read.  id: " << id << " Pendientes: "<< cont << "\n";
+   }
 
    if (!objRamulator->send(*req)) std::cout  << " Error en el SEND de ramulator.\n";
    ql++; //aumentamos que_length
@@ -189,7 +170,6 @@ void dram_ramulator_t::cycle()
   //std::cout  << " Ciclo de GPGPUSIM \n";
     objRamulator->tick();
 }
-
 
 void dram_ramulator_t::print( FILE* simFile) const
 {
