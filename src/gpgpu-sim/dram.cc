@@ -188,7 +188,7 @@ void dram_t::push( class mem_fetch *data )
    data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
    mrqq->push(mrq);
    cont++;
-   std::cout  << (data->get_is_write()?"->W.":"->R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+   //std::cout  << (data->get_is_write()?"->W.":"->R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
    //std::cout  << data->get_request_uid() << " Entra ---. id: " << id << " Pendientes: "<< cont << "\n";
    // stats...
    n_req += 1;
@@ -237,12 +237,12 @@ void dram_t::cycle()
                  returnq->push(data);
                  //std::cout << "Era un write: No es L1_WRBK_ACC ni  L2_WRBK_ACC \n ";
                 // cont--;
-                 std::cout  << (data->get_is_write()?"<-W.":"<-R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+                 //std::cout  << (data->get_is_write()?"<-W.":"<-R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
                //   if (data->get_request_uid()>1000) assert (0 && "deteniendo ejecución en request nº 1000");
               } else {
                  m_memory_partition_unit->set_done(data);
                  delete data;
-                 std::cout  << (data->get_is_write()?"<-W.":"<-R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+                 //std::cout  << (data->get_is_write()?"<-W.":"<-R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
 
               }
               delete cmd;
