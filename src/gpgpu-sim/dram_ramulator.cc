@@ -169,7 +169,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
   */
      mrqq_Dist = StatCreate("mrqq_length",1,64); //track up to 64 entries
 
-    ql=0; //que_length = 0;
+    ql=1; //que_length = 0;
     type = dramulator;
     read_cb_func=std::bind(&dram_ramulator_t::read_complete, this, std::placeholders::_1);
     write_cb_func=std::bind(&dram_ramulator_t::write_complete, this, std::placeholders::_1);
@@ -251,13 +251,7 @@ void dram_ramulator_t::push( class mem_fetch *data )
 void dram_ramulator_t::cycle()
 {
   //std::cout  << " Ciclo de GPGPUSIM \n";
-
-    objRamulator->tick();
-    objRamulator->tick();
-    objRamulator->tick();
-    objRamulator->tick();
-    objRamulator->tick();
-    objRamulator->tick();
+    for (ql=0;ql<16;ql++)  objRamulator->tick();
 }
 
 void dram_ramulator_t::print( FILE* simFile) const
