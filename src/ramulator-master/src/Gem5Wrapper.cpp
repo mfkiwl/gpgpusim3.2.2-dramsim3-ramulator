@@ -75,6 +75,10 @@ bool Gem5Wrapper::full(Request req)
 {
   bool r;
   r = mem->full(req);
-  if (r) printf ("\n * MEMORIA LLENA * \n");
+  if (r) printf ("\n * COLA ENTRADA DE RAMULATOR LLENA * \n");
   return r;
+}
+
+unsigned Gem5Wrapper::que_length(){
+  return mem->pending_requests();
 }

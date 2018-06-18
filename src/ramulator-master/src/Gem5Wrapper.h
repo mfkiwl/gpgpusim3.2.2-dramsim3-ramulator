@@ -27,6 +27,7 @@ public:
     void finish(void);
     //modificacion para usar con gpgpu-sim:
     bool full(Request req);
+    unsigned que_length();
 };
 
 } /*namespace ramulator*/

@@ -337,7 +337,6 @@ public:
         return false;
     }
 
-
     void tick()
     {
         clk++;
@@ -410,9 +409,9 @@ public:
               channel->update_serving_requests(req->addr_vec.data(), 1, clk);
             }
             int tx = (channel->spec->prefetch_size * channel->spec->channel_width / 8);
-            /* BORRADO PARA QUE NO DE ERROR AL CREAR ESTADISTICAS CON GPGPUSIM, SI SE HABILITA
-              QUITAR TAMBIEN EL ULTIMO RETURN
 
+            /* BORRADO PARA QUE NO DE ERROR AL CREAR ESTADISTICAS CON GPGPUSIM, SI SE HABILITA
+                         QUITAR TAMBIEN EL ULTIMO RETURN
 
             if (req->type == Request::Type::READ) {
                 if (is_row_hit(req)) {
@@ -439,7 +438,7 @@ public:
               }
               write_transaction_bytes += tx;
             }
-*/
+        */
         }
 
         // issue command on behalf of request
@@ -466,6 +465,7 @@ public:
 
         if (req->type == Request::Type::WRITE) {
             channel->update_serving_requests(req->addr_vec.data(), -1, clk);
+            req->callback(*req);
         }
 
         // remove request from queue

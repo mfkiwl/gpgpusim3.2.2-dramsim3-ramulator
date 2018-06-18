@@ -249,6 +249,13 @@ if( !m_dram->full() ) {
         int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel;
         if (!m_sub_partition[spid]->L2_dram_queue_empty() && can_issue_to_dram(spid)) {
             mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
+            //ramulator tiene dos colas de entrada, una para lecturas y otra para escrituras.
+            //solo en este punto hemos recuperado el mem_fetch de la L2 que ha de ser encolado en ramulator
+            //y solo ahora podemos consultar si es de lectura o escritura.
+            //Ahora es cuando comprobamos si su cola está llena y en tal caso salimos, ya que no deberiamos
+            //haber entrado en primer lugar (if inicial de este bloque)
+            if (m_dram->full(mf) ) break;
+            //No se ha producido el break y podemos seguir con el proceso:
             m_sub_partition[spid]->L2_dram_queue_pop();
             MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
             dram_delay_t d;
@@ -261,13 +268,12 @@ if( !m_dram->full() ) {
         }
     }
 }
-
-// DRAM latency queue
-if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
-    mem_fetch* mf = m_dram_latency_queue.front().req;
-    m_dram_latency_queue.pop_front();
-    m_dram->push(mf);
-}
+    // DRAM latency queue
+    if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
+        mem_fetch* mf = m_dram_latency_queue.front().req;
+        m_dram_latency_queue.pop_front();
+        m_dram->push(mf);
+    }
 }
 /*
 
