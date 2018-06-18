@@ -258,17 +258,23 @@ if( !m_dram->full() ) {
             //No se ha producido el break y podemos seguir con el proceso:
             m_sub_partition[spid]->L2_dram_queue_pop();
             MEMPART_DPRINTF("Issue mem_fetch request %p from sub partition %d to dram\n", mf, spid);
-            dram_delay_t d;
-            d.req = mf;
-            d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + m_config->dram_latency;
-            m_dram_latency_queue.push_back(d);
-            mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+
+            if (m_dram->type != dramulator){
+                dram_delay_t d;
+                d.req = mf;
+                d.ready_cycle = gpu_sim_cycle+gpu_tot_sim_cycle + (m_config->dram_latency);
+                m_dram_latency_queue.push_back(d);
+                mf->set_status(IN_PARTITION_DRAM_LATENCY_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+            }else{
+                m_dram->push(mf);
+            }
             m_arbitration_metadata.borrow_credit(spid);
             break;  // the DRAM should only accept one request per cycle
         }
     }
 }
     // DRAM latency queue
+    if (m_dram->type != dramulator)
     if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
         mem_fetch* mf = m_dram_latency_queue.front().req;
         m_dram_latency_queue.pop_front();

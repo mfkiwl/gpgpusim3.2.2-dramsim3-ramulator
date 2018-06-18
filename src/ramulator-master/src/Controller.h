@@ -312,7 +312,15 @@ public:
 
     bool enqueue(Request& req)
     {
+/*
+        if (req.type == Request::Type::WRITE)
+          std::cout << "RAMULATOR: Ha llegado un Request de WRITE \n ";
+        else
+          std::cout << "RAMULATOR: Ha llegado un Request de READ \n ";
+*/
+
         Queue& queue = get_queue(req.type);
+
         if (queue.max == queue.size())
             return false;
 
@@ -339,6 +347,9 @@ public:
 
     void tick()
     {
+        //std::cout << "RAMULATOR: tick() \n ";
+        //std::cout << "RAMULATOR: Tamaño cola R: " << readq.size() << " W: " << writeq.size() << " \n ";
+
         clk++;
         req_queue_length_sum += readq.size() + writeq.size() + pending.size();
         read_req_queue_length_sum += readq.size() + pending.size();
@@ -353,6 +364,7 @@ public:
                   channel->update_serving_requests(
                       req.addr_vec.data(), -1, clk);
                 }
+                //std::cout << "RAMULATOR: Llamando al callback de un read \n ";
                 req.callback(req);
                 pending.pop_front();
             }
@@ -362,13 +374,14 @@ public:
         refresh->tick_ref();
 
         /*** 3. Should we schedule writes? ***/
+
         if (!write_mode) {
             // yes -- write queue is almost full or read queue is empty
-            if (writeq.size() > int(wr_high_watermark * writeq.max)
-                    /*|| readq.size() == 0*/) // Hasan: Switching to write mode when there are just a few
+            if (writeq.size() > int(wr_high_watermark * writeq.max) || readq.size() == 0)
+                    /*|| readq.size() == 0*/ // Hasan: Switching to write mode when there are just a few
                                               // write requests, even if the read queue is empty, incurs a lot of overhead.
                                               // Commented out the read request queue empty condition
-                write_mode = true;
+               write_mode = true;
         }
         else {
             // no -- write queue is almost empty and read queue is not empty
@@ -384,6 +397,7 @@ public:
 
         auto req = scheduler->get_head(queue->q);
         if (req == queue->q.end() || !is_ready(req)) {
+            //std::cout << "RAMULATOR: Usando cola " << (write_mode ? "WRITE" : "READ") << '\n';
             queue = !write_mode ? &readq : &writeq;
 
             if (otherq.size())
@@ -465,6 +479,7 @@ public:
 
         if (req->type == Request::Type::WRITE) {
             channel->update_serving_requests(req->addr_vec.data(), -1, clk);
+            //std::cout << "RAMULATOR: Llamando al callback de un write \n ";
             req->callback(*req);
         }
 

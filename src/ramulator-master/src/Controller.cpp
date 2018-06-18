@@ -67,6 +67,7 @@ void Controller<TLDRAM>::tick(){
                   channel->update_serving_requests(
                       req.addr_vec.data(), -1, clk);
           }
+            std::cout << "RAMULATOR: Llamando al callback de un read .cpp\n ";
             req.callback(req);
             pending.pop_front();
         }
@@ -110,7 +111,8 @@ void Controller<TLDRAM>::tick(){
           channel->update_serving_requests(req->addr_vec.data(), 1, clk);
         }
         int tx = (channel->spec->prefetch_size * channel->spec->channel_width / 8);
-/*
+
+        /*
         if (req->type == Request::Type::READ) {
             if (is_row_hit(req)) {
                 ++read_row_hits[coreid];
@@ -136,8 +138,9 @@ void Controller<TLDRAM>::tick(){
           }
           write_transaction_bytes += tx;
         }
+        */
     }
-*/
+
     /*** 5. Change a read request to a migration request ***/
     if (req->type == Request::Type::READ) {
         req->type = Request::Type::EXTENSION;
@@ -158,7 +161,9 @@ void Controller<TLDRAM>::tick(){
     }
     if (req->type == Request::Type::WRITE) {
         channel->update_serving_requests(req->addr_vec.data(), -1, clk);
+        std::cout << "RAMULATOR: Llamando al callback de un write .cpp\n ";
         req->callback(*req);
+
     }
 
     // remove request from queue

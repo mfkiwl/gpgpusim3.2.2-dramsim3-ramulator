@@ -62,9 +62,8 @@ template class fifo_pipeline<dram_req_t>;
 
 void dram_ramulator_t::read_complete(ramulator::Request& req)
 {
-    std::cout << "Era un READ \n ";
     mem_fetch *data=(mem_fetch *)req.mf;
-    std::cout  << data->get_request_uid() << " Sale  --- es un read. id: " << id << " Pendientes: "<< que_length() << "\n";
+    std::cout  << "<-R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
     data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
     if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
           data->set_reply();
@@ -81,8 +80,8 @@ void dram_ramulator_t::write_complete(ramulator::Request& req)
 {
   //std::cout << "Era un WRITE \n ";
   mem_fetch *data=(mem_fetch *)req.mf;
-  std::cout  << data->get_request_uid() << " Sale  --- es un write. id: " << id << " Pendientes: "<< que_length() << "\n";
-  //ql--; //disminuimos que_length
+  std::cout  << "<-W." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+//ql--; //disminuimos que_length
   data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
   //std::cout << " Sale  id: "  << data->get_request_uid() << " Tipo: "<< data->get_access_type() << "\n";
   if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
@@ -207,7 +206,7 @@ bool dram_ramulator_t::full(mem_fetch* mf) const
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, (int) id);
   b=objRamulator->full(req);
   //if (b)
-  std::cout << "ramulator.full(*mf) = " << b << " -- tam_cola=" << que_length() << " returnq: " << returnq->get_length() << '\n';
+  //std::cout << "ramulator.full(*mf) = " << b << " -- tam_cola=" << que_length() << " returnq: " << returnq->get_length() << '\n';
   return (b);
 }
 
@@ -233,10 +232,10 @@ void dram_ramulator_t::push( class mem_fetch *data )
 
    if (data->get_type()==0){//READ_REQUEST=0
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, (int)  id);
-     std::cout  << data->get_request_uid() << " Entra --- es un write. id: " << id << " Pendientes: "<< que_length() << "\n";
+     std::cout  << "->R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
    }else{
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data,  (int) id);
-     std::cout  << data->get_request_uid() << " Entra --- es un read.  id: " << id << " Pendientes: "<< que_length() << "\n";
+     std::cout  << "->W." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
    }
    // stats...
       n_req += 1;
@@ -254,7 +253,11 @@ void dram_ramulator_t::cycle()
   //std::cout  << " Ciclo de GPGPUSIM \n";
 
     objRamulator->tick();
-
+    objRamulator->tick();
+    objRamulator->tick();
+    objRamulator->tick();
+    objRamulator->tick();
+    objRamulator->tick();
 }
 
 void dram_ramulator_t::print( FILE* simFile) const

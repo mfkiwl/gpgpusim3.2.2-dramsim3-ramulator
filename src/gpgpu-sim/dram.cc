@@ -131,7 +131,7 @@ dram_t::dram_t( unsigned int partition_id, const struct memory_config *config, m
 bool dram_t::full() const
 {
     bool b = mrqq->full();
-    std::cout << "gpgpusim.full() = " << b << " -- tam_cola=" << que_length() << " -- returnq=" << returnq->get_length() << '\n';
+    //std::cout << "gpgpusim.full() = " << b << " -- tam_cola=" << que_length() << " -- returnq=" << returnq->get_length() << '\n';
     if(m_config->scheduler_type == DRAM_FRFCFS ){
         if(m_config->gpgpu_frfcfs_dram_sched_queue_size == 0 ) return false;
         return m_frfcfs_scheduler->num_pending() >= m_config->gpgpu_frfcfs_dram_sched_queue_size;
@@ -188,6 +188,7 @@ void dram_t::push( class mem_fetch *data )
    data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
    mrqq->push(mrq);
    cont++;
+   std::cout  << (data->get_is_write()?"->W.":"->R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
    //std::cout  << data->get_request_uid() << " Entra ---. id: " << id << " Pendientes: "<< cont << "\n";
    // stats...
    n_req += 1;
@@ -234,14 +235,15 @@ void dram_t::cycle()
               if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
                  data->set_reply();
                  returnq->push(data);
-                 std::cout << "Era un write: No es L1_WRBK_ACC ni  L2_WRBK_ACC \n ";
+                 //std::cout << "Era un write: No es L1_WRBK_ACC ni  L2_WRBK_ACC \n ";
                 // cont--;
-                 //std::cout  << data->get_request_uid() << " Sale  ---. id: " << id << " Pendientes: "<< cont << "\n";
-              //   if (data->get_request_uid()>1000) assert (0 && "deteniendo ejecución en request nº 1000");
+                 std::cout  << (data->get_is_write()?"<-W.":"<-R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+               //   if (data->get_request_uid()>1000) assert (0 && "deteniendo ejecución en request nº 1000");
               } else {
                  m_memory_partition_unit->set_done(data);
                  delete data;
-                 std::cout << "Era un write: Es L1_WRBK_ACC o  L2_WRBK_ACC \n ";
+                 std::cout  << (data->get_is_write()?"<-W.":"<-R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+
               }
               delete cmd;
            }
