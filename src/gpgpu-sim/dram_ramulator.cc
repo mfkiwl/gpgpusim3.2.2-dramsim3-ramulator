@@ -252,7 +252,7 @@ void dram_ramulator_t::cycle()
 {
   //std::cout  << " Ciclo de GPGPUSIM \n";
     //for (ql=0;ql<16;ql++)  objRamulator->tick();
-    objRamulator->tick();
+    //objRamulator->tick();
     objRamulator->tick();
 }
 
