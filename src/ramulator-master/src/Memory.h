@@ -331,7 +331,7 @@ public:
 
     bool full(Request req)
     {
-
+      std::cout << "llamada a Memory.full(Request req) "  << '\n';
       //CREADO PARA COMPATIBILIDAD CON gpgpu-sim
       req.addr_vec.resize(addr_bits.size());
       long addr = req.addr;

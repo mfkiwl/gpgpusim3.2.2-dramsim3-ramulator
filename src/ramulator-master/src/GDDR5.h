@@ -19,38 +19,38 @@ public:
     enum class Speed;
     GDDR5(Org org, Speed speed);
     GDDR5(const string& org_str, const string& speed_str);
-    
+
     static map<string, enum Org> org_map;
     static map<string, enum Speed> speed_map;
 
     /*** Level ***/
     enum class Level : int
-    { 
+    {
         Channel, Rank, BankGroup, Bank, Row, Column, MAX
     };
 
     /*** Command ***/
     enum class Command : int
-    { 
-        ACT, PRE, PREA, 
-        RD,  WR,  RDA,  WRA, 
-        REF, PDE, PDX,  SRE, SRX, 
+    {
+        ACT, PRE, PREA,
+        RD,  WR,  RDA,  WRA,
+        REF, PDE, PDX,  SRE, SRX,
         MAX
     };
 
     string command_name[int(Command::MAX)] = {
-        "ACT", "PRE", "PREA", 
-        "RD",  "WR",  "RDA",  "WRA", 
+        "ACT", "PRE", "PREA",
+        "RD",  "WR",  "RDA",  "WRA",
         "REF", "PDE", "PDX",  "SRE", "SRX"
     };
 
     Level scope[int(Command::MAX)] = {
-        Level::Row,    Level::Bank,   Level::Rank,   
+        Level::Row,    Level::Bank,   Level::Rank,
         Level::Column, Level::Column, Level::Column, Level::Column,
         Level::Rank,   Level::Rank,   Level::Rank,   Level::Rank,   Level::Rank
     };
 
-    bool is_opening(Command cmd) 
+    bool is_opening(Command cmd)
     {
         switch(int(cmd)) {
             case int(Command::ACT):
@@ -60,7 +60,7 @@ public:
         }
     }
 
-    bool is_accessing(Command cmd) 
+    bool is_accessing(Command cmd)
     {
         switch(int(cmd)) {
             case int(Command::RD):
@@ -73,7 +73,7 @@ public:
         }
     }
 
-    bool is_closing(Command cmd) 
+    bool is_closing(Command cmd)
     {
         switch(int(cmd)) {
             case int(Command::RDA):
@@ -86,7 +86,7 @@ public:
         }
     }
 
-    bool is_refreshing(Command cmd) 
+    bool is_refreshing(Command cmd)
     {
         switch(int(cmd)) {
             case int(Command::REF):
@@ -126,7 +126,7 @@ public:
         int dist;
         int val;
         bool sibling;
-    }; 
+    };
     vector<TimingEntry> timing[int(Level::MAX)][int(Command::MAX)];
 
     /* Lambda */
@@ -173,6 +173,7 @@ public:
 
     int prefetch_size = 8; // 8n prefetch QDR
     int channel_width = 64;
+    //int channel_width = 32;
 
     struct SpeedEntry {
         int rate;

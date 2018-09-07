@@ -197,16 +197,18 @@ bool dram_ramulator_t::full() const
 
 bool dram_ramulator_t::full(mem_fetch* mf) const
 {
-  //std::cout << "llamada a ramulator.full() " << ql << '\n';
+  std::cout << "llamada a dram_ramulator.full(*mf) " << ql << '\n';
   bool b;
   ramulator::Request req;
   if (mf->get_type()==0)//READ_REQUEST=0
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, (int) id);
   else
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, (int) id);
+
+  std::cout << objRamulator->full(req) << "\n";
+
   b=objRamulator->full(req);
-  //if (b)
-  //std::cout << "ramulator.full(*mf) = " << b << " -- tam_cola=" << que_length() << " returnq: " << returnq->get_length() << '\n';
+
   return (b);
 }
 

@@ -54,16 +54,14 @@ Gem5Wrapper::~Gem5Wrapper() {
 
 void Gem5Wrapper::tick()
 {
-
     mem->tick();
-    //std::cout  << " Ciclo de Ramulator \n";
+  //  std::cout  << " Ciclo de Ramulator \n";
     //  Stats::curTick++; // memory clock, global, for Statistics
-
 }
 
 bool Gem5Wrapper::send(Request req)
 {
-    return mem->send(req);
+  return mem->send(req);
 }
 
 void Gem5Wrapper::finish(void) {
@@ -73,6 +71,7 @@ void Gem5Wrapper::finish(void) {
 
 bool Gem5Wrapper::full(Request req)
 {
+  std::cout << "llamada a Gem5Wrapper.full(Request req) " << '\n';
   bool r;
   r = mem->full(req);
   if (r) printf ("\n * COLA ENTRADA DE RAMULATOR LLENA * \n");

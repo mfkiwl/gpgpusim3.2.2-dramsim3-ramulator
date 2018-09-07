@@ -312,12 +312,6 @@ public:
 
     bool enqueue(Request& req)
     {
-/*
-        if (req.type == Request::Type::WRITE)
-          std::cout << "RAMULATOR: Ha llegado un Request de WRITE \n ";
-        else
-          std::cout << "RAMULATOR: Ha llegado un Request de READ \n ";
-*/
 
         Queue& queue = get_queue(req.type);
 
@@ -339,9 +333,19 @@ public:
 
     bool full(Request& req)
     {
+        std::cout << "llamada a Controller.full(Request& req) " << '\n';
+
         Queue& queue = get_queue(req.type);
-        if (queue.max == queue.size())
-            return true;
+        if (req.type == Request::Type::READ)
+            std::cout  << " Cola de lectura de ramulator : " << queue.size() << "/" << queue.max << "\n" ;
+        else
+            std::cout  << " Cola de escritura de ramulator : " << queue.size() << "/" << queue.max << "\n" ;
+
+
+        if (queue.max == queue.size()){
+           std::cout  << " Cola de llena!\n" ;
+           return true;
+        }
         return false;
     }
 
