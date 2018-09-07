@@ -273,13 +273,24 @@ if( !m_dram->full() ) {
         }
     }
 }
+//if (m_dram->type != dramulator)
     // DRAM latency queue
-    //if (m_dram->type != dramulator)
+    if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
+        mem_fetch* mf = m_dram_latency_queue.front().req;
+        if (!m_dram->full(mf)){
+            m_dram_latency_queue.pop_front();
+            m_dram->push(mf);
+        }
+    }
+    /*
+    // DRAM latency queue
     if( !m_dram_latency_queue.empty() && ( (gpu_sim_cycle+gpu_tot_sim_cycle) >= m_dram_latency_queue.front().ready_cycle ) && !m_dram->full() ) {
         mem_fetch* mf = m_dram_latency_queue.front().req;
         m_dram_latency_queue.pop_front();
         m_dram->push(mf);
     }
+
+    */
 }
 /*
 

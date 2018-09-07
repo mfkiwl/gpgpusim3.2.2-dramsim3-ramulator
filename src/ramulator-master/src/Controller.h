@@ -315,8 +315,18 @@ public:
 
         Queue& queue = get_queue(req.type);
 
-        if (queue.max == queue.size())
-            return false;
+        if (queue.max == queue.size()){
+          if (req.type == Request::Type::READ)
+              std::cout  << " Error: Intento de encolar en cola de lectura   llena, Controller.h:313 " << queue.size() << "/" << queue.max << "\n" ;
+          else
+              std::cout  << " Error: Intento de encolar en cola de escritura llena, Controller.h:313 : " << queue.size() << "/" << queue.max << "\n" ;
+
+          return false;
+        }
+        if (req.type == Request::Type::READ)
+            std::cout  << " Se encola una lectura, Controller.h:313 " << queue.size() << "/" << queue.max << "\n" ;
+        else
+            std::cout  << " Se encola una escritura, Controller.h:313  : " << queue.size() << "/" << queue.max << "\n" ;
 
         req.arrive = clk;
         queue.q.push_back(req);
@@ -333,17 +343,19 @@ public:
 
     bool full(Request& req)
     {
-        std::cout << "llamada a Controller.full(Request& req) " << '\n';
+        //std::cout << "llamada a Controller.full(Request& req) " << '\n';
 
         Queue& queue = get_queue(req.type);
+
+/*
         if (req.type == Request::Type::READ)
-            std::cout  << " Cola de lectura de ramulator : " << queue.size() << "/" << queue.max << "\n" ;
+            std::cout  << " Cola de lectura   de ramulator : " << queue.size() << "/" << queue.max << "\n" ;
         else
             std::cout  << " Cola de escritura de ramulator : " << queue.size() << "/" << queue.max << "\n" ;
-
+*/
 
         if (queue.max == queue.size()){
-           std::cout  << " Cola de llena!\n" ;
+           std::cout << "Cola llena, Controller.h:350 --- Uso: " << queue.max << " Max: " << queue.size() << "\n";
            return true;
         }
         return false;

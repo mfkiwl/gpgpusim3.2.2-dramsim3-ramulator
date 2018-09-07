@@ -305,6 +305,7 @@ public:
                     req.addr_vec[i] = slice_lower_bits(addr, addr_bits[i]);
                 break;
             default:
+                printf("Error en Memory.h:308 \n");
                 assert(false);
         }
 
@@ -331,7 +332,7 @@ public:
 
     bool full(Request req)
     {
-      std::cout << "llamada a Memory.full(Request req) "  << '\n';
+      //std::cout << "llamada a Memory.full(Request req) "  << '\n';
       //CREADO PARA COMPATIBILIDAD CON gpgpu-sim
       req.addr_vec.resize(addr_bits.size());
       long addr = req.addr;

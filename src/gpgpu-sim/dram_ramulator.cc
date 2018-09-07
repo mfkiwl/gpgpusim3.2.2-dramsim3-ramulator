@@ -197,7 +197,7 @@ bool dram_ramulator_t::full() const
 
 bool dram_ramulator_t::full(mem_fetch* mf) const
 {
-  std::cout << "llamada a dram_ramulator.full(*mf) " << ql << '\n';
+  //std::cout << "llamada a dram_ramulator.full(*mf) " << ql << '\n';
   bool b;
   ramulator::Request req;
   if (mf->get_type()==0)//READ_REQUEST=0
@@ -205,7 +205,6 @@ bool dram_ramulator_t::full(mem_fetch* mf) const
   else
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, (int) id);
 
-  std::cout << objRamulator->full(req) << "\n";
 
   b=objRamulator->full(req);
 
@@ -245,8 +244,10 @@ void dram_ramulator_t::push( class mem_fetch *data )
       max_mrqs_temp = (max_mrqs_temp > objRamulator->que_length())? max_mrqs_temp : objRamulator->que_length();
       m_stats->memlatstat_dram_access(data);
 
-   if (!objRamulator->send(*req))
-      std::cout  << " Error en el SEND de ramulator.\n";
+   if (!objRamulator->send(*req)){
+      std::cout  << " Error en el PUSH de ramulator.\n";
+      assert(false);
+    }
    //ql++; //aumentamos que_length
 }
 
