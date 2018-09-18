@@ -199,14 +199,24 @@ bool dram_ramulator_t::full(mem_fetch* mf) const
 {
   //std::cout << "llamada a dram_ramulator.full(*mf) " << ql << '\n';
   bool b;
-  ramulator::Request req;
+  ramulator::Request *req;
+  /* asi no va
   if (mf->get_type()==0)//READ_REQUEST=0
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::READ, (int) id);
   else
     ramulator::Request req(mf->get_addr(), ramulator::Request::Type::WRITE, (int) id);
+    */
+
+  if (mf->get_type()==0){//READ_REQUEST=0
+    req = new ramulator::Request(mf->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, mf, (int)  id);
+   //std::cout  << "->R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+  }else{
+    req = new ramulator::Request(mf->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, mf,  (int) id);
+         //std::cout  << "->W." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+  }
 
 
-  b=objRamulator->full(req);
+  b=objRamulator->full(*req);
 
   return (b);
 }

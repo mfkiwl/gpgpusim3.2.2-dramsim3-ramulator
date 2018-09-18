@@ -74,7 +74,10 @@ bool Gem5Wrapper::full(Request req)
   //std::cout << "llamada a Gem5Wrapper.full(Request req) " << '\n';
   bool r;
   r = mem->full(req);
-  if (r) printf ("\n * COLA ENTRADA DE RAMULATOR LLENA * \n");
+  if (r){
+    printf ("\n * COLA ENTRADA DE RAMULATOR LLENA * \n");
+    //assert(false);
+  }
   return r;
 }
 
