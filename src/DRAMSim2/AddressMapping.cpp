@@ -2,20 +2,20 @@
 *  Copyright (c) 2010-2011, Elliott Cooper-Balis
 *                             Paul Rosenfeld
 *                             Bruce Jacob
-*                             University of Maryland 
+*                             University of Maryland
 *                             dramninjas [at] gmail [dot] com
 *  All rights reserved.
-*  
+*
 *  Redistribution and use in source and binary forms, with or without
 *  modification, are permitted provided that the following conditions are met:
-*  
+*
 *     * Redistributions of source code must retain the above copyright notice,
 *        this list of conditions and the following disclaimer.
-*  
+*
 *     * Redistributions in binary form must reproduce the above copyright notice,
 *        this list of conditions and the following disclaimer in the documentation
 *        and/or other materials provided with the distribution.
-*  
+*
 *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -50,7 +50,7 @@ void addressMapping(uint64_t physicalAddress, unsigned &newTransactionChan, unsi
 
 	if ((physicalAddress & transactionMask) != 0)
 	{
-		DEBUG("WARNING: address 0x"<<std::hex<<physicalAddress<<std::dec<<" is not aligned to the request size of "<<transactionSize); 
+		DEBUG("WARNING: address 0x"<<std::hex<<physicalAddress<<std::dec<<" is not aligned to the request size of "<<transactionSize);
 	}
 
 	// each burst will contain JEDEC_DATA_BUS_BITS/8 bytes of data, so the bottom bits (3 bits for a single channel DDR system) are
@@ -58,31 +58,31 @@ void addressMapping(uint64_t physicalAddress, unsigned &newTransactionChan, unsi
 	physicalAddress >>= byteOffsetWidth;
 
 	// The next thing we have to consider is that when a request is made for a
-	// we've taken into account the granulaity of a single burst by shifting 
+	// we've taken into account the granulaity of a single burst by shifting
 	// off the bottom 3 bits, but a transaction has to take into account the
 	// burst length (i.e. the requests will be aligned to cache line sizes which
-	// should be equal to transactionSize above). 
+	// should be equal to transactionSize above).
 	//
-	// Since the column address increments internally on bursts, the bottom n 
-	// bits of the column (colLow) have to be zero in order to account for the 
-	// total size of the transaction. These n bits should be shifted off the 
-	// address and also subtracted from the total column width. 
+	// Since the column address increments internally on bursts, the bottom n
+	// bits of the column (colLow) have to be zero in order to account for the
+	// total size of the transaction. These n bits should be shifted off the
+	// address and also subtracted from the total column width.
 	//
 	// I am having a hard time explaining the reasoning here, but it comes down
-	// this: for a 64 byte transaction, the bottom 6 bits of the address must be 
+	// this: for a 64 byte transaction, the bottom 6 bits of the address must be
 	// zero. These zero bits must be made up of the byte offset (3 bits) and also
-	// from the bottom bits of the column 
-	// 
-	// For example: cowLowBits = log2(64bytes) - 3 bits = 3 bits 
+	// from the bottom bits of the column
+	//
+	// For example: cowLowBits = log2(64bytes) - 3 bits = 3 bits
 	unsigned colLowBitWidth = COL_LOW_BIT_WIDTH;
 
 	physicalAddress >>= colLowBitWidth;
-	unsigned colHighBitWidth = colBitWidth - colLowBitWidth; 
+	unsigned colHighBitWidth = colBitWidth - colLowBitWidth;
 	if (DEBUG_ADDR_MAP)
 	{
 		DEBUG("Bit widths: ch:"<<channelBitWidth<<" r:"<<rankBitWidth<<" b:"<<bankBitWidth
 				<<" row:"<<rowBitWidth<<" colLow:"<<colLowBitWidth
-				<< " colHigh:"<<colHighBitWidth<<" off:"<<byteOffsetWidth 
+				<< " colHigh:"<<colHighBitWidth<<" off:"<<byteOffsetWidth
 				<< " Total:"<< (channelBitWidth + rankBitWidth + bankBitWidth + rowBitWidth + colLowBitWidth + colHighBitWidth + byteOffsetWidth));
 	}
 
@@ -266,6 +266,39 @@ void addressMapping(uint64_t physicalAddress, unsigned &newTransactionChan, unsi
 
 	}
 	// clone of scheme 5, but channel moved to lower bits
+	// MODIFICADO PARA CORRESPONDER CON EL 2 DE RAMULATOR ROW:BANK:RANK:COL:CHAN, ORIGINAL ABAJO
+	else if (addressMappingScheme == Scheme7)
+	{
+		//row:col:rank:bank:chan
+		tempA = physicalAddress;
+		physicalAddress = physicalAddress >> channelBitWidth;
+		tempB = physicalAddress << channelBitWidth;
+		newTransactionChan = tempA ^ tempB;
+
+		tempA = physicalAddress;
+		physicalAddress = physicalAddress >> colHighBitWidth;
+		tempB = physicalAddress << colHighBitWidth;
+		newTransactionColumn = tempA ^ tempB;
+
+		tempA = physicalAddress;
+		physicalAddress = physicalAddress >> rankBitWidth;
+		tempB = physicalAddress << rankBitWidth;
+		newTransactionRank = tempA ^ tempB;
+
+		tempA = physicalAddress;
+		physicalAddress = physicalAddress >> bankBitWidth;
+		tempB = physicalAddress << bankBitWidth;
+		newTransactionBank = tempA ^ tempB;
+
+		tempA = physicalAddress;
+		physicalAddress = physicalAddress >> rowBitWidth;
+		tempB = physicalAddress << rowBitWidth;
+		newTransactionRow = tempA ^ tempB;
+
+	}
+// Esquema 7 ORIGINAL:
+	/*
+	// clone of scheme 5, but channel moved to lower bits
 	else if (addressMappingScheme == Scheme7)
 	{
 		//row:col:rank:bank:chan
@@ -295,7 +328,7 @@ void addressMapping(uint64_t physicalAddress, unsigned &newTransactionChan, unsi
 		newTransactionRow = tempA ^ tempB;
 
 	}
-
+	*/
 	else
 	{
 		ERROR("== Error - Unknown Address Mapping Scheme");
@@ -305,7 +338,7 @@ void addressMapping(uint64_t physicalAddress, unsigned &newTransactionChan, unsi
 	{
 		DEBUG("Mapped Ch="<<newTransactionChan<<" Rank="<<newTransactionRank
 				<<" Bank="<<newTransactionBank<<" Row="<<newTransactionRow
-				<<" Col="<<newTransactionColumn<<"\n"); 
+				<<" Col="<<newTransactionColumn<<"\n");
 	}
 
 }
