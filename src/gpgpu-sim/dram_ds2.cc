@@ -180,7 +180,7 @@ return b;
 
 unsigned dram_ds2_t::que_length() const
 {
-std::cout << "\nTamaño de la cola: " << ql << '\n';
+//std::cout << "\nTamaño de la cola: " << ql << '\n';
 return ql;
 }
 /*

@@ -269,7 +269,7 @@ void addressMapping(uint64_t physicalAddress, unsigned &newTransactionChan, unsi
 	// MODIFICADO PARA CORRESPONDER CON EL 2 DE RAMULATOR ROW:BANK:RANK:COL:CHAN, ORIGINAL ABAJO
 	else if (addressMappingScheme == Scheme7)
 	{
-		//row:col:rank:bank:chan
+		//row:bank:rank:col:chan
 		tempA = physicalAddress;
 		physicalAddress = physicalAddress >> channelBitWidth;
 		tempB = physicalAddress << channelBitWidth;

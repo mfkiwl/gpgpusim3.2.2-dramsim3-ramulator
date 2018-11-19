@@ -352,8 +352,6 @@ public:
 
         Queue& queue = get_queue(req.type);
 
-
-
 /*
         if (req.type == Request::Type::READ)
             std::cout  << " Cola de lectura   de ramulator : " << queue.size() << "/" << queue.max << "\n" ;
