@@ -668,6 +668,7 @@ void memory_stats_t::visualizer_print( gzFile visualizer_file )
    // gzprintf(visualizer_file, "Ltworeadhit: %d\n", L2_read_access-L2_read_miss);
    if (num_mfs)
       gzprintf(visualizer_file, "averagemflatency: %lld\n", mf_total_lat/num_mfs);
+      gzprintf(visualizer_file, "mf_total_lat = %d \n", mf_total_lat);
       gzprintf(visualizer_file, "num_mfs = %d \n", num_mfs);
 
 }
