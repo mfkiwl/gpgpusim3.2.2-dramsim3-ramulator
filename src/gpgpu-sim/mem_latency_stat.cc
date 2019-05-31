@@ -154,7 +154,7 @@ void memory_stats_t::memlatstat_read_done(mem_fetch *mf)
 {
    if (m_memory_config->gpgpu_memlatency_stat) {
       unsigned mf_latency = memlatstat_done(mf);
-      if (mf_latency > mf_max_lat_table[mf->get_tlx_addr().chip][mf->get_tlx_addr().bk]) 
+      if (mf_latency > mf_max_lat_table[mf->get_tlx_addr().chip][mf->get_tlx_addr().bk])
          mf_max_lat_table[mf->get_tlx_addr().chip][mf->get_tlx_addr().bk] = mf_latency;
       unsigned icnt2sh_latency;
       icnt2sh_latency = (gpu_tot_sim_cycle+gpu_sim_cycle) - mf->get_return_timestamp();
@@ -168,9 +168,9 @@ void memory_stats_t::memlatstat_dram_access(mem_fetch *mf)
 {
    unsigned dram_id = mf->get_tlx_addr().chip;
    unsigned bank = mf->get_tlx_addr().bk;
-   if (m_memory_config->gpgpu_memlatency_stat) { 
+   if (m_memory_config->gpgpu_memlatency_stat) {
       if (mf->get_is_write()) {
-         if ( mf->get_sid() < m_n_shader  ) {   //do not count L2_writebacks here 
+         if ( mf->get_sid() < m_n_shader  ) {   //do not count L2_writebacks here
             bankwrites[mf->get_sid()][dram_id][bank]++;
             shader_mem_acc_log( mf->get_sid(), dram_id, bank, 'w');
          }
@@ -182,7 +182,7 @@ void memory_stats_t::memlatstat_dram_access(mem_fetch *mf)
       }
       mem_access_type_stats[mf->get_access_type()][dram_id][bank]++;
    }
-   if (mf->get_pc() != (unsigned)-1) 
+   if (mf->get_pc() != (unsigned)-1)
       ptx_file_line_stats_add_dram_traffic(mf->get_pc(), mf->get_data_size());
 }
 
@@ -221,6 +221,7 @@ void memory_stats_t::memlatstat_print( unsigned n_mem, unsigned gpu_mem_n_bk )
       printf("maxmflatency = %d \n", max_mf_latency);
       if (num_mfs) {
          printf("averagemflatency = %lld \n", mf_total_lat/num_mfs);
+         printf("num_mfs = %d \n", num_mfs);
       }
       printf("max_icnt2mem_latency = %d \n", max_icnt2mem_latency);
       printf("max_icnt2sh_latency = %d \n", max_icnt2sh_latency);
