@@ -27,6 +27,7 @@ static map<string, function<MemoryBase *(const Config&, int)> > name_to_func = {
     {"WideIO", &MemoryFactory<WideIO>::create}, {"WideIO2", &MemoryFactory<WideIO2>::create},
     {"HBM", &MemoryFactory<HBM>::create},
     {"SALP-1", &MemoryFactory<SALP>::create}, {"SALP-2", &MemoryFactory<SALP>::create}, {"SALP-MASA", &MemoryFactory<SALP>::create},
+    {"DSARP", &MemoryFactory<DSARP>::create}
 };
 
 

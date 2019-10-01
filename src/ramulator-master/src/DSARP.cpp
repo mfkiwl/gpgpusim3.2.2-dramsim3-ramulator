@@ -70,6 +70,16 @@ DSARP::DSARP(Org org, Speed speed, Type type, int n_sa) :
     translate[int(Request::Type::REFRESH)] = Command::REFPB;
 }
 
+//constructores de dos argumentos
+DSARP::DSARP(Org org, Speed speed):
+  DSARP(org, speed, DSARP::Type::DSARP,8) {}
+
+DSARP::DSARP(const string& org_str, const string& speed_str):
+  DSARP(org_map[org_str], speed_map[speed_str], DSARP::Type::DSARP,8) {}
+
+
+
+
 DSARP::DSARP(const string& org_str, const string& speed_str, Type type, int n_sa) :
   DSARP(org_map[org_str], speed_map[speed_str], type, n_sa) {}
 

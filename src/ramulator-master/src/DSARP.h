@@ -55,6 +55,10 @@ public:
     DSARP(Org org, Speed speed, Type type, int n_sa);
     DSARP(const string& org_str, const string& speed_str, Type type, int n_sa);
 
+    //anyado constructores con dos argumentos
+    DSARP(Org org, Speed speed);
+    DSARP(const string& org_str, const string& speed_str);
+
     static map<string, enum Org> org_map;
     static map<string, enum Speed> speed_map;
 
