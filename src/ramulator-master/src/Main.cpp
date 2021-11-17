@@ -26,6 +26,8 @@
 #include "SALP.h"
 #include "ALDRAM.h"
 #include "TLDRAM.h"
+#include "STTMRAM.h"
+#include "PCM.h"
 
 using namespace std;
 using namespace ramulator;
@@ -63,7 +65,7 @@ void run_dramtrace(const Config& configs, Memory<T, Controller>& memory, const c
             }
         }
         else {
-            memory.set_high_writeq_watermark(0.0f); // make sure that all write requests in the 
+            memory.set_high_writeq_watermark(0.0f); // make sure that all write requests in the
                                                     // write queue are drained
         }
 
@@ -114,7 +116,7 @@ void run_cputrace(const Config& configs, Memory<T, Controller>& memory, const st
     Stats::reset_stats();
     proc.reset_stats();
     assert(proc.get_insts() == 0);
-    
+
     printf("Starting the simulation...\n");
 
     int tick_mult = cpu_tick * mem_tick;
@@ -138,7 +140,7 @@ void run_cputrace(const Config& configs, Memory<T, Controller>& memory, const st
                 }
             }
         }
-        
+
         if (((i % tick_mult) % cpu_tick) == 0) // TODO_hasan: Better if the processor ticks the memory controller
             memory.tick();
 
@@ -199,14 +201,23 @@ int main(int argc, const char *argv[])
 
     int trace_start = 3;
     string stats_out;
-    if (strcmp(argv[3], "--stats") == 0) {
-      Stats::statlist.output(argv[4]);
-      stats_out = argv[4];
-      trace_start = 5;
+    if (strcmp(argv[trace_start], "--stats") == 0) {
+      Stats::statlist.output(argv[trace_start+1]);
+      stats_out = argv[trace_start+1];
+      trace_start += 2;
     } else {
       Stats::statlist.output(standard+".stats");
       stats_out = standard + string(".stats");
     }
+
+    // A separate file defines mapping for easy config.
+    if (strcmp(argv[trace_start], "--mapping") == 0) {
+      configs.add("mapping", argv[trace_start+1]);
+      trace_start += 2;
+    } else {
+      configs.add("mapping", "defaultmapping");
+    }
+
     std::vector<const char*> files(&argv[trace_start], &argv[argc]);
     configs.set_core_num(argc - trace_start);
 
@@ -241,6 +252,12 @@ int main(int argc, const char *argv[])
       WideIO2* wio2 = new WideIO2(configs["org"], configs["speed"], configs.get_channels());
       wio2->channel_width *= 2;
       start_run(configs, wio2, files);
+    } else if (standard == "STTMRAM") {
+      STTMRAM* sttmram = new STTMRAM(configs["org"], configs["speed"]);
+      start_run(configs, sttmram, files);
+    } else if (standard == "PCM") {
+      PCM* pcm = new PCM(configs["org"], configs["speed"]);
+      start_run(configs, pcm, files);
     }
     // Various refresh mechanisms
       else if (standard == "DSARP") {

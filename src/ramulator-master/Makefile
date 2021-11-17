@@ -10,8 +10,9 @@ OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
 CXX := clang++
 # CXX := g++-5
 #CXXFLAGS := -O3 -std=c++11 -g -Wall
-#CXXFLAGS := -fPIC -O3 -std=c++11 -g -Wall
-CXXFLAGS := -fPIC -std=c++11 -g -Wall
+CXXFLAGS := -O3 -fPIC -std=c++11 -g -Wall
+
+
 .PHONY: all clean depend
 
 all: depend ramulator
@@ -39,7 +40,6 @@ ramulator: $(MAIN) $(OBJS) $(SRCDIR)/*.h | depend
 libramulator.a: $(OBJS) $(OBJDIR)/Gem5Wrapper.o
 #	libtool -static -o $@ $(OBJS) $(OBJDIR)/Gem5Wrapper.o
 	libtool --mode=link gcc $(CXXFLAGS) -static -o ramulator.a $(OBJDIR)/*
-# src/Gem5Wrapper.o
 
 $(OBJS): | $(OBJDIR)
 

@@ -312,26 +312,9 @@ public:
 
     bool enqueue(Request& req)
     {
-
         Queue& queue = get_queue(req.type);
-
-
-        if (queue.max == queue.size()){
-          if (req.type == Request::Type::READ)
-              std::cout  << " Error: Intento de encolar en cola de lectura   llena, Controller.h:313 " << queue.size() << "/" << queue.max << "\n" ;
-          else
-              std::cout  << " Error: Intento de encolar en cola de escritura llena, Controller.h:313 : " << queue.size() << "/" << queue.max << "\n" ;
-
-          assert(false);
-          return false;
-        }
-        /*
-        if (req.type == Request::Type::READ)
-            std::cout  << " Se encola una lectura, Controller.h:313 " << queue.size() << "/" << queue.max  << "\n" ;
-        else
-            std::cout  << " Se encola una escritura, Controller.h:313  : " << queue.size() << "/" << queue.max << "\n" ;
-
-        */
+        if (queue.max == queue.size())
+            return false;
 
         req.arrive = clk;
         queue.q.push_back(req);
@@ -366,11 +349,13 @@ public:
         return false;
     }
 
+
+
+
+
+
     void tick()
     {
-        //std::cout << "RAMULATOR: tick() \n ";
-        //std::cout << "RAMULATOR: Tamaño cola R: " << readq.size() << " W: " << writeq.size() << " \n ";
-
         clk++;
         req_queue_length_sum += readq.size() + writeq.size() + pending.size();
         read_req_queue_length_sum += readq.size() + pending.size();
@@ -385,7 +370,6 @@ public:
                   channel->update_serving_requests(
                       req.addr_vec.data(), -1, clk);
                 }
-                //std::cout << "RAMULATOR: Llamando al callback de un read \n ";
                 req.callback(req);
                 pending.pop_front();
             }
@@ -395,14 +379,10 @@ public:
         refresh->tick_ref();
 
         /*** 3. Should we schedule writes? ***/
-
         if (!write_mode) {
             // yes -- write queue is almost full or read queue is empty
             if (writeq.size() > int(wr_high_watermark * writeq.max) || readq.size() == 0)
-                    /*|| readq.size() == 0*/ // Hasan: Switching to write mode when there are just a few
-                                              // write requests, even if the read queue is empty, incurs a lot of overhead.
-                                              // Commented out the read request queue empty condition
-               write_mode = true;
+                write_mode = true;
         }
         else {
             // no -- write queue is almost empty and read queue is not empty
@@ -415,19 +395,33 @@ public:
         // First check the actq (which has higher priority) to see if there
         // are requests available to service in this cycle
         Queue* queue = &actq;
-
+        typename T::Command cmd;
         auto req = scheduler->get_head(queue->q);
-        if (req == queue->q.end() || !is_ready(req)) {
-            //std::cout << "RAMULATOR: Usando cola " << (write_mode ? "WRITE" : "READ") << '\n';
+
+        bool is_valid_req = (req != queue->q.end());
+
+        if(is_valid_req) {
+            cmd = get_first_cmd(req);
+            is_valid_req = is_ready(cmd, req->addr_vec);
+        }
+
+        if (!is_valid_req) {
             queue = !write_mode ? &readq : &writeq;
 
             if (otherq.size())
                 queue = &otherq;  // "other" requests are rare, so we give them precedence over reads/writes
 
             req = scheduler->get_head(queue->q);
+
+            is_valid_req = (req != queue->q.end());
+
+            if(is_valid_req){
+                cmd = get_first_cmd(req);
+                is_valid_req = is_ready(cmd, req->addr_vec);
+            }
         }
 
-        if (req == queue->q.end() || !is_ready(req)) {
+        if (!is_valid_req) {
             // we couldn't find a command to schedule -- let's try to be speculative
             auto cmd = T::Command::PRE;
             vector<int> victim = rowpolicy->get_victim(cmd);
@@ -477,12 +471,11 @@ public:
         }
 
         // issue command on behalf of request
-        auto cmd = get_first_cmd(req);
         issue_cmd(cmd, get_addr_vec(cmd, req));
 
         // check whether this is the last command (which finishes the request)
         //if (cmd != channel->spec->translate[int(req->type)]){
-        if (!(channel->spec->is_accessing(cmd) || channel->spec->is_refreshing(cmd))) {
+        if (cmd != channel->spec->translate[int(req->type)]) {
             if(channel->spec->is_opening(cmd)) {
                 // promote the request that caused issuing activation to actq
                 actq.q.push_back(*req);
@@ -500,7 +493,6 @@ public:
 
         if (req->type == Request::Type::WRITE) {
             channel->update_serving_requests(req->addr_vec.data(), -1, clk);
-            //std::cout << "RAMULATOR: Llamando al callback de un write \n ";
             req->callback(*req);
         }
 

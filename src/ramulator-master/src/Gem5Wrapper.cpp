@@ -14,9 +14,8 @@
 #include "WideIO2.h"
 #include "HBM.h"
 #include "SALP.h"
-
-//#include "Statistics.h"
-
+#include "PCM.h"
+#include "STTMRAM.h"
 
 using namespace ramulator;
 
@@ -27,7 +26,10 @@ static map<string, function<MemoryBase *(const Config&, int)> > name_to_func = {
     {"WideIO", &MemoryFactory<WideIO>::create}, {"WideIO2", &MemoryFactory<WideIO2>::create},
     {"HBM", &MemoryFactory<HBM>::create},
     {"SALP-1", &MemoryFactory<SALP>::create}, {"SALP-2", &MemoryFactory<SALP>::create}, {"SALP-MASA", &MemoryFactory<SALP>::create},
-    {"DSARP", &MemoryFactory<DSARP>::create}
+    //Añadidos constructores para: DSARP, PCM, STTMRAM:
+    {"DSARP", &MemoryFactory<DSARP>::create},
+    {"PCM", &MemoryFactory<PCM>::create},
+    {"STTMRAM", &MemoryFactory<STTMRAM>::create},
 };
 
 
@@ -49,6 +51,8 @@ Gem5Wrapper::Gem5Wrapper(std::string& config_file, int cacheline)
     tCK = mem->clk_ns();
 }
 
+
+
 Gem5Wrapper::~Gem5Wrapper() {
     delete mem;
 }
@@ -56,18 +60,15 @@ Gem5Wrapper::~Gem5Wrapper() {
 void Gem5Wrapper::tick()
 {
     mem->tick();
-  //  std::cout  << " Ciclo de Ramulator \n";
-    //  Stats::curTick++; // memory clock, global, for Statistics
 }
 
 bool Gem5Wrapper::send(Request req)
 {
-  return mem->send(req);
+    return mem->send(req);
 }
 
 void Gem5Wrapper::finish(void) {
     mem->finish();
-    //  Stats::statlist.printall();
 }
 
 bool Gem5Wrapper::full(Request req)

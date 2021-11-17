@@ -1,0 +1,2 @@
+gcc -shared -fPIC -o libramulator.so ./obj/*
+

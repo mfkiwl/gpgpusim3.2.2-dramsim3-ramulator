@@ -59,6 +59,7 @@ public:
     DSARP(Org org, Speed speed);
     DSARP(const string& org_str, const string& speed_str);
 
+
     static map<string, enum Org> org_map;
     static map<string, enum Speed> speed_map;
 
@@ -74,6 +75,8 @@ public:
     {
       Channel, Rank, Bank, SubArray, Row, Column, MAX
     };
+
+    static std::string level_str [int(Level::MAX)];
 
     /* Command */
     enum class Command : int
