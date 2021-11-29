@@ -187,7 +187,7 @@ void dram_t::push( class mem_fetch *data )
    dram_req_t *mrq = new dram_req_t(data);
    data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
    mrqq->push(mrq);
-   cont++;
+   //cont++;
    //std::cout  << (data->get_is_write()?"->W.":"->R.") << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
    //std::cout  << data->get_request_uid() << " Entra ---. id: " << id << " Pendientes: "<< cont << "\n";
    // stats...
@@ -254,7 +254,7 @@ void dram_t::cycle()
            printf("\n");
 #endif
        }
-   }
+   }//de dram_t::cycle()
 
    /* check if the upcoming request is on an idle bank */
    /* Should we modify this so that multiple requests are checked? */

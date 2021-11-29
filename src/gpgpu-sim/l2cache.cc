@@ -279,6 +279,9 @@ if( !m_dram->full() ) {
         mem_fetch* mf = m_dram_latency_queue.front().req;
         if (!m_dram->full(mf)){
             m_dram_latency_queue.pop_front();
+            //generar salida de traza para probarlo con ramulator independiente:
+            //printf("traza: 0x%lx %c\n",mf->get_addr(),mf->get_type()==0?'R':'W');
+            //printf("mf.data_size = %u\n",mf->get_data_size());
             m_dram->push(mf);
         }
     }

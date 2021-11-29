@@ -62,9 +62,11 @@ template class fifo_pipeline<dram_req_t>;
 
 void dram_ramulator_t::read_complete(ramulator::Request& req)
 {
+    //std::cout << "RAMULATOR: Read Complete\n ";
     mem_fetch *data=(mem_fetch *)req.mf;
     //std::cout  << "<-R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
-    //data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+    //printf("R_mf_rtt: %llu\n",gpu_sim_cycle+gpu_tot_sim_cycle-(data->get_m_status_change()));
+    data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
     if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
           data->set_reply();
           returnq->push(data);
@@ -78,8 +80,10 @@ void dram_ramulator_t::read_complete(ramulator::Request& req)
 
 void dram_ramulator_t::write_complete(ramulator::Request& req)
 {
+  //std::cout << "RAMULATOR: Write Complete\n ";
   //std::cout << "Era un WRITE \n ";
   mem_fetch *data=(mem_fetch *)req.mf;
+  //printf("W_mf_rtt: %llu\n",gpu_sim_cycle+gpu_tot_sim_cycle-(data->get_m_status_change()));
   //std::cout  << "<-W." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
 //ql--; //disminuimos que_length
   data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
@@ -236,10 +240,15 @@ unsigned int dram_ramulator_t::queue_limit() const
 
 void dram_ramulator_t::push( class mem_fetch *data )
 {
-   assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
+   //assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
+   id=0;//Ramulator que se apañe
+   
    data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
 
    ramulator::Request *req;
+
+   //borrar:
+   //std::cout << "Atom size:" << m_config->dram_atom_size << "\n"; 
 
    if (data->get_type()==0){//READ_REQUEST=0
      req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, (int)  id);

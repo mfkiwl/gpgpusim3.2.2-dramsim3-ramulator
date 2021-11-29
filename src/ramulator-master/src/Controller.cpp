@@ -67,7 +67,7 @@ void Controller<TLDRAM>::tick(){
                   channel->update_serving_requests(
                       req.addr_vec.data(), -1, clk);
           }
-            std::cout << "RAMULATOR: Llamando al callback de un read .cpp\n ";
+            //std::cout << "RAMULATOR: Llamando al callback de un read .cpp\n ";
             req.callback(req);
             pending.pop_front();
         }
@@ -158,7 +158,7 @@ void Controller<TLDRAM>::tick(){
     }
     if (req->type == Request::Type::WRITE) {
         channel->update_serving_requests(req->addr_vec.data(), -1, clk);
-        std::cout << "RAMULATOR: Llamando al callback de un write .cpp\n ";
+        //std::cout << "RAMULATOR: Llamando al callback de un write .cpp\n ";
         req->callback(*req);
     }
 

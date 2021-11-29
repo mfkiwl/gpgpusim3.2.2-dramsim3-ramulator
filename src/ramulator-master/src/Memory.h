@@ -353,8 +353,7 @@ public:
         return false;
     }
     */
-    return (ctrls[req.addr_vec[0]]->enqueue(req));
-    }
+    return (ctrls[req.addr_vec[0]]->enqueue(req));    }
 
     bool full(Request req)
     {

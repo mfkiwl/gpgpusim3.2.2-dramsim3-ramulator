@@ -140,7 +140,7 @@ public:
    class memory_partition_unit *m_memory_partition_unit;
    unsigned int id;
 
-   unsigned cont;
+   //unsigned cont;
 
 
    // Power Model
