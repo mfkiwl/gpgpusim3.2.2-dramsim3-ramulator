@@ -1,4 +1,29 @@
+This is a proof of concept about the integration of Dramsim2, Dramsim3 and Ramulator with GPGPUSIM3.2.2.
 
+This is not production code, some assumptions are made about paths, some options are hardcoded, please contact me if you are interested in running this version.
+
+Additions to gpgpusim.config:
+
+-dram_simulator  [0,1,2,3]
+
+	0: gpgpusim native dram emulation
+	1: use dramsim2
+	2: use ramulator
+	3: use dramsim3
+
+*DS2 options:
+-dramsim2_controller_ini (path to DS2 controller .ini file)
+-dramsim2_dram_ini (path to DS2 dram ini file)
+-dramsim2_vis_file (path to DS2 output vis file)
+-dramsim2_total_memory_megs (#megs)
+
+*RAMULATOR options:
+-ramulator_config_file (path to Ramulator config file)
+
+*DS3 options:
+-dramsim3_dram_ini (path to DS3 .ini file)
+
+--Original README.MD of GPGPUSIM 3.2.2:
 
 Welcome to GPGPU-Sim, a cycle-level simulator modeling contemporary graphics
 processing units (GPUs) running GPU computing workloads written in CUDA or
