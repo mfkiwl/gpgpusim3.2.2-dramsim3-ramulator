@@ -254,7 +254,7 @@ void dram_t::cycle()
            printf("\n");
 #endif
        }
-   }//de dram_t::cycle()
+   }
 
    /* check if the upcoming request is on an idle bank */
    /* Should we modify this so that multiple requests are checked? */
@@ -444,7 +444,7 @@ void dram_t::cycle()
 #ifdef DRAM_VISUALIZE
    visualize();
 #endif
-}
+}//de dram_t::cycle()
 
 //if mrq is being serviced by dram, gets popped after CL latency fulfilled
 class mem_fetch* dram_t::return_queue_pop()

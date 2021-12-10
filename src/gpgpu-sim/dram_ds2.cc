@@ -61,68 +61,40 @@ template class fifo_pipeline<dram_req_t>;
 /* callback functors */
 void dram_ds2_t::read_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
-
     mem_fetch *data=(mem_fetch *)mf_return;
 
-    //std::cout << "Sale el memfetch por el read_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
-    returnq->push(data);
-
+    if (data->dec_cont()==0){ //ya ha vuelto el último Request de todos los que se generaron:
+    	data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+    	if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
+          	data->set_reply();
+          	returnq->push(data);
+        //  std::cout << "Era un read: No es L1_WRBK_ACC ni  L2_WRBK_ACC \n ";
+    	} else {
+          	m_memory_partition_unit->set_done(data);
+          	delete data;
+        //  std::cout << "Era un read: Es L1_WRBK_ACC o  L2_WRBK_ACC \n ";
+      	}
+    }
     ql--; //disminuimos que_length
-
-    data->set_reply();
-    data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
-
-
-  //recuperar de la lista  el mem_Fetch asociado a esta operacion:
- /*
-  mem_fetch *mf_return;
-
-  std::map<new_addr_type, class mem_fetch*>::iterator it;
-  it=backup_de_MF.find((new_addr_type) address);
-  if(it != backup_de_MF.end()){
-     mf_return = it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
-   }
-     //backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
-     printf("[Callback] read complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
-     backup_de_MF.erase(it);
-
-
-
-
-  //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
-  */
 }
 
 void dram_ds2_t::write_complete(unsigned id, uint64_t address, uint64_t clock_cycle, void *mf_return)
 {
-  mem_fetch *data=(mem_fetch *)mf_return;
-  //std::cout << "Sale el memfetch por el write_complete #" << data->get_addr() << "es un write? =" << data->is_write() << "\n";
+    mem_fetch *data=(mem_fetch *)mf_return;
 
-  ql--; //disminuimos que_length
-  data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
-
-  if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
-     data->set_reply();
-     returnq->push(data);
-  } else {
-     m_memory_partition_unit->set_done(data);
-     delete data;
-  }
-
-  /*
-  //recuperar de la lista  el mem_Fetch asociado a esta operacion.
-  mem_fetch *mf_return;
-  std::map<new_addr_type, class mem_fetch*>::iterator it;
-  it=backup_de_MF.find((new_addr_type) address);
-  if(it != backup_de_MF.end()){
-    mf_return = it->second; //si existe tal mem_fectch en el backup, asociarlo a mf_Return
-  }
-  printf("[Callback] write complete: %d 0x%lx cycle=%lu\n", id, address, clock_cycle);
-  backup_de_MF.erase((new_addr_type) address); // y borrarlo de backup
-
-
-  //m_memory_partition_unit->get_sub_partition(mf_return->get_sub_partition_id())->dram_L2_queue_push(mf_return);
-  */
+    if (data->dec_cont()==0){ //ya ha vuelto el último Request de todos los que se generaron:
+    	data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+    	if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
+          	data->set_reply();
+          	returnq->push(data);
+        //  std::cout << "Era un read: No es L1_WRBK_ACC ni  L2_WRBK_ACC \n ";
+    	} else {
+          	m_memory_partition_unit->set_done(data);
+          	delete data;
+        //  std::cout << "Era un read: Es L1_WRBK_ACC o  L2_WRBK_ACC \n ";
+      	}
+    }
+    ql--; //disminuimos que_length
 }
 
 //dram_ds2_t::dram_ds2_t(){};
@@ -183,16 +155,6 @@ unsigned dram_ds2_t::que_length() const
 //std::cout << "\nTamaño de la cola: " << ql << '\n';
 return ql;
 }
-/*
-  printf("*****************\n");
-  printf("*  _        _   *\n");
-  printf("*  O        O   *\n");
-  printf("*       |       *\n");
-  printf("*  *        *   *\n");
-  printf("*   ********    *\n");
-  printf("*****************\n");
-  printf("\n");
-*/
   //std::cout << "El tamaño de la cola es " << backup_de_MF.size() << '\n';
   //printf("Tamaño de la cola: %u", ql);
 
@@ -248,49 +210,30 @@ dram_req_t::dram_req_t( class mem_fetch *mf )
 }
 */
 void dram_ds2_t::push( class mem_fetch *data )
-{
-
+{ 
+   data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+   int m=4; //multiplicador. La implementacion correcta ha de calcularlo de los parámetro de la arquitectura.
+   int s=32; //incremento sobre la dirección base del mf
+   data->set_cont(m); //este mem_fetch ha generado 4 operaciones = 4 Requests
+   for (int j=0;j<m;j++){ //mandamos un lote de requests, tienen el mismo mf, pero van a direcciones distintas (contiguas)
+	objDramSim2->addTransaction(data->is_write(), data->get_addr()+s*j, data);
+        ql++; //aumentamos que_length
+   }
+   // stats...
+   //estas estadísticas creo que sólo se actualizan para cada push, no para cada una de las X operaciones que genera:
+   n_req += 1;
+   n_req_partial += 1;
+   max_mrqs_temp = (max_mrqs_temp > que_length())? max_mrqs_temp : que_length();
+   m_stats->memlatstat_dram_access(data);
+   
     //el metodo 'Push' nativo de la clase 'dram_t' de gpgpu-sim, se corresponde con el metodo 'Addtransaction' nativo de Dramsim2.
     //'Push' recibe como parametro un objeto 'mem_fetch' (mem_feth.(h,cc) ), mientras que 'Addtransaction' recibe un objeto 'transaction' (transaction.(h,cc))
     //No circulan datos, únicamente una dirección de memoria y tipo de operacion (lectura o escritura)
     //Los obtenemos a partir de los metodos de mem_fetch is_write() y get_addr(), y los pasamos directamente a addTransaction del DramSim2
 
-    //En este punto debe existir una lista en la cual poder introducir los mem_fetch recibidos, introducir el recibido y recuperarlo posteriormente.
-
-    //DA ERROR:
-
-    //typedef std::pair<unsigned long long, mem_fetch> Taddr_memfetchPair;
-
-    //backup_de_MF.insert(Taddr_memfetchPair(data->get_addr(), data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
-
-    //backup_de_MF.insert(std::make_pair(data->get_addr(), data)); //guardamos el objeto MemFetch asociado a la dirección de memoria que solicita
-
-
-
-   assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
-   objDramSim2->addTransaction(data->is_write(), data->get_addr(), data);
-   //printf("\nAñadimos acceso a la dirección %ull\n",data->get_addr());
-   //std::cout << "Entra el memfetch #" << data->get_addr() << "-- es un write? =" << data->is_write() << "\n";
-   ql++; //aumentamos que_length
-
-}
-/*
-void dram_ds2_t::scheduler_fifo()
-{
-   if (!mrqq->empty()) {
-      unsigned int bkn;
-      dram_req_t *head_mrqq = mrqq->top();
-      head_mrqq->data->set_status(IN_PARTITION_MC_BANK_ARB_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
-      bkn = head_mrqq->bk;
-      if (!bk[bkn]->mrq)
-         bk[bkn]->mrq = mrqq->pop();
-   }
-}
-*/
-
 //#define DEC2ZERO(x) x = (x)? (x-1) : 0;
 //#define SWAP(a,b) a ^= b; b ^= a; a ^= b;
-
+}
 void dram_ds2_t::cycle()
 {
 objDramSim2->update();

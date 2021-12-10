@@ -113,6 +113,10 @@ public:
    const memory_config *get_mem_config(){return m_mem_config;}
 
    unsigned get_num_flits(bool simt_to_mem);
+   
+   void set_cont(int c) { cont=c; }
+   int dec_cont() { cont--; return cont;}
+   //int get_cont() { return cont; }
 private:
    // request source information
    unsigned m_request_uid;
@@ -144,6 +148,9 @@ private:
 
    const class memory_config *m_mem_config;
    unsigned icnt_flit_size;
+   
+   //contador para cuando un fallo L2
+   int cont;
 };
 
 #endif

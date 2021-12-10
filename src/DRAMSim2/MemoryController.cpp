@@ -289,7 +289,7 @@ void MemoryController::update()
 			writeDataToSend.push_back(new BusPacket(DATA, poppedBusPacket->physicalAddress, poppedBusPacket->column,
 			                                    poppedBusPacket->row, poppedBusPacket->rank, poppedBusPacket->bank,
 			                                    poppedBusPacket->data, dramsim_log, poppedBusPacket->mf));
-			writeDataCountdown.push_back(WL);
+			writeDataCountdown.push_back(DS2WL);
 		}
 
 		//
@@ -761,7 +761,11 @@ void MemoryController::update()
 
 bool MemoryController::WillAcceptTransaction()
 {
-	return transactionQueue.size() < TRANS_QUEUE_DEPTH;
+	//modificado para integrar con GPGPUSIM.
+	//Ha de caber una ráfaga de x operaciones.
+	int x=2;
+	//return transactionQueue.size() < TRANS_QUEUE_DEPTH;
+	return transactionQueue.size()+x < TRANS_QUEUE_DEPTH;
 }
 
 //allows outside source to make request of memory system

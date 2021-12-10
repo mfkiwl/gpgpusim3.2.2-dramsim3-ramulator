@@ -66,20 +66,49 @@ void dram_ramulator_t::read_complete(ramulator::Request& req)
     mem_fetch *data=(mem_fetch *)req.mf;
     //std::cout  << "<-R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
     //printf("R_mf_rtt: %llu\n",gpu_sim_cycle+gpu_tot_sim_cycle-(data->get_m_status_change()));
-    data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
-    if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
-          data->set_reply();
-          returnq->push(data);
+    //data->dec_cont();
+    //std::cout << "Contador mem_fetch:" << data->get_addr() << "." << data->get_cont() << "\n";
+    if (data->dec_cont()==0){ //ya ha vuelto el último Request de todos los que se generaron:
+    	data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+    	if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
+          	data->set_reply();
+          	returnq->push(data);
         //  std::cout << "Era un read: No es L1_WRBK_ACC ni  L2_WRBK_ACC \n ";
-    } else {
-          m_memory_partition_unit->set_done(data);
-          delete data;
+    	} else {
+          	m_memory_partition_unit->set_done(data);
+          	delete data;
         //  std::cout << "Era un read: Es L1_WRBK_ACC o  L2_WRBK_ACC \n ";
-      }
+      	}
+    }
+    //delete &req;
 }
 
 void dram_ramulator_t::write_complete(ramulator::Request& req)
 {
+    //std::cout << "RAMULATOR: Read Complete\n ";
+       
+    mem_fetch *data=(mem_fetch *)req.mf;
+    
+    
+    //std::cout  << "<-R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+    //printf("R_mf_rtt: %llu\n",gpu_sim_cycle+gpu_tot_sim_cycle-(data->get_m_status_change()));
+    
+    //data->dec_cont();
+    //std::cout << "Contador mem_fetch:" << data->get_addr() << "." << data->get_cont() << "\n";
+    if (data->dec_cont()==0){ //ya ha vuelto el último Request de todos los que se generaron:
+    	data->set_status(IN_PARTITION_MC_RETURNQ,gpu_sim_cycle+gpu_tot_sim_cycle);
+    	if( data->get_access_type() != L1_WRBK_ACC && data->get_access_type() != L2_WRBK_ACC ) {
+          	data->set_reply();
+          	returnq->push(data);
+        //  std::cout << "Era un read: No es L1_WRBK_ACC ni  L2_WRBK_ACC \n ";
+    	} else {
+          	m_memory_partition_unit->set_done(data);
+          	delete data;
+        //  std::cout << "Era un read: Es L1_WRBK_ACC o  L2_WRBK_ACC \n ";
+      	}
+    }
+    //delete &req;
+/*
   //std::cout << "RAMULATOR: Write Complete\n ";
   //std::cout << "Era un WRITE \n ";
   mem_fetch *data=(mem_fetch *)req.mf;
@@ -97,6 +126,7 @@ void dram_ramulator_t::write_complete(ramulator::Request& req)
         delete data;
         //std::cout << "Era un write: Es L1_WRBK_ACC o  L2_WRBK_ACC \n ";
     }
+*/  
 }
 
 //dram_ds2_t::dram_ds2_t(){};
@@ -171,7 +201,7 @@ dram_ramulator_t::dram_ramulator_t( unsigned int partition_id, const struct memo
   bwutil_partial = 0;
 
   */
-     mrqq_Dist = StatCreate("mrqq_length",1,64); //track up to 64 entries
+    mrqq_Dist = StatCreate("mrqq_length",1,64); //track up to 64 entries
 
     ql=1; //que_length = 0;
     type = dramulator;
@@ -201,7 +231,7 @@ bool dram_ramulator_t::full() const
 
 bool dram_ramulator_t::full(mem_fetch* mf) const
 {
-  //std::cout << "llamada a dram_ramulator.full(*mf) " << ql << '\n';
+  
   bool b;
   ramulator::Request *req;
   /* asi no va
@@ -221,6 +251,8 @@ bool dram_ramulator_t::full(mem_fetch* mf) const
 
 
   b=objRamulator->full(*req);
+
+  //std::cout << "llamada a dram_ramulator.full(*mf) " << b << '\n';
 
   return (b);
 }
@@ -242,32 +274,33 @@ void dram_ramulator_t::push( class mem_fetch *data )
 {
    //assert(id == data->get_tlx_addr().chip); // Ensure request is in correct memory partition
    id=0;//Ramulator que se apañe
-   
    data->set_status(IN_PARTITION_MC_INTERFACE_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
-
    ramulator::Request *req;
 
-   //borrar:
-   //std::cout << "Atom size:" << m_config->dram_atom_size << "\n"; 
-
-   if (data->get_type()==0){//READ_REQUEST=0
-     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::READ, this->read_cb_func, data, (int)  id);
-     //std::cout  << "->R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
-   }else{
-     req = new ramulator::Request(data->get_addr(), ramulator::Request::Type::WRITE, this->write_cb_func, data,  (int) id);
-     //std::cout  << "->W." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+   int m=4; //multiplicador. La implementacion correcta ha de calcularlo de los parámetro de la arquitectura.
+   int s=32; //incremento sobre la dirección base del mf
+   
+   data->set_cont(m); //este mem_fetch ha generado 4 operaciones = 4 Requests
+   
+   for (int j=0;j<m;j++){ //mandamos un lote de requests, tienen el mismo mf, pero van a direcciones distintas (contiguas)
+   	if (data->get_type()==0){//READ_REQUEST=0
+     		req = new ramulator::Request(data->get_addr()+s*j, ramulator::Request::Type::READ, this->read_cb_func, data, (int) id);
+   	}else{
+     		req = new ramulator::Request(data->get_addr()+s*j, ramulator::Request::Type::WRITE, this->write_cb_func, data,  (int) id);
+   	}
+   	if (!objRamulator->send(*req)){
+      		std::cout  << " Error en el PUSH de ramulator.\n";
+      		assert(false);
+   	}
    }
    // stats...
-      n_req += 1;
-      n_req_partial += 1;
-      max_mrqs_temp = (max_mrqs_temp > objRamulator->que_length())? max_mrqs_temp : objRamulator->que_length();
-      m_stats->memlatstat_dram_access(data);
-
-   if (!objRamulator->send(*req)){
-      std::cout  << " Error en el PUSH de ramulator.\n";
-      assert(false);
-    }
-   //ql++; //aumentamos que_length
+   //estas estadísticas creo que sólo se actualizan para cada push, no para cada una de las X operaciones que genera:
+   n_req += 1;
+   n_req_partial += 1;
+   max_mrqs_temp = (max_mrqs_temp > objRamulator->que_length())? max_mrqs_temp : objRamulator->que_length();
+   m_stats->memlatstat_dram_access(data);
+   //std::cout  << "->R." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
+   //std::cout  << "->W." << data->get_request_uid() << "#:" << id << " Pendientes: "<< que_length() << "\n";
 }
 
 void dram_ramulator_t::cycle()

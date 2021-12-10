@@ -20,7 +20,7 @@ map<string, enum GDDR5::Org> GDDR5::org_map = {
 };
 
 map<string, enum GDDR5::Speed> GDDR5::speed_map = {
-    {"GDDR5_4000", GDDR5::Speed::GDDR5_4000}, {"GDDR5_4500", GDDR5::Speed::GDDR5_4500},
+    {"GDDR5_1848", GDDR5::Speed::GDDR5_1848}, {"GDDR5_4000", GDDR5::Speed::GDDR5_4000}, {"GDDR5_4500", GDDR5::Speed::GDDR5_4500},
     {"GDDR5_5000", GDDR5::Speed::GDDR5_5000}, {"GDDR5_5500", GDDR5::Speed::GDDR5_5500},
     {"GDDR5_6000", GDDR5::Speed::GDDR5_6000}, {"GDDR5_6500", GDDR5::Speed::GDDR5_6500},
     {"GDDR5_7000", GDDR5::Speed::GDDR5_7000},

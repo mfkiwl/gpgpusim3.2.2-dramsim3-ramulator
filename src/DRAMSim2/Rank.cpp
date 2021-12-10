@@ -119,7 +119,7 @@ void Rank::receiveFromBus(BusPacket *packet)
 		packet->busPacketType = DATA;
 #endif
 		readReturnPacket.push_back(packet);
-		readReturnCountdown.push_back(RL);
+		readReturnCountdown.push_back(DS2RL);
 		break;
 	case READ_P:
 		//make sure a read is allowed
@@ -149,7 +149,7 @@ void Rank::receiveFromBus(BusPacket *packet)
 #endif
 
 		readReturnPacket.push_back(packet);
-		readReturnCountdown.push_back(RL);
+		readReturnCountdown.push_back(DS2RL);
 		break;
 	case WRITE:
 		//make sure a write is allowed

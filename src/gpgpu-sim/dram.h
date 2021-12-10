@@ -106,7 +106,8 @@ struct mem_fetch;
 enum dram_type{
   dram_gpgpu = 0,
   dramsim2,
-  dramulator
+  dramulator,
+  DRAMsim3
 };
 
 class dram_t

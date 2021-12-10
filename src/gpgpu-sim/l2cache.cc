@@ -36,6 +36,7 @@
 #include "mem_fetch.h"
 #include "dram.h"
 #include "dram_ds2.h"
+#include "dram_ds3.h"
 #include "dram_ramulator.h"
 #include "gpu-cache.h"
 #include "histogram.h"
@@ -77,15 +78,16 @@ memory_partition_unit::memory_partition_unit( unsigned partition_id,
     if  (m_config->dram_simulator==0){ //SIMULADOR = NATIVO
       m_dram = new dram_t(m_id,m_config,m_stats,this);
       printf("\nUsando simulador nativo de GPGPU-Sim\n");}
-
     else if (m_config->dram_simulator==1){ //SIMULADOR == DRAMSIM2
       m_dram = new dram_ds2_t(m_id,m_config,m_stats,this);
-      printf("\nUsando Dramsim2\n");
-    } else if (m_config->dram_simulator==2){ //SIMULADOR == RAMULATOR
+      printf("\nUsando Dramsim2\n");}
+    else if (m_config->dram_simulator==2){ //SIMULADOR == RAMULATOR
       m_dram = new dram_ramulator_t(m_id,m_config,m_stats,this);
-        printf("\nUsando Ramulator\n");
-      }
-      else exit(0);
+      printf("\nUsando Ramulator\n");}
+    else if (m_config->dram_simulator==3){ //SIMULADOR == DRAMSIM3
+      m_dram = new dram_ds3_t(m_id,m_config,m_stats,this);
+      printf("\nUsando Dramsim3\n");}
+    else exit(0);
 
     m_sub_partition = new memory_sub_partition*[m_config->m_n_sub_partition_per_memory_channel];
     for (unsigned p = 0; p < m_config->m_n_sub_partition_per_memory_channel; p++) {
@@ -249,7 +251,7 @@ if( !m_dram->full() ) {
         int spid = (p + last_issued_partition + 1) % m_config->m_n_sub_partition_per_memory_channel;
         if (!m_sub_partition[spid]->L2_dram_queue_empty() && can_issue_to_dram(spid)) {
             mem_fetch *mf = m_sub_partition[spid]->L2_dram_queue_top();
-            //ramulator tiene dos colas de entrada, una para lecturas y otra para escrituras.
+            //ramulator y dramsim3 tienen dos colas de entrada, una para lecturas y otra para escrituras.
             //solo en este punto hemos recuperado el mem_fetch de la L2 que ha de ser encolado en ramulator
             //y solo ahora podemos consultar si es de lectura o escritura.
             //Ahora es cuando comprobamos si su cola está llena y en tal caso salimos, ya que no deberiamos

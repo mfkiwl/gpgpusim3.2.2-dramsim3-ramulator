@@ -1,0 +1,73 @@
+NUM_BANKS=16
+;NUM_ROWS=65536
+;NUM_ROWS=8192
+NUM_ROWS=16384
+;NUM_COLS=1024 
+;NUM_COLS=16384
+NUM_COLS=128
+DEVICE_WIDTH=32
+
+;NUM_ROW_BUFFERS=1
+;NUM_ENTRIES_CRT=1
+;ENABLE_CRT=false
+;ENABLE_RBC=false
+;ENABLE_PRISM=false
+
+;-gpgpu_dram_timing_opt "nbk=16:CCD=2:RRD=6:RCD=12:RAS=28:RP=12:RC=40:
+;                        CL=12:WL=4:CDLR=5:WR=12:nbkgrp=4:CCDL=3:RTPL=2"
+
+;in nanoseconds
+;#define REFRESH_PERIOD 7800
+REFRESH_PERIOD=7800;*
+;REFRESH_PERIOD=1900;
+tCK=2.165; 1848 Mhz (qdr)
+;tCK=0.667 ;
+;tCK=0.167;
+;tCK=0.9;
+
+CL=12; CL = tCAS ?
+;CL=36
+AL=17;*
+;AL=; needs to be tRCD-1 or 0
+;RL=(CL+AL)
+;WL=(RL-1)
+WL=4 
+BL=8; burst lenght ; tamaño en bits o en tiempo?
+tRAS=28; 
+tRCD=12;
+;
+tRRD=6
+;tRRD=9;
+tRC=40;
+tRP=12;
+tCCD=2; cas to cas command delay ; tCCDL o tCCDS?
+tRTP=2; read to precharge
+tWTR=8; write to read
+;tWTR=14;
+tWR=12
+;tWR= 4; write recovery time = tWL ?
+;tWR=7;
+tRTRS=1; -- RANK PARAMETER, TODO 
+tRFC=278; refresh to activate or refresh *
+tFAW=35;
+tCKE=6;*
+tXP=7;* 
+
+tCMD=1;*
+
+IDD0=82;
+IDD1=96;
+IDD2P=43; assuming fast mode
+IDD2Q=37;
+IDD2N=37;
+IDD3Pf=44; unused
+IDD3Ps=44; unused
+IDD3N=52;
+IDD4W=200;
+IDD4R=285;
+IDD5=250;
+IDD6=20; unused
+IDD6L=25; unused
+IDD7=305; unused
+
+Vdd=1.5 ; TODO: double check this

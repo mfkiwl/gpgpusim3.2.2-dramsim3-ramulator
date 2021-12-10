@@ -75,7 +75,13 @@ bool Gem5Wrapper::full(Request req)
 {
   //std::cout << "llamada a Gem5Wrapper.full(Request req) " << '\n';
   bool r;
-  r = mem->full(req);
+  //r = mem->full(req);
+  //Lo de arriba funciona sin 1mf de gpgpusim=1 Request de Ramulator.
+  //Queremos modelar 1mf=X Requests, que entrarán de golpe. Por ello, si no caben los X Requests, hay que considerar que la cola está llena.
+  //Cola Ramulator definida a 32 en Memory.h
+  
+  r=(32-mem->pending_requests())<=4; //De momento 4, el factor exacto lo sacaremos de Request req.
+    
   /*
   if (r){
     printf ("\n * COLA ENTRADA DE RAMULATOR LLENA * \n");

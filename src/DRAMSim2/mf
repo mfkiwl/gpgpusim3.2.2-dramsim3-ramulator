@@ -1,0 +1,2043 @@
+Coincidencia en el archivo binario Transaction.o
+Coincidencia en el archivo binario docs/classes.png
+Coincidencia en el archivo binario docs/classes_relationships.dia
+MultiChannelMemorySystem.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+MultiChannelMemorySystem.cpp:55:		printf("CC VISFILENAME=%s\n",visFilename->c_str());
+MultiChannelMemorySystem.cpp:89:		exit(-1);
+MultiChannelMemorySystem.cpp:109:	uint64_t dramsimClkFreqHz = (uint64_t)(1.0/(tCK*1e-9));
+MultiChannelMemorySystem.cpp:159: * 	- The .log file if LOG_OUTPUT is set
+MultiChannelMemorySystem.cpp:160: * 	- the .vis file where csv data for each epoch will go
+MultiChannelMemorySystem.cpp:161: * 	- the .tmp file if verification output is enabled
+MultiChannelMemorySystem.cpp:212:			if (deviceIniFilename.substr(deviceIniFilenameLength-4) == ".ini")
+MultiChannelMemorySystem.cpp:214:				deviceName = deviceIniFilename.substr(0,deviceIniFilenameLength-4);
+MultiChannelMemorySystem.cpp:215:				deviceIniFilenameLength -= 4;
+MultiChannelMemorySystem.cpp:221:				deviceName = deviceName.substr(lastSlash+1,deviceIniFilenameLength-lastSlash-1);
+MultiChannelMemorySystem.cpp:228:				traceFilename = traceFilename.substr(lastSlash+1,traceFilename.length()-lastSlash-1);
+MultiChannelMemorySystem.cpp:284:			exit(-1);
+MultiChannelMemorySystem.cpp:308:	//	exit(-1);
+MultiChannelMemorySystem.cpp:325:			// set permissions dwxr-xr-x on the results directories
+MultiChannelMemorySystem.cpp:384:		(*csvOut) << "ms" <<currentClockCycle * tCK * 1E-6;
+MultiChannelMemorySystem.cpp:387:			channels[i]->printStats(false);
+MultiChannelMemorySystem.cpp:389:		csvOut->finalize();
+MultiChannelMemorySystem.cpp:394:		channels[i]->update();
+MultiChannelMemorySystem.cpp:440:	unsigned channelNumber = findChannelNumber(trans->address);
+MultiChannelMemorySystem.cpp:441:	return channels[channelNumber]->addTransaction(trans);
+MultiChannelMemorySystem.cpp:447:	return channels[channelNumber]->addTransaction(isWrite, addr, mf);
+MultiChannelMemorySystem.cpp:463:	return channels[chan]->WillAcceptTransaction();
+MultiChannelMemorySystem.cpp:469:		if (!channels[c]->WillAcceptTransaction())
+MultiChannelMemorySystem.cpp:481:	(*csvOut) << "ms" <<currentClockCycle * tCK * 1E-6;
+MultiChannelMemorySystem.cpp:485:		channels[i]->printStats(finalStats);
+MultiChannelMemorySystem.cpp:488:	csvOut->finalize();
+MultiChannelMemorySystem.cpp:497:		channels[i]->RegisterCallbacks(readDone, writeDone, reportPower);
+MultiChannelMemorySystem.cpp:504: * Return value: 0 on success, -1 on error
+MultiChannelMemorySystem.cpp:509:		exit(-1);
+MultiChannelMemorySystem.cpp:516:		exit(-1);
+MultiChannelMemorySystem.cpp:523:		exit(-1);
+MultiChannelMemorySystem.cpp:530:		exit(-1);
+Bank.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Bank.cpp:70:		if (head->row == row)
+Bank.cpp:76:		head = head->next;
+Bank.cpp:84:	DataStruct *rowHeadNode = rowEntries[busPacket->column];
+Bank.cpp:87:	if ((foundNode = Bank::searchForRow(busPacket->row, rowHeadNode)) == NULL)
+Bank.cpp:90:		//if(SHOW_SIM_OUTPUT) DEBUG("== Warning - Read from previously unwritten row " << busPacket->row);
+Bank.cpp:93:		busPacket->data = garbage;
+Bank.cpp:97:		busPacket->data = foundNode->data;
+Bank.cpp:101:	busPacket->busPacketType = DATA;
+Bank.cpp:110:	if (busPacket->column >= NUM_COLS)
+Bank.cpp:112:		ERROR("== Error - Bus Packet column "<< busPacket->column <<" out of bounds");
+Bank.cpp:113:		exit(-1);
+Bank.cpp:117:	DataStruct *rowHeadNode = rowEntries[busPacket->column];
+Bank.cpp:120:	if ((foundNode = Bank::searchForRow(busPacket->row, rowHeadNode)) == NULL)
+Bank.cpp:127:		newRowNode->row = busPacket->row;
+Bank.cpp:128:		newRowNode->data = busPacket->data;
+Bank.cpp:129:		newRowNode->next = rowHeadNode;
+Bank.cpp:130:		rowEntries[busPacket->column] = newRowNode;
+Bank.cpp:135:		foundNode->data = busPacket->data;
+Bank.cpp:138:			PRINTN(" -- Bank "<<busPacket->bank<<" writing to physical address 0x" << hex << busPacket->physicalAddress<<dec<<":");
+Bank.cpp:139:			busPacket->printData();
+MultiChannelMemorySystem.deppo:2: /usr/include/stdc-predef.h /usr/include/errno.h /usr/include/features.h \
+MultiChannelMemorySystem.deppo:3: /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+MultiChannelMemorySystem.deppo:4: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+MultiChannelMemorySystem.deppo:5: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+MultiChannelMemorySystem.deppo:6: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+MultiChannelMemorySystem.deppo:7: /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+MultiChannelMemorySystem.deppo:8: /usr/include/x86_64-linux-gnu/asm/errno.h \
+MultiChannelMemorySystem.deppo:9: /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+MultiChannelMemorySystem.deppo:12: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+MultiChannelMemorySystem.deppo:13: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+MultiChannelMemorySystem.deppo:14: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+MultiChannelMemorySystem.deppo:19: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+MultiChannelMemorySystem.deppo:20: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+MultiChannelMemorySystem.deppo:21: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+MultiChannelMemorySystem.deppo:22: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+MultiChannelMemorySystem.deppo:39: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+MultiChannelMemorySystem.deppo:41: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+MultiChannelMemorySystem.deppo:42: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+MultiChannelMemorySystem.deppo:43: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+MultiChannelMemorySystem.deppo:44: /usr/include/x86_64-linux-gnu/bits/endian.h \
+MultiChannelMemorySystem.deppo:45: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+MultiChannelMemorySystem.deppo:46: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+MultiChannelMemorySystem.deppo:49: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+MultiChannelMemorySystem.deppo:50: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+MultiChannelMemorySystem.deppo:52: /usr/include/x86_64-linux-gnu/bits/sched.h \
+MultiChannelMemorySystem.deppo:53: /usr/include/x86_64-linux-gnu/bits/time.h \
+MultiChannelMemorySystem.deppo:54: /usr/include/x86_64-linux-gnu/bits/timex.h \
+MultiChannelMemorySystem.deppo:55: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+MultiChannelMemorySystem.deppo:56: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+MultiChannelMemorySystem.deppo:57: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+MultiChannelMemorySystem.deppo:60: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+MultiChannelMemorySystem.deppo:74: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+MultiChannelMemorySystem.deppo:76: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+MultiChannelMemorySystem.deppo:82: /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+MultiChannelMemorySystem.deppo:83: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+MultiChannelMemorySystem.deppo:84: /usr/include/x86_64-linux-gnu/sys/types.h \
+MultiChannelMemorySystem.deppo:85: /usr/include/x86_64-linux-gnu/sys/select.h \
+MultiChannelMemorySystem.deppo:86: /usr/include/x86_64-linux-gnu/bits/select.h \
+MultiChannelMemorySystem.deppo:87: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+MultiChannelMemorySystem.deppo:88: /usr/include/x86_64-linux-gnu/bits/select2.h \
+MultiChannelMemorySystem.deppo:89: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+MultiChannelMemorySystem.deppo:90: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+MultiChannelMemorySystem.deppo:91: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+MultiChannelMemorySystem.deppo:92: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+MultiChannelMemorySystem.deppo:93: /usr/include/x86_64-linux-gnu/sys/stat.h \
+MultiChannelMemorySystem.deppo:94: /usr/include/x86_64-linux-gnu/bits/stat.h MultiChannelMemorySystem.h \
+MultiChannelMemorySystem.deppo:95: SimulatorObject.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h \
+MultiChannelMemorySystem.deppo:100: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+MultiChannelMemorySystem.deppo:101: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+MultiChannelMemorySystem.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+MultiChannelMemorySystem.deppo:103: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+MultiChannelMemorySystem.deppo:104: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+MultiChannelMemorySystem.deppo:105: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+MultiChannelMemorySystem.deppo:115: /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+MultiChannelMemorySystem.deppo:122: /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+MultiChannelMemorySystem.deppo:123: /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+MultiChannelMemorySystem.deppo:124: /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+MultiChannelMemorySystem.deppo:125: /usr/include/x86_64-linux-gnu/bits/inf.h \
+MultiChannelMemorySystem.deppo:126: /usr/include/x86_64-linux-gnu/bits/nan.h \
+MultiChannelMemorySystem.deppo:127: /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+MultiChannelMemorySystem.deppo:128: /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+MultiChannelMemorySystem.deppo:129: /usr/include/x86_64-linux-gnu/bits/mathinline.h AddressMapping.h
+CommandQueue.dep:1:CommandQueue.o: CommandQueue.cpp /usr/include/stdc-predef.h \
+CommandQueue.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+CommandQueue.dep:5: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+CommandQueue.dep:6: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+CommandQueue.dep:7: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+CommandQueue.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+CommandQueue.dep:9: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+CommandQueue.dep:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+CommandQueue.dep:16: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+CommandQueue.dep:17: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+CommandQueue.dep:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+CommandQueue.dep:19: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+CommandQueue.dep:36: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+CommandQueue.dep:38: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+CommandQueue.dep:39: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+CommandQueue.dep:40: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+CommandQueue.dep:41: /usr/include/x86_64-linux-gnu/bits/endian.h \
+CommandQueue.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+CommandQueue.dep:43: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+CommandQueue.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+CommandQueue.dep:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+CommandQueue.dep:49: /usr/include/x86_64-linux-gnu/bits/sched.h \
+CommandQueue.dep:50: /usr/include/x86_64-linux-gnu/bits/time.h \
+CommandQueue.dep:51: /usr/include/x86_64-linux-gnu/bits/timex.h \
+CommandQueue.dep:52: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+CommandQueue.dep:53: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+CommandQueue.dep:54: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+CommandQueue.dep:57: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+CommandQueue.dep:71: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+CommandQueue.dep:73: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+CommandQueue.dep:80: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+CommandQueue.dep:81: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+CommandQueue.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+CommandQueue.dep:83: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+CommandQueue.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+CommandQueue.dep:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+CommandQueue.dep:93: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+CommandQueue.dep:94: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+CommandQueue.dep:95: /usr/include/x86_64-linux-gnu/sys/types.h \
+CommandQueue.dep:96: /usr/include/x86_64-linux-gnu/sys/select.h \
+CommandQueue.dep:97: /usr/include/x86_64-linux-gnu/bits/select.h \
+CommandQueue.dep:98: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+CommandQueue.dep:99: /usr/include/x86_64-linux-gnu/bits/select2.h \
+CommandQueue.dep:100: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+CommandQueue.dep:101: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+CommandQueue.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+CommandQueue.dep:103: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+CommandQueue.dep:104: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+CommandQueue.dep:107: /usr/include/x86_64-linux-gnu/bits/string3.h /usr/include/c++/4.8/map \
+BankState.dep:1:BankState.o: BankState.cpp /usr/include/stdc-predef.h BankState.h \
+BankState.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+BankState.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+BankState.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+BankState.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+BankState.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+BankState.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+BankState.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+BankState.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+BankState.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+BankState.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+BankState.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+BankState.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+BankState.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+BankState.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+BankState.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+BankState.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+BankState.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+BankState.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+BankState.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+BankState.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+BankState.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+BankState.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+BankState.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+BankState.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+BankState.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+BankState.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+BankState.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+BankState.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+BankState.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+BankState.dep:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+BankState.dep:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+BankState.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+BankState.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+BankState.dep:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+BankState.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+BankState.dep:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+BankState.dep:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+BankState.dep:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+BankState.dep:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+BankState.dep:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+BankState.dep:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+BankState.dep:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+BankState.dep:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+BankState.dep:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+BankState.dep:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+BankState.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+BankState.dep:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+SystemConfiguration.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+SystemConfiguration.h:98:#define WL (RL-1)
+SystemConfiguration.h:122:#define READ_TO_PRE_DELAY (AL+BL/2+ max(tRTP,tCCD)-tCCD)
+SystemConfiguration.h:124:#define READ_TO_WRITE_DELAY (RL+BL/2+tRTRS-WL)
+SystemConfiguration.h:128:#define WRITE_TO_READ_DELAY_R (WL+BL/2+tRTRS-RL) //interrank
+Coincidencia en el archivo binario CommandQueue.o
+BusPacket.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+comparison_gen.py:13:Since this uses the command line overrides (-o flag), it needs a fairly recent
+comparison_gen.py:33:dramsim_flags = '-c 2000000 -n -S 8192 -q '
+comparison_gen.py:58:				print "./%s -s system.ini -d ini/%s -t traces/%s -o %s %s -v %s &"%(executable, device, trace, paramOverrides, dramsim_flags, output_file)
+comparison_gen.py:61:print "echo -n waiting"
+comparison_gen.py:68:	print "is_different=`diff -q %s`"%(diff_args)
+comparison_gen.py:69:	print "if [ -n \"$is_different\" ] ; then"	
+comparison_gen.py:70:	print "diff -u %s"%(diff_args); 
+Bank.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Bank.dep:1:Bank.o: Bank.cpp /usr/include/stdc-predef.h Bank.h SystemConfiguration.h \
+Bank.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+Bank.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+Bank.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+Bank.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+Bank.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+Bank.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+Bank.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+Bank.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+Bank.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+Bank.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+Bank.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+Bank.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+Bank.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+Bank.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+Bank.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+Bank.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+Bank.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+Bank.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+Bank.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+Bank.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+Bank.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+Bank.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+Bank.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+Bank.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+Bank.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+Bank.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+Bank.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+Bank.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+Bank.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+Bank.dep:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+Bank.dep:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+Bank.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+Bank.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+Bank.dep:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+Bank.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+Bank.dep:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+Bank.dep:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+Bank.dep:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+Bank.dep:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+Bank.dep:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+Bank.dep:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+Bank.dep:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+Bank.dep:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+Bank.dep:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+Bank.dep:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+Bank.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+Bank.dep:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+Makefile:1:CXXFLAGS=-DNO_STORAGE -Wall -DDEBUG_BUILD
+Makefile:2:OPTFLAGS=-O3 
+Makefile:7:OPTFLAGS= -O0 -g
+Makefile:20:LIB_SRC := $(filter-out TraceBasedSim.cpp,$(SRC))
+Makefile:23:#build portable objects (i.e. with -fPIC)
+Makefile:32:	$(CXX) $(CXXFLAGS) -o $@ $^ 
+Makefile:36:	g++ -g -shared -Wl,-soname,$@ -o $@ $^
+Makefile:43:	g++ -dynamiclib -o $@ $^
+Makefile:47:-include $(OBJ:.o=.dep)
+Makefile:48:-include $(POBJ:.po=.deppo)
+Makefile:50:# build dependency list via gcc -M and save to a .dep file
+Makefile:52:	@$(CXX) -M $(CXXFLAGS) $< > $@
+Makefile:55:	@$(CXX) -M $(CXXFLAGS) -MT"$*.po" $< > $@
+Makefile:59:	g++ $(CXXFLAGS) -o $@ -c $<
+Makefile:63:	g++ $(CXXFLAGS) -DLOG_OUTPUT -fPIC -o $@ -c $<
+Makefile:66:	-rm -f $(REBUILDABLES) *.dep *.deppo
+Transaction.deppo:1:Transaction.po: Transaction.cpp /usr/include/stdc-predef.h Transaction.h \
+Transaction.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+Transaction.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+Transaction.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+Transaction.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+Transaction.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+Transaction.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+Transaction.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+Transaction.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+Transaction.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+Transaction.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+Transaction.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+Transaction.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+Transaction.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+Transaction.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+Transaction.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+Transaction.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+Transaction.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+Transaction.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+Transaction.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+Transaction.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+Transaction.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+Transaction.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+Transaction.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+Transaction.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+Transaction.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+Transaction.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+Transaction.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+Transaction.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+Transaction.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+Transaction.deppo:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+Transaction.deppo:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+Transaction.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+Transaction.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+Transaction.deppo:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+Transaction.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+Transaction.deppo:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+Transaction.deppo:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+Transaction.deppo:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+Transaction.deppo:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+Transaction.deppo:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+Transaction.deppo:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+Transaction.deppo:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+Transaction.deppo:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+Transaction.deppo:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+Transaction.deppo:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+Transaction.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+Transaction.deppo:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+addgpl.sh:11:if [ -d "$DIRECTORY" ]; then 
+addgpl.sh:12:	FILES=`find $DIRECTORY -iname '*.h' -or -iname '*.cpp'`
+addgpl.sh:26:	NUMLINES=`wc -l gpl.txt | cut -f1 -d' '`
+addgpl.sh:29:		HEADER=`head --lines=$NUMLINES $f | diff -w gpl.txt -`
+addgpl.sh:30:		if [ -z "$HEADER" ] ; then 
+addgpl.sh:33:			tail --lines=+$NUMLINES $f.tmp > $f
+BankState.deppo:1:BankState.po: BankState.cpp /usr/include/stdc-predef.h BankState.h \
+BankState.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+BankState.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+BankState.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+BankState.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+BankState.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+BankState.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+BankState.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+BankState.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+BankState.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+BankState.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+BankState.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+BankState.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+BankState.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+BankState.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+BankState.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+BankState.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+BankState.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+BankState.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+BankState.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+BankState.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+BankState.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+BankState.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+BankState.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+BankState.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+BankState.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+BankState.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+BankState.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+BankState.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+BankState.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+BankState.deppo:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+BankState.deppo:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+BankState.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+BankState.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+BankState.deppo:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+BankState.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+BankState.deppo:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+BankState.deppo:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+BankState.deppo:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+BankState.deppo:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+BankState.deppo:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+BankState.deppo:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+BankState.deppo:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+BankState.deppo:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+BankState.deppo:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+BankState.deppo:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+BankState.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+BankState.deppo:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+Coincidencia en el archivo binario Rank.o
+PrintMacros.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+README.txt:3:Elliott Cooper-Balis
+README.txt:10:1 About DRAMSim2 --------------------------------------------------------------------------------
+README.txt:19:2 Getting DRAMSim2--------------------------------------------------------------------------------
+README.txt:25:3 Building DRAMSim2--------------------------------------------------------------------------------
+README.txt:27:To build an optimized standalone trace-based simulator called DRAMSim simply type:
+README.txt:36:4 Running DRAMSim2--------------------------------------------------------------------------------
+README.txt:38:4.1 Trace-Based Simulation--------------------------------------------------------------------------------
+README.txt:42:We've provided a few small sample traces in the traces/ directory. These gzipped traces should first be pre-
+README.txt:50:./DRAMSim -t traces/k6_aoe_02_short.trc -s system.ini -d ini/DDR3_micron_64M_8B_x4_sg15.ini -c 1000
+README.txt:51:This will run a 1000 cycle simulation of the k6aoe02short trace using the specified DDR3 part. The -s,
+README.txt:52:-d, and -t flags are required to run a simulation.
+README.txt:55:$ ./DRAMSim --help
+README.txt:57:DRAMSim -t tracefile -s system.ini -d ini/device.ini [-c #] [-p pwd] -q
+README.txt:58:  -t, --tracefile=FILENAME specify a tracefile to run
+README.txt:59:  -s, --systemini=FILENAME specify an ini file that describes the memory system parameters
+README.txt:60:  -d, --deviceini=FILENAME specify an ini file that describes the device-level parameters
+README.txt:61:  -c, --numcycles=# specify number of cycles to run the simulation for [default=30]
+README.txt:62:  -q, --quiet flag to suppress simulation output (except final stats) [default=no]
+README.txt:63:  -o, --option=OPTION_A=234 overwrite any ini file option from the command line
+README.txt:64:  -p, --pwd=DIRECTORY Set the working directory
+README.txt:73:4.2 Library Interface--------------------------------------------------------------------------------
+README.txt:88: ----------------- Memory System Update ------------------
+README.txt:89: ---------- Memory Controller Update Starting ------------ [8]
+README.txt:90: -- R0 Receiving On Bus : BP [ACT] pa[0x5dec7f0] r[0] b[3] row[1502] col[799]
+README.txt:91: -- MC Issuing On Data Bus : BP [DATA] pa[0x7edc7e0] r[0] b[2] row[2029] col[799] data[0]=
+README.txt:93: -- MC Issuing On Command Bus : BP [READ_P] pa[0x5dec7f8] r[1] b[3] row[1502] col[799]
+README.txt:94:== New Transaction - Mapping Address [0x5dec800] (read)
+README.txt:140:Lines beginning with " -- " indicate bus traffic, ie,
+README.txt:141:      -- R0 Receiving On Bus : BP [ACT] pa[0x5dec7f0] r[0] b[3] row[1502] col[799]
+README.txt:142:      -- MC Issuing On Data Bus : BP [DATA] pa[0x7edc7e0] r[0] b[2] row[2029] col[799] data[0]=
+README.txt:143:      -- MC Issuing On Command Bus : BP [READ_P] pa[0x5dec7f8] r[1] b[3] row[1502] col[799]
+README.txt:162:  == New Transaction - Mapping Address [0x5dec800] (read)
+README.txt:169:designated structure for the command queue. For example, per-rank/per-bank queues are shown below:
+README.txt:189:6 Results Output--------------------------------------------------------------------------------
+README.txt:195:We are currently working on DRAMVis, which is a cross-platform viewer which parses the vis file and generates
+Transaction.dep:1:Transaction.o: Transaction.cpp /usr/include/stdc-predef.h Transaction.h \
+Transaction.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+Transaction.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+Transaction.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+Transaction.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+Transaction.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+Transaction.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+Transaction.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+Transaction.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+Transaction.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+Transaction.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+Transaction.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+Transaction.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+Transaction.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+Transaction.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+Transaction.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+Transaction.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+Transaction.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+Transaction.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+Transaction.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+Transaction.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+Transaction.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+Transaction.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+Transaction.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+Transaction.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+Transaction.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+Transaction.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+Transaction.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+Transaction.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+Transaction.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+Transaction.dep:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+Transaction.dep:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+Transaction.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+Transaction.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+Transaction.dep:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+Transaction.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+Transaction.dep:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+Transaction.dep:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+Transaction.dep:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+Transaction.dep:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+Transaction.dep:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+Transaction.dep:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+Transaction.dep:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+Transaction.dep:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+Transaction.dep:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+Transaction.dep:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+Transaction.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+Transaction.dep:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+BankState.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+CommandQueue.deppo:1:CommandQueue.po: CommandQueue.cpp /usr/include/stdc-predef.h \
+CommandQueue.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+CommandQueue.deppo:5: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+CommandQueue.deppo:6: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+CommandQueue.deppo:7: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+CommandQueue.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+CommandQueue.deppo:9: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+CommandQueue.deppo:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+CommandQueue.deppo:16: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+CommandQueue.deppo:17: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+CommandQueue.deppo:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+CommandQueue.deppo:19: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+CommandQueue.deppo:36: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+CommandQueue.deppo:38: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+CommandQueue.deppo:39: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+CommandQueue.deppo:40: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+CommandQueue.deppo:41: /usr/include/x86_64-linux-gnu/bits/endian.h \
+CommandQueue.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+CommandQueue.deppo:43: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+CommandQueue.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+CommandQueue.deppo:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+CommandQueue.deppo:49: /usr/include/x86_64-linux-gnu/bits/sched.h \
+CommandQueue.deppo:50: /usr/include/x86_64-linux-gnu/bits/time.h \
+CommandQueue.deppo:51: /usr/include/x86_64-linux-gnu/bits/timex.h \
+CommandQueue.deppo:52: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+CommandQueue.deppo:53: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+CommandQueue.deppo:54: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+CommandQueue.deppo:57: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+CommandQueue.deppo:71: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+CommandQueue.deppo:73: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+CommandQueue.deppo:80: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+CommandQueue.deppo:81: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+CommandQueue.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+CommandQueue.deppo:83: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+CommandQueue.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+CommandQueue.deppo:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+CommandQueue.deppo:93: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+CommandQueue.deppo:94: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+CommandQueue.deppo:95: /usr/include/x86_64-linux-gnu/sys/types.h \
+CommandQueue.deppo:96: /usr/include/x86_64-linux-gnu/sys/select.h \
+CommandQueue.deppo:97: /usr/include/x86_64-linux-gnu/bits/select.h \
+CommandQueue.deppo:98: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+CommandQueue.deppo:99: /usr/include/x86_64-linux-gnu/bits/select2.h \
+CommandQueue.deppo:100: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+CommandQueue.deppo:101: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+CommandQueue.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+CommandQueue.deppo:103: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+CommandQueue.deppo:104: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+CommandQueue.deppo:107: /usr/include/x86_64-linux-gnu/bits/string3.h /usr/include/c++/4.8/map \
+Coincidencia en el archivo binario DRAMSim
+Coincidencia en el archivo binario ClockDomain.o
+Rank.deppo:1:Rank.po: Rank.cpp /usr/include/stdc-predef.h Rank.h SimulatorObject.h \
+Rank.deppo:2: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+Rank.deppo:3: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+Rank.deppo:4: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+Rank.deppo:5: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+Rank.deppo:6: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+Rank.deppo:7: /usr/include/x86_64-linux-gnu/bits/wchar.h BusPacket.h \
+Rank.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+Rank.deppo:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+Rank.deppo:11: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+Rank.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+Rank.deppo:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+Rank.deppo:19: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+Rank.deppo:36: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+Rank.deppo:38: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+Rank.deppo:39: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+Rank.deppo:40: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+Rank.deppo:41: /usr/include/x86_64-linux-gnu/bits/endian.h \
+Rank.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+Rank.deppo:43: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+Rank.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+Rank.deppo:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+Rank.deppo:49: /usr/include/x86_64-linux-gnu/bits/sched.h \
+Rank.deppo:50: /usr/include/x86_64-linux-gnu/bits/time.h \
+Rank.deppo:51: /usr/include/x86_64-linux-gnu/bits/timex.h \
+Rank.deppo:52: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+Rank.deppo:53: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+Rank.deppo:54: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+Rank.deppo:57: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+Rank.deppo:71: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+Rank.deppo:73: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+Rank.deppo:80: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+Rank.deppo:81: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+Rank.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+Rank.deppo:83: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+Rank.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+Rank.deppo:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+Rank.deppo:93: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+Rank.deppo:94: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+Rank.deppo:95: /usr/include/x86_64-linux-gnu/sys/types.h \
+Rank.deppo:96: /usr/include/x86_64-linux-gnu/sys/select.h \
+Rank.deppo:97: /usr/include/x86_64-linux-gnu/bits/select.h \
+Rank.deppo:98: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+Rank.deppo:99: /usr/include/x86_64-linux-gnu/bits/select2.h \
+Rank.deppo:100: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+Rank.deppo:101: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+Rank.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+Rank.deppo:103: /usr/include/x86_64-linux-gnu/bits/stdlib.h PrintMacros.h Bank.h \
+Rank.deppo:105: /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+MemorySystem.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Coincidencia en el archivo binario MemoryController.o
+README:3:1. About DRAMSim ---------------------------------------------------------
+README:11:	portable, and accurate. The simulator core has a well-defined interface
+README:17:2. Building DRAMSim ---------------------------------------------------------
+README:28:	trace-based simulation. 
+README:35:3. Running DRAMSim -----------------------------------------------------------
+README:44:	./DRAMSim -t traces/k6_aoe_02_short.trc -s system.ini -d ini/DDR3_micron_64M_8B_x4_sg15.ini -c 10000
+README:46:4. DRAMSim Output -------------------------------------------------------------
+README:60:-------------------------------------------------------------
+README:61: ----------------- Memory System Update ------------------
+README:62: ---------- Memory Controller Update Starting ------------ [8]
+README:63: -- R0 Receiving On Bus    : BP [ACT] pa[0x5dec7f0] r[0] b[3] row[1502] col[799]
+README:64: -- MC Issuing On Data Bus    : BP [DATA] pa[0x7edc7e0] r[0] b[2] row[2029] col[799] data[0]=
+README:66: -- MC Issuing On Command Bus : BP [READ_P] pa[0x5dec7f8] r[1] b[3] row[1502] col[799]
+README:67:== New Transaction - Mapping Address [0x5dec800]
+README:105:-----------------------------------------------------
+README:115:  Lines beginning with " -- " indicate bus traffic, ie, 
+README:116:     -- R0 Receiving On Bus       : BP [ACT] pa[0x5dec7f0] r[0] b[3] row[1502] col[799]
+README:117:     -- MC Issuing On Data Bus    : BP [DATA] pa[0x7edc7e0] r[0] b[2] row[2029] col[799] data[0]=
+README:118:     -- MC Issuing On Command Bus : BP [READ_P] pa[0x5dec7f8] r[1] b[3] row[1502] col[799]
+README:127:  draw is used.  for further detail about each current, see micron data-
+README:141:			== New Transaction - Mapping Address [0x5dec800]
+README:149:  the command queue.  For example, per-rank/per-bank queues are 
+Coincidencia en el archivo binario PrintMacros.o
+MemoryController.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+MemoryController.h:91:	map<unsigned,unsigned> latencies; // latencyValue -> latencyCount
+MemoryController.h:127:	// energy values are per rank -- SST uses these directly, so make these public
+Coincidencia en el archivo binario ClockDomain.po
+ClockDomain.deppo:1:ClockDomain.po: ClockDomain.cpp /usr/include/stdc-predef.h ClockDomain.h \
+ClockDomain.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+ClockDomain.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+ClockDomain.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ClockDomain.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ClockDomain.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ClockDomain.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ClockDomain.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+ClockDomain.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+ClockDomain.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ClockDomain.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+ClockDomain.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+ClockDomain.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+ClockDomain.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+ClockDomain.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+ClockDomain.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+ClockDomain.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+ClockDomain.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ClockDomain.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+ClockDomain.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+ClockDomain.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+ClockDomain.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+ClockDomain.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+ClockDomain.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+ClockDomain.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ClockDomain.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ClockDomain.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+ClockDomain.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+ClockDomain.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+ClockDomain.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+ClockDomain.deppo:77: /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+ClockDomain.deppo:78: /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+ClockDomain.deppo:79: /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+ClockDomain.deppo:80: /usr/include/x86_64-linux-gnu/bits/inf.h \
+ClockDomain.deppo:81: /usr/include/x86_64-linux-gnu/bits/nan.h \
+ClockDomain.deppo:82: /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+ClockDomain.deppo:83: /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ClockDomain.deppo:84: /usr/include/x86_64-linux-gnu/bits/mathinline.h \
+ClockDomain.deppo:85: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h
+Coincidencia en el archivo binario README.pdf
+ClockDomain.cpp:17:		//cout << "CTOR: callback address: " << (uint64_t)(this->callback) << "\t ratio="<<clock1<<"/"<<clock2<< endl;
+ClockDomain.cpp:35:		for (i = 1; i<MAX_ITER-1; i++)
+ClockDomain.cpp:37:			if (fabs(x - (double)ns[i]/(double)ds[i]) < 0.00005)
+ClockDomain.cpp:44:			zs[i+1] = 1.0f/(zs[i]-(int)floor(zs[i])); // 1/(fractional part of z_i)
+ClockDomain.cpp:45:			ds[i+1] = ds[i]*(int)floor(zs[i+1])+ds[i-1];
+ClockDomain.cpp:47:			double tmp2 = tmp - (int)tmp;
+ClockDomain.cpp:53:		this->clock1=ns[i];
+ClockDomain.cpp:54:		this->clock2=ds[i];
+ClockDomain.cpp:56:		//cout << "CTOR: callback address: " << (uint64_t)(this->callback) << "\t ratio="<<clock1<<"/"<<clock2<< endl;
+ClockDomain.cpp:107:		cout <<"------------------------------------------\n";
+ClockDomain.cpp:109:		cout <<"------------------------------------------\n";
+ClockDomain.cpp:111:		cout <<"------------------------------------------\n";
+Coincidencia en el archivo binario MultiChannelMemorySystem.o
+Coincidencia en el archivo binario Bank.o
+AddressMapping.dep:1:AddressMapping.o: AddressMapping.cpp /usr/include/stdc-predef.h \
+AddressMapping.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+AddressMapping.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+AddressMapping.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+AddressMapping.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+AddressMapping.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+AddressMapping.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+AddressMapping.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+AddressMapping.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+AddressMapping.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+AddressMapping.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+AddressMapping.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+AddressMapping.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+AddressMapping.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+AddressMapping.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+AddressMapping.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+AddressMapping.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+AddressMapping.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+AddressMapping.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+AddressMapping.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+AddressMapping.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+AddressMapping.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+AddressMapping.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+AddressMapping.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+AddressMapping.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+AddressMapping.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+AddressMapping.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+AddressMapping.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+AddressMapping.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+AddressMapping.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+AddressMapping.dep:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+AddressMapping.dep:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+AddressMapping.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+AddressMapping.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+AddressMapping.dep:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+AddressMapping.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+AddressMapping.dep:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+AddressMapping.dep:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+AddressMapping.dep:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+AddressMapping.dep:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+AddressMapping.dep:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+AddressMapping.dep:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+AddressMapping.dep:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+AddressMapping.dep:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+AddressMapping.dep:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+AddressMapping.dep:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+AddressMapping.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+AddressMapping.dep:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+SimulatorObject.deppo:1:SimulatorObject.po: SimulatorObject.cpp /usr/include/stdc-predef.h \
+SimulatorObject.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+SimulatorObject.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+SimulatorObject.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+SimulatorObject.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+SimulatorObject.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+SimulatorObject.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+SimulatorObject.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+SimulatorObject.deppo:10: /usr/include/stdlib.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+SimulatorObject.deppo:11: /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+SimulatorObject.deppo:12: /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
+SimulatorObject.deppo:13: /usr/include/x86_64-linux-gnu/bits/endian.h \
+SimulatorObject.deppo:14: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+SimulatorObject.deppo:15: /usr/include/x86_64-linux-gnu/bits/types.h \
+SimulatorObject.deppo:16: /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+SimulatorObject.deppo:17: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h /usr/include/xlocale.h \
+SimulatorObject.deppo:18: /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/time.h \
+SimulatorObject.deppo:19: /usr/include/x86_64-linux-gnu/sys/select.h \
+SimulatorObject.deppo:20: /usr/include/x86_64-linux-gnu/bits/select.h \
+SimulatorObject.deppo:21: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+SimulatorObject.deppo:22: /usr/include/x86_64-linux-gnu/bits/time.h \
+SimulatorObject.deppo:23: /usr/include/x86_64-linux-gnu/bits/select2.h \
+SimulatorObject.deppo:24: /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+SimulatorObject.deppo:25: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
+SimulatorObject.deppo:26: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+SimulatorObject.deppo:27: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+SimulatorObject.deppo:28: /usr/include/x86_64-linux-gnu/bits/stdlib.h SimulatorObject.h \
+SimulatorObject.deppo:29: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+SimulatorObject.deppo:30: /usr/include/x86_64-linux-gnu/bits/wchar.h
+Coincidencia en el archivo binario BusPacket.o
+CSVWriter.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+CSVWriter.h:96:					exit(-1); 
+TraceBasedSim.dep:1:TraceBasedSim.o: TraceBasedSim.cpp /usr/include/stdc-predef.h \
+TraceBasedSim.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+TraceBasedSim.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+TraceBasedSim.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+TraceBasedSim.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+TraceBasedSim.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+TraceBasedSim.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+TraceBasedSim.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+TraceBasedSim.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+TraceBasedSim.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+TraceBasedSim.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+TraceBasedSim.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+TraceBasedSim.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+TraceBasedSim.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+TraceBasedSim.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+TraceBasedSim.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+TraceBasedSim.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+TraceBasedSim.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+TraceBasedSim.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+TraceBasedSim.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+TraceBasedSim.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+TraceBasedSim.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+TraceBasedSim.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+TraceBasedSim.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+TraceBasedSim.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+TraceBasedSim.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+TraceBasedSim.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+TraceBasedSim.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+TraceBasedSim.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+TraceBasedSim.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+TraceBasedSim.dep:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+TraceBasedSim.dep:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+TraceBasedSim.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+TraceBasedSim.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+TraceBasedSim.dep:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+TraceBasedSim.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+TraceBasedSim.dep:98: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+TraceBasedSim.dep:99: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+TraceBasedSim.dep:100: /usr/include/x86_64-linux-gnu/sys/types.h \
+TraceBasedSim.dep:101: /usr/include/x86_64-linux-gnu/sys/select.h \
+TraceBasedSim.dep:102: /usr/include/x86_64-linux-gnu/bits/select.h \
+TraceBasedSim.dep:103: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+TraceBasedSim.dep:104: /usr/include/x86_64-linux-gnu/bits/select2.h \
+TraceBasedSim.dep:105: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+TraceBasedSim.dep:106: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+TraceBasedSim.dep:107: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+TraceBasedSim.dep:108: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+TraceBasedSim.dep:109: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+TraceBasedSim.dep:113: /usr/include/x86_64-linux-gnu/bits/string3.h Callback.h \
+TraceBasedSim.dep:117: /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+TraceBasedSim.dep:118: /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+TraceBasedSim.dep:119: /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+TraceBasedSim.dep:120: /usr/include/x86_64-linux-gnu/bits/inf.h \
+TraceBasedSim.dep:121: /usr/include/x86_64-linux-gnu/bits/nan.h \
+TraceBasedSim.dep:122: /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+TraceBasedSim.dep:123: /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+TraceBasedSim.dep:124: /usr/include/x86_64-linux-gnu/bits/mathinline.h
+SimulatorObject.dep:1:SimulatorObject.o: SimulatorObject.cpp /usr/include/stdc-predef.h \
+SimulatorObject.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+SimulatorObject.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+SimulatorObject.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+SimulatorObject.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+SimulatorObject.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+SimulatorObject.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+SimulatorObject.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+SimulatorObject.dep:10: /usr/include/stdlib.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+SimulatorObject.dep:11: /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+SimulatorObject.dep:12: /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
+SimulatorObject.dep:13: /usr/include/x86_64-linux-gnu/bits/endian.h \
+SimulatorObject.dep:14: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+SimulatorObject.dep:15: /usr/include/x86_64-linux-gnu/bits/types.h \
+SimulatorObject.dep:16: /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+SimulatorObject.dep:17: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h /usr/include/xlocale.h \
+SimulatorObject.dep:18: /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/time.h \
+SimulatorObject.dep:19: /usr/include/x86_64-linux-gnu/sys/select.h \
+SimulatorObject.dep:20: /usr/include/x86_64-linux-gnu/bits/select.h \
+SimulatorObject.dep:21: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+SimulatorObject.dep:22: /usr/include/x86_64-linux-gnu/bits/time.h \
+SimulatorObject.dep:23: /usr/include/x86_64-linux-gnu/bits/select2.h \
+SimulatorObject.dep:24: /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+SimulatorObject.dep:25: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
+SimulatorObject.dep:26: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+SimulatorObject.dep:27: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+SimulatorObject.dep:28: /usr/include/x86_64-linux-gnu/bits/stdlib.h SimulatorObject.h \
+SimulatorObject.dep:29: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+SimulatorObject.dep:30: /usr/include/x86_64-linux-gnu/bits/wchar.h
+IniReader.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+IniReader.cpp:142:	//DEFINE_UINT_PARAM -- see IniReader.h
+IniReader.cpp:284:					ERROR("could not parse line "<<lineNumber<<" (non-numeric value '"<<valueString<<"')?");
+IniReader.cpp:289:					DEBUG("\t - SETTING "<<configMap[i].iniKey<<"="<<intValue);
+IniReader.cpp:295:					ERROR("could not parse line "<<lineNumber<<" (non-numeric value '"<<valueString<<"')?");
+IniReader.cpp:300:					DEBUG("\t - SETTING "<<configMap[i].iniKey<<"="<<int64Value);
+IniReader.cpp:306:					ERROR("could not parse line "<<lineNumber<<" (non-numeric value '"<<valueString<<"')?");
+IniReader.cpp:311:					DEBUG("\t - SETTING "<<configMap[i].iniKey<<"="<<floatValue);
+IniReader.cpp:318:					DEBUG("\t - SETTING "<<configMap[i].iniKey<<"="<<valueString);
+IniReader.cpp:377:				exit(-1);
+IniReader.cpp:379:			// skip zero-length lines
+IniReader.cpp:394://					DEBUG("Truncating line at comment"<<line[commentIndex-1]);
+IniReader.cpp:417:			valueString = line.substr(equalsIndex+1,strlen-equalsIndex);
+IniReader.cpp:436:	COL_LOW_BIT_WIDTH	= THROW_AWAY_BITS - BYTE_OFFSET_WIDTH;
+IniReader.cpp:444:	OverrideIterator it = map->begin();
+IniReader.cpp:446:	for (it=map->begin(); it != map->end(); it++)
+IniReader.cpp:448:		string key = it->first; 
+IniReader.cpp:449:		string value = it->second; 
+IniReader.cpp:450:		DEBUG("\t'"<< key <<"'->'"<< value<< "'"); 
+IniReader.cpp:488: * Return value: 0 on success, -1 on error
+IniReader.cpp:500:				return -1;				\
+IniReader.cpp:504:		return -1;						\
+DRAMSim.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Coincidencia en el archivo binario Bank.po
+MemoryController.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+MemoryController.cpp:116:	if (bpacket->busPacketType != DATA)
+MemoryController.cpp:118:		ERROR("== Error - Memory Controller received a non-DATA bus packet from rank");
+MemoryController.cpp:119:		bpacket->print();
+MemoryController.cpp:125:		PRINTN(" -- MC Receiving From Data Bus : ");
+MemoryController.cpp:126:		bpacket->print();
+MemoryController.cpp:130:	returnTransaction.push_back(new Transaction(RETURN_DATA, bpacket->physicalAddress, bpacket->data, bpacket->mf));
+MemoryController.cpp:131:	totalReadsPerBank[SEQUENTIAL(bpacket->rank,bpacket->bank)]++;
+MemoryController.cpp:140:	if (parentMemorySystem->ReturnReadData!=NULL)
+MemoryController.cpp:142:		(*parentMemorySystem->ReturnReadData)(parentMemorySystem->systemID, trans->address, currentClockCycle, trans->mf);
+MemoryController.cpp:149:	this->ranks = ranks;
+MemoryController.cpp:156:	//PRINT(" ------------------------- [" << currentClockCycle << "] -------------------------");
+MemoryController.cpp:166:				bankStates[i][j].stateChangeCountdown--;
+MemoryController.cpp:197:		cmdCyclesLeft--;
+MemoryController.cpp:200:			(*ranks)[outgoingCmdPacket->rank]->receiveFromBus(outgoingCmdPacket);
+MemoryController.cpp:208:		dataCyclesLeft--;
+MemoryController.cpp:212:			if (parentMemorySystem->WriteDataDone!=NULL)
+MemoryController.cpp:214:				(*parentMemorySystem->WriteDataDone)(parentMemorySystem->systemID,outgoingDataPacket->physicalAddress, currentClockCycle,outgoingDataPacket->mf);
+MemoryController.cpp:217:			(*ranks)[outgoingDataPacket->rank]->receiveFromBus(outgoingDataPacket);
+MemoryController.cpp:232:			writeDataCountdown[i]--;
+MemoryController.cpp:240:				PRINTN(" -- MC Issuing On Data Bus    : ");
+MemoryController.cpp:241:				writeDataToSend[0]->print();
+MemoryController.cpp:247:				ERROR("== Error - Data Bus Collision");
+MemoryController.cpp:248:				exit(-1);
+MemoryController.cpp:255:			totalWritesPerBank[SEQUENTIAL(writeDataToSend[0]->rank,writeDataToSend[0]->bank)]++;
+MemoryController.cpp:267:		(*ranks)[refreshRank]->refreshWaiting = true;
+MemoryController.cpp:278:		(*ranks)[refreshRank]->refreshWaiting = true;
+MemoryController.cpp:286:		if (poppedBusPacket->busPacketType == WRITE || poppedBusPacket->busPacketType == WRITE_P)
+MemoryController.cpp:289:			writeDataToSend.push_back(new BusPacket(DATA, poppedBusPacket->physicalAddress, poppedBusPacket->column,
+MemoryController.cpp:290:			                                    poppedBusPacket->row, poppedBusPacket->rank, poppedBusPacket->bank,
+MemoryController.cpp:291:			                                    poppedBusPacket->data, dramsim_log, poppedBusPacket->mf));
+MemoryController.cpp:299:		unsigned rank = poppedBusPacket->rank;
+MemoryController.cpp:300:		unsigned bank = poppedBusPacket->bank;
+MemoryController.cpp:301:		switch (poppedBusPacket->busPacketType)
+MemoryController.cpp:310:				burstEnergy[rank] += (IDD4R - IDD3N) * BL/2 * NUM_DEVICES;
+MemoryController.cpp:311:				if (poppedBusPacket->busPacketType == READ_P)
+MemoryController.cpp:320:				else if (poppedBusPacket->busPacketType == READ)
+MemoryController.cpp:332:						if (i!=poppedBusPacket->rank)
+MemoryController.cpp:351:				if (poppedBusPacket->busPacketType == READ_P)
+MemoryController.cpp:355:					//  auto-precharge associated with this command
+MemoryController.cpp:363:				if (poppedBusPacket->busPacketType == WRITE_P)
+MemoryController.cpp:370:				else if (poppedBusPacket->busPacketType == WRITE)
+MemoryController.cpp:383:				burstEnergy[rank] += (IDD4W - IDD3N) * BL/2 * NUM_DEVICES;
+MemoryController.cpp:389:						if (i!=poppedBusPacket->rank)
+MemoryController.cpp:409:				//  auto-precharge associated with this command
+MemoryController.cpp:410:				if (poppedBusPacket->busPacketType == WRITE_P)
+MemoryController.cpp:423:				actpreEnergy[rank] += ((IDD0 * tRC) - ((IDD3N * tRAS) + (IDD2N * (tRC - tRAS)))) * NUM_DEVICES;
+MemoryController.cpp:427:				bankStates[rank][bank].openRowAddress = poppedBusPacket->row;
+MemoryController.cpp:431:				//if we are using posted-CAS, the next column access can be sooner than normal operation
+MemoryController.cpp:433:				bankStates[rank][bank].nextRead = max(currentClockCycle + (tRCD-AL), bankStates[rank][bank].nextRead);
+MemoryController.cpp:434:				bankStates[rank][bank].nextWrite = max(currentClockCycle + (tRCD-AL), bankStates[rank][bank].nextWrite);
+MemoryController.cpp:438:					if (i!=poppedBusPacket->bank)
+MemoryController.cpp:458:				refreshEnergy[rank] += (IDD5 - IDD3N) * tRFC * NUM_DEVICES;
+MemoryController.cpp:470:				ERROR("== Error - Popped a command we shouldn't have of type : " << poppedBusPacket->busPacketType);
+MemoryController.cpp:477:			PRINTN(" -- MC Issuing On Command Bus : ");
+MemoryController.cpp:478:			poppedBusPacket->print();
+MemoryController.cpp:484:			ERROR("== Error - Command Bus Collision");
+MemoryController.cpp:485:			exit(-1);
+MemoryController.cpp:504:		addressMapping(transaction->address, newTransactionChan, newTransactionRank, newTransactionBank, newTransactionRow, newTransactionColumn);
+MemoryController.cpp:512:				PRINTN("== New Transaction - Mapping Address [0x" << hex << transaction->address << dec << "]");
+MemoryController.cpp:513:				if (transaction->transactionType == DATA_READ)
+MemoryController.cpp:533:			BusPacket *ACTcommand = new BusPacket(ACTIVATE, transaction->address,
+MemoryController.cpp:535:					newTransactionBank, 0, dramsim_log, transaction->mf);
+MemoryController.cpp:538:			BusPacketType bpType = transaction->getBusPacketType();
+MemoryController.cpp:539:			BusPacket *command = new BusPacket(bpType, transaction->address,
+MemoryController.cpp:541:					newTransactionBank, transaction->data, dramsim_log, transaction->mf);
+MemoryController.cpp:550:			if (transaction->transactionType == DATA_READ)
+MemoryController.cpp:559:			/* only allow one transaction to be scheduled per cycle -- this should
+MemoryController.cpp:568:			//PRINT( "== Warning - No room in command queue" << endl;
+MemoryController.cpp:574:	//  this is done on a per-rank basis, since power characterization is done per device (not per bank)
+MemoryController.cpp:580:			if (commandQueue.isEmpty(i) && !(*ranks)[i]->refreshWaiting)
+MemoryController.cpp:597:					(*ranks)[i]->powerDown();
+MemoryController.cpp:609:				(*ranks)[i]->powerUp();
+MemoryController.cpp:641:			//if we're in power-down mode, use the correct current
+MemoryController.cpp:666:			PRINTN(" -- MC Issuing to CPU bus : " << *returnTransaction[0]);
+MemoryController.cpp:674:			if (pendingReadTransactions[i]->address == returnTransaction[0]->address)
+MemoryController.cpp:676:				//if(currentClockCycle - pendingReadTransactions[i]->timeAdded > 2000)
+MemoryController.cpp:678:				//		pendingReadTransactions[i]->print();
+MemoryController.cpp:682:				addressMapping(returnTransaction[0]->address,chan,rank,bank,row,col);
+MemoryController.cpp:683:				insertHistogram(currentClockCycle-pendingReadTransactions[i]->timeAdded,rank,bank);
+MemoryController.cpp:695:			ERROR("Can't find a matching transaction for 0x"<<hex<<returnTransaction[0]->address<<dec);
+MemoryController.cpp:705:		refreshCountdown[i]--;
+MemoryController.cpp:776:		trans->timeAdded = currentClockCycle;
+MemoryController.cpp:810:	unsigned myChannel = parentMemorySystem->systemID;
+MemoryController.cpp:817:	double secondsThisEpoch = (double)cyclesElapsed * tCK * 1E-9;
+MemoryController.cpp:851:	PRINT( " ============== Printing Statistics [id:"<<parentMemorySystem->systemID<<"]==============" );
+MemoryController.cpp:859:		PRINT( "      -Rank   "<<r<<" : ");
+MemoryController.cpp:860:		PRINTN( "        -Reads  : " << totalReadsPerRank[r]);
+MemoryController.cpp:862:		PRINTN( "        -Writes : " << totalWritesPerRank[r]);
+MemoryController.cpp:866:			PRINT( "        -Bandwidth / Latency  (Bank " <<j<<"): " <<bandwidth[SEQUENTIAL(r,j)] << " GB/s\t\t" <<averageLatency[SEQUENTIAL(r,j)] << " ns");
+MemoryController.cpp:876:		if ((*parentMemorySystem->ReportPower)!=NULL)
+MemoryController.cpp:878:			(*parentMemorySystem->ReportPower)(backgroundPower[r],burstPower[r],refreshPower[r],actprePower[r]);
+MemoryController.cpp:883:		PRINT( "     -Background (watts)     : " << backgroundPower[r] );
+MemoryController.cpp:884:		PRINT( "     -Act/Pre    (watts)     : " << actprePower[r] );
+MemoryController.cpp:885:		PRINT( "     -Burst      (watts)     : " << burstPower[r]);
+MemoryController.cpp:886:		PRINT( "     -Refresh    (watts)     : " << refreshPower[r] );
+MemoryController.cpp:917:		PRINT( " ---  Latency list ("<<latencies.size()<<")");
+MemoryController.cpp:927:			PRINT( "       ["<< it->first <<"-"<<it->first+(HISTOGRAM_BIN_SIZE-1)<<"] : "<< it->second );
+MemoryController.cpp:930:				csvOut.getOutputStream() << it->first <<"="<< it->second << endl;
+MemoryController.cpp:935:			PRINT( " --- Grand Total Bank usage list");
+MemoryController.cpp:953:			PRINT( i << "] I've been waiting for "<<currentClockCycle-pendingReadTransactions[i].timeAdded<<endl;
+Coincidencia en el archivo binario SimulatorObject.o
+AddressMapping.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+AddressMapping.cpp:40:	uint64_t transactionMask =  transactionSize - 1; //ex: (64 bit bus width) x (8 Burst Length) - 1 = 64 bytes - 1 = 63 = 0x3f mask
+AddressMapping.cpp:76:	// For example: cowLowBits = log2(64bytes) - 3 bits = 3 bits
+AddressMapping.cpp:80:	unsigned colHighBitWidth = colBitWidth - colLowBitWidth;
+AddressMapping.cpp:334:		ERROR("== Error - Unknown Address Mapping Scheme");
+AddressMapping.cpp:335:		exit(-1);
+Coincidencia en el archivo binario SimulatorObject.po
+BankState.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+TraceBasedSim.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+TraceBasedSim.cpp:35://File to run a trace-based simulation
+TraceBasedSim.cpp:84:				exit(-1);
+TraceBasedSim.cpp:95:				exit(-1);
+TraceBasedSim.cpp:99:				if (it->second.size() == 0)
+TraceBasedSim.cpp:102:					exit(-1);
+TraceBasedSim.cpp:107:			uint64_t latency = done_cycle - added_cycle;
+TraceBasedSim.cpp:110:			cout << "Read Callback:  0x"<< std::hex << address << std::dec << " latency="<<latency<<"cycles ("<< done_cycle<< "->"<<added_cycle<<")"<<endl;
+TraceBasedSim.cpp:119:				exit(-1);
+TraceBasedSim.cpp:123:				if (it->second.size() == 0)
+TraceBasedSim.cpp:126:					exit(-1);
+TraceBasedSim.cpp:131:			uint64_t latency = done_cycle - added_cycle;
+TraceBasedSim.cpp:134:			cout << "Write Callback: 0x"<< std::hex << address << std::dec << " latency="<<latency<<"cycles ("<< done_cycle<< "->"<<added_cycle<<")"<<endl;
+TraceBasedSim.cpp:142:	cout << "DRAMSim -t tracefile -s system.ini -d ini/device.ini [-c #] [-p pwd] [-q] [-S 2048] [-n] [-o OPTION_A=1234,tRC=14,tFAW=19]" <<endl;
+TraceBasedSim.cpp:143:	cout << "\t-t, --tracefile=FILENAME \tspecify a tracefile to run  "<<endl;
+TraceBasedSim.cpp:144:	cout << "\t-s, --systemini=FILENAME \tspecify an ini file that describes the memory system parameters  "<<endl;
+TraceBasedSim.cpp:145:	cout << "\t-d, --deviceini=FILENAME \tspecify an ini file that describes the device-level parameters"<<endl;
+TraceBasedSim.cpp:146:	cout << "\t-c, --numcycles=# \t\tspecify number of cycles to run the simulation for [default=30] "<<endl;
+TraceBasedSim.cpp:147:	cout << "\t-q, --quiet \t\t\tflag to suppress simulation output (except final stats) [default=no]"<<endl;
+TraceBasedSim.cpp:148:	cout << "\t-o, --option=OPTION_A=234,tFAW=14\t\t\toverwrite any ini file option from the command line"<<endl;
+TraceBasedSim.cpp:149:	cout << "\t-p, --pwd=DIRECTORY\t\tSet the working directory (i.e. usually DRAMSim directory where ini/ and results/ are)"<<endl;
+TraceBasedSim.cpp:150:	cout << "\t-S, --size=# \t\t\tSize of the memory system in megabytes [default=2048M]"<<endl;
+TraceBasedSim.cpp:151:	cout << "\t-n, --notiming \t\t\tDo not use the clock cycle information in the trace file"<<endl;
+TraceBasedSim.cpp:152:	cout << "\t-v, --visfile \t\t\tVis output filename"<<endl;
+TraceBasedSim.cpp:173:		cmdStr = line.substr(spaceIndex, line.find_first_of(" ", spaceIndex) - spaceIndex);
+TraceBasedSim.cpp:177:		ccStr = line.substr(spaceIndex, line.find_first_of(" ", spaceIndex) - spaceIndex);
+TraceBasedSim.cpp:217:		cmdStr = line.substr(spaceIndex, line.find_first_of(" ", spaceIndex) - spaceIndex);
+TraceBasedSim.cpp:221:		ccStr = line.substr(spaceIndex, line.find_first_of(" ", spaceIndex) - spaceIndex);
+TraceBasedSim.cpp:267:			cmdStr = line.substr(previousIndex+1,spaceIndex-previousIndex-1);
+TraceBasedSim.cpp:271:		//convert address string -> number
+TraceBasedSim.cpp:287:			exit(-1);
+TraceBasedSim.cpp:309:				size_t charsLeft = min(((size_t)16), strlen - startIndex + 1);
+TraceBasedSim.cpp:338: * Override options can be specified on the command line as -o key1=value1,key2=value2
+TraceBasedSim.cpp:339: * this method should parse the key-value pairs and put them into a map
+TraceBasedSim.cpp:360:		string key = kv_str.substr(start, equal_sign-start);
+TraceBasedSim.cpp:361:		string value = kv_str.substr(equal_sign+1, comma-equal_sign-1);
+TraceBasedSim.cpp:405:		if (c == -1)
+TraceBasedSim.cpp:460:			exit(-1);
+TraceBasedSim.cpp:494:		exit(-1);
+TraceBasedSim.cpp:512:	memorySystem->setCPUClockSpeed(0);
+TraceBasedSim.cpp:523:	memorySystem->RegisterCallbacks(read_cb, write_cb, NULL);
+TraceBasedSim.cpp:540:		cout << "== Error - Could not open trace file"<<endl;
+TraceBasedSim.cpp:607:	memorySystem->printStats(true);
+Coincidencia en el archivo binario BankState.o
+AddressMapping.deppo:1:AddressMapping.po: AddressMapping.cpp /usr/include/stdc-predef.h \
+AddressMapping.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+AddressMapping.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+AddressMapping.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+AddressMapping.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+AddressMapping.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+AddressMapping.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+AddressMapping.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+AddressMapping.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+AddressMapping.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+AddressMapping.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+AddressMapping.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+AddressMapping.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+AddressMapping.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+AddressMapping.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+AddressMapping.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+AddressMapping.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+AddressMapping.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+AddressMapping.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+AddressMapping.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+AddressMapping.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+AddressMapping.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+AddressMapping.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+AddressMapping.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+AddressMapping.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+AddressMapping.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+AddressMapping.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+AddressMapping.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+AddressMapping.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+AddressMapping.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+AddressMapping.deppo:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+AddressMapping.deppo:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+AddressMapping.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+AddressMapping.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+AddressMapping.deppo:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+AddressMapping.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+AddressMapping.deppo:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+AddressMapping.deppo:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+AddressMapping.deppo:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+AddressMapping.deppo:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+AddressMapping.deppo:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+AddressMapping.deppo:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+AddressMapping.deppo:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+AddressMapping.deppo:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+AddressMapping.deppo:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+AddressMapping.deppo:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+AddressMapping.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+AddressMapping.deppo:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+Coincidencia en el archivo binario BusPacket.po
+BusPacket.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+BusPacket.cpp:99:			exit(-1);
+BusPacket.cpp:141:			exit(-1);
+system.ini.example:5:TRANS_QUEUE_DEPTH=32					; transaction queue, i.e., CPU-level commands such as:  READ 0xbeef
+system.ini.example:6:CMD_QUEUE_DEPTH=32						; command queue, i.e., DRAM-level commands such as: CAS 544, RAS 4
+system.ini.example:9:ADDRESS_MAPPING_SCHEME=scheme2	;valid schemes 1-7; For multiple independent channels, use scheme7 since it has the most parallelism 
+MultiChannelMemorySystem.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+MemorySystem.deppo:1:MemorySystem.po: MemorySystem.cpp /usr/include/stdc-predef.h \
+MemorySystem.deppo:3: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+MemorySystem.deppo:4: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+MemorySystem.deppo:5: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+MemorySystem.deppo:6: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+MemorySystem.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+MemorySystem.deppo:8: /usr/include/x86_64-linux-gnu/bits/wchar.h SystemConfiguration.h \
+MemorySystem.deppo:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+MemorySystem.deppo:11: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+MemorySystem.deppo:12: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+MemorySystem.deppo:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+MemorySystem.deppo:19: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+MemorySystem.deppo:20: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+MemorySystem.deppo:37: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+MemorySystem.deppo:39: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+MemorySystem.deppo:40: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+MemorySystem.deppo:41: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+MemorySystem.deppo:42: /usr/include/x86_64-linux-gnu/bits/endian.h \
+MemorySystem.deppo:43: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+MemorySystem.deppo:44: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+MemorySystem.deppo:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+MemorySystem.deppo:48: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+MemorySystem.deppo:50: /usr/include/x86_64-linux-gnu/bits/sched.h \
+MemorySystem.deppo:51: /usr/include/x86_64-linux-gnu/bits/time.h \
+MemorySystem.deppo:52: /usr/include/x86_64-linux-gnu/bits/timex.h \
+MemorySystem.deppo:53: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+MemorySystem.deppo:54: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+MemorySystem.deppo:55: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+MemorySystem.deppo:58: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+MemorySystem.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+MemorySystem.deppo:74: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+MemorySystem.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+MemorySystem.deppo:82: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+MemorySystem.deppo:83: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+MemorySystem.deppo:84: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+MemorySystem.deppo:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+MemorySystem.deppo:86: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+MemorySystem.deppo:94: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+MemorySystem.deppo:95: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+MemorySystem.deppo:96: /usr/include/x86_64-linux-gnu/sys/types.h \
+MemorySystem.deppo:97: /usr/include/x86_64-linux-gnu/sys/select.h \
+MemorySystem.deppo:98: /usr/include/x86_64-linux-gnu/bits/select.h \
+MemorySystem.deppo:99: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+MemorySystem.deppo:100: /usr/include/x86_64-linux-gnu/bits/select2.h \
+MemorySystem.deppo:101: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+MemorySystem.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+MemorySystem.deppo:103: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+MemorySystem.deppo:104: /usr/include/x86_64-linux-gnu/bits/stdlib.h PrintMacros.h \
+MemorySystem.deppo:107: /usr/include/x86_64-linux-gnu/bits/string3.h /usr/include/c++/4.8/map \
+MemorySystem.deppo:113: /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+MemorySystem.deppo:114: /usr/include/x86_64-linux-gnu/bits/environments.h \
+MemorySystem.deppo:115: /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
+MemorySystem.deppo:116: /usr/include/x86_64-linux-gnu/bits/unistd.h
+SimulatorObject.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+README.tex:13:\author{Elliott Cooper-Balis \\
+README.tex:27:by the performance of DRAM-based memory systems. As a result, there is great
+README.tex:31:the fact that DRAM-system performance depends on many
+README.tex:33:and request sequence, memory-system architecture, memory-system configuration, DRAM
+README.tex:36:performance-enhancing feature, since the performance impact of that feature typically 
+README.tex:37:depends on the characteristics of specific workloads, memory-system architecture, 
+README.tex:38:memory-system configuration, DRAM access protocol and DRAM device timing parameters. 
+README.tex:49:the fact that the simulated memory system uses a closed-page policy and 
+README.tex:90:Our DRAM-system simulation work enables system architects not
+README.tex:116:	To build an optimized standalone trace-based simulator called \texttt{DRAMSim} simply type:
+README.tex:130:\subsection{Trace-Based Simulation}
+README.tex:137:traces should first be pre-processed before running through the simulator. 
+README.tex:147:./DRAMSim -t traces/k6_aoe_02_short.trc -s system.ini -d ini/DDR3_micron_64M_8B_x4_sg15.ini -c 1000
+README.tex:150:	the specified DDR3 part. The -s, -d, and -t flags are required to run a simulation.
+README.tex:154:$ ./DRAMSim --help
+README.tex:156:DRAMSim -t tracefile -s system.ini -d ini/device.ini [-c #] [-p pwd] -q
+README.tex:157:	-t, --tracefile=FILENAME 	specify a tracefile to run  
+README.tex:158:	-s, --systemini=FILENAME 	specify an ini file that describes the memory system parameters  
+README.tex:159:	-d, --deviceini=FILENAME 	specify an ini file that describes the device-level parameters
+README.tex:160:	-c, --numcycles=# 		specify number of cycles to run the simulation for [default=30] 
+README.tex:161:	-q, --quiet 			flag to suppress simulation output (except final stats) [default=no]
+README.tex:162:	-o, --option=OPTION_A=234			overwrite any ini file option from the command line
+README.tex:163:	-p, --pwd=DIRECTORY		Set the working directory
+README.tex:214: ----------------- Memory System Update ------------------
+README.tex:215: ---------- Memory Controller Update Starting ------------ [8]
+README.tex:216: -- R0 Receiving On Bus    : BP [ACT] pa[0x5dec7f0] r[0] b[3] row[1502] col[799]
+README.tex:217: -- MC Issuing On Data Bus    : BP [DATA] pa[0x7edc7e0] r[0] b[2] row[2029] col[799] data[0]=
+README.tex:219: -- MC Issuing On Command Bus : BP [READ_P] pa[0x5dec7f8] r[1] b[3] row[1502] col[799]
+README.tex:220:== New Transaction - Mapping Address [0x5dec800] (read)
+README.tex:273:Lines beginning with " -- " indicate bus traffic, ie, 
+README.tex:275:     -- R0 Receiving On Bus       : BP [ACT] pa[0x5dec7f0] r[0] b[3] row[1502] col[799]
+README.tex:276:     -- MC Issuing On Data Bus    : BP [DATA] pa[0x7edc7e0] r[0] b[2] row[2029] col[799] data[0]=
+README.tex:277:     -- MC Issuing On Command Bus : BP [READ_P] pa[0x5dec7f8] r[1] b[3] row[1502] col[799]
+README.tex:304:	== New Transaction - Mapping Address [0x5dec800] (read)
+README.tex:313:the command queue.  For example, per-rank/per-bank queues are 
+README.tex:345:We are currently working on DRAMVis, which is a cross-platform viewer which parses the vis file and generates graphs that can be used
+IniReader.dep:1:IniReader.o: IniReader.cpp /usr/include/stdc-predef.h IniReader.h \
+IniReader.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+IniReader.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+IniReader.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+IniReader.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+IniReader.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+IniReader.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+IniReader.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+IniReader.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+IniReader.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+IniReader.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+IniReader.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+IniReader.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+IniReader.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+IniReader.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+IniReader.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+IniReader.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+IniReader.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+IniReader.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+IniReader.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+IniReader.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+IniReader.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+IniReader.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+IniReader.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+IniReader.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+IniReader.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+IniReader.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+IniReader.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+IniReader.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+IniReader.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+IniReader.dep:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+IniReader.dep:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+IniReader.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+IniReader.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+IniReader.dep:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+IniReader.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+IniReader.dep:95: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+IniReader.dep:96: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+IniReader.dep:97: /usr/include/x86_64-linux-gnu/sys/types.h \
+IniReader.dep:98: /usr/include/x86_64-linux-gnu/sys/select.h \
+IniReader.dep:99: /usr/include/x86_64-linux-gnu/bits/select.h \
+IniReader.dep:100: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+IniReader.dep:101: /usr/include/x86_64-linux-gnu/bits/select2.h \
+IniReader.dep:102: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+IniReader.dep:103: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+IniReader.dep:104: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+IniReader.dep:105: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+IniReader.dep:106: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+MemoryController.deppo:1:MemoryController.po: MemoryController.cpp /usr/include/stdc-predef.h \
+MemoryController.deppo:3: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+MemoryController.deppo:4: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+MemoryController.deppo:5: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+MemoryController.deppo:6: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+MemoryController.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+MemoryController.deppo:8: /usr/include/x86_64-linux-gnu/bits/wchar.h Transaction.h \
+MemoryController.deppo:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+MemoryController.deppo:11: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+MemoryController.deppo:12: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+MemoryController.deppo:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+MemoryController.deppo:19: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+MemoryController.deppo:20: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+MemoryController.deppo:37: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+MemoryController.deppo:39: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+MemoryController.deppo:40: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+MemoryController.deppo:41: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+MemoryController.deppo:42: /usr/include/x86_64-linux-gnu/bits/endian.h \
+MemoryController.deppo:43: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+MemoryController.deppo:44: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+MemoryController.deppo:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+MemoryController.deppo:48: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+MemoryController.deppo:50: /usr/include/x86_64-linux-gnu/bits/sched.h \
+MemoryController.deppo:51: /usr/include/x86_64-linux-gnu/bits/time.h \
+MemoryController.deppo:52: /usr/include/x86_64-linux-gnu/bits/timex.h \
+MemoryController.deppo:53: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+MemoryController.deppo:54: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+MemoryController.deppo:55: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+MemoryController.deppo:58: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+MemoryController.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+MemoryController.deppo:74: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+MemoryController.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+MemoryController.deppo:82: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+MemoryController.deppo:83: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+MemoryController.deppo:84: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+MemoryController.deppo:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+MemoryController.deppo:86: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+MemoryController.deppo:94: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+MemoryController.deppo:95: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+MemoryController.deppo:96: /usr/include/x86_64-linux-gnu/sys/types.h \
+MemoryController.deppo:97: /usr/include/x86_64-linux-gnu/sys/select.h \
+MemoryController.deppo:98: /usr/include/x86_64-linux-gnu/bits/select.h \
+MemoryController.deppo:99: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+MemoryController.deppo:100: /usr/include/x86_64-linux-gnu/bits/select2.h \
+MemoryController.deppo:101: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+MemoryController.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+MemoryController.deppo:103: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+MemoryController.deppo:104: /usr/include/x86_64-linux-gnu/bits/stdlib.h PrintMacros.h BusPacket.h \
+MemoryController.deppo:106: /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+Coincidencia en el archivo binario MemoryController.po
+Coincidencia en el archivo binario IniReader.o
+Coincidencia en el archivo binario Rank.po
+Rank.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Rank.cpp:41:	id(-1),
+Rank.cpp:64:	this->id = id;
+Rank.cpp:71:	this->memoryController = memoryController;
+Rank.cpp:86:		PRINTN(" -- R" << this->id << " Receiving On Bus    : ");
+Rank.cpp:87:		packet->print();
+Rank.cpp:91:		packet->print(currentClockCycle,false);
+Rank.cpp:94:	switch (packet->busPacketType)
+Rank.cpp:98:		if (bankStates[packet->bank].currentBankState != RowActive ||
+Rank.cpp:99:		        currentClockCycle < bankStates[packet->bank].nextRead ||
+Rank.cpp:100:		        packet->row != bankStates[packet->bank].openRowAddress)
+Rank.cpp:102:			packet->print();
+Rank.cpp:103:			ERROR("== Error - Rank " << id << " received a READ when not allowed");
+Rank.cpp:108:		bankStates[packet->bank].nextPrecharge = max(bankStates[packet->bank].nextPrecharge, currentClockCycle + READ_TO_PRE_DELAY);
+Rank.cpp:117:		banks[packet->bank].read(packet);
+Rank.cpp:119:		packet->busPacketType = DATA;
+Rank.cpp:126:		if (bankStates[packet->bank].currentBankState != RowActive ||
+Rank.cpp:127:		        currentClockCycle < bankStates[packet->bank].nextRead ||
+Rank.cpp:128:		        packet->row != bankStates[packet->bank].openRowAddress)
+Rank.cpp:130:			ERROR("== Error - Rank " << id << " received a READ_P when not allowed");
+Rank.cpp:131:			exit(-1);
+Rank.cpp:135:		bankStates[packet->bank].currentBankState = Idle;
+Rank.cpp:136:		bankStates[packet->bank].nextActivate = max(bankStates[packet->bank].nextActivate, currentClockCycle + READ_AUTOPRE_DELAY);
+Rank.cpp:139:			//will set next read/write for all banks - including current (which shouldnt matter since its now idle)
+Rank.cpp:146:		banks[packet->bank].read(packet);
+Rank.cpp:148:		packet->busPacketType = DATA;
+Rank.cpp:156:		if (bankStates[packet->bank].currentBankState != RowActive ||
+Rank.cpp:157:		        currentClockCycle < bankStates[packet->bank].nextWrite ||
+Rank.cpp:158:		        packet->row != bankStates[packet->bank].openRowAddress)
+Rank.cpp:160:			ERROR("== Error - Rank " << id << " received a WRITE when not allowed");
+Rank.cpp:161:			bankStates[packet->bank].print();
+Rank.cpp:166:		bankStates[packet->bank].nextPrecharge = max(bankStates[packet->bank].nextPrecharge, currentClockCycle + WRITE_TO_PRE_DELAY);
+Rank.cpp:174:		incomingWriteBank = packet->bank;
+Rank.cpp:175:		incomingWriteRow = packet->row;
+Rank.cpp:176:		incomingWriteColumn = packet->column;
+Rank.cpp:181:		if (bankStates[packet->bank].currentBankState != RowActive ||
+Rank.cpp:182:		        currentClockCycle < bankStates[packet->bank].nextWrite ||
+Rank.cpp:183:		        packet->row != bankStates[packet->bank].openRowAddress)
+Rank.cpp:185:			ERROR("== Error - Rank " << id << " received a WRITE_P when not allowed");
+Rank.cpp:190:		bankStates[packet->bank].currentBankState = Idle;
+Rank.cpp:191:		bankStates[packet->bank].nextActivate = max(bankStates[packet->bank].nextActivate, currentClockCycle + WRITE_AUTOPRE_DELAY);
+Rank.cpp:199:		incomingWriteBank = packet->bank;
+Rank.cpp:200:		incomingWriteRow = packet->row;
+Rank.cpp:201:		incomingWriteColumn = packet->column;
+Rank.cpp:206:		if (bankStates[packet->bank].currentBankState != Idle ||
+Rank.cpp:207:		        currentClockCycle < bankStates[packet->bank].nextActivate)
+Rank.cpp:209:			ERROR("== Error - Rank " << id << " received an ACT when not allowed");
+Rank.cpp:210:			packet->print();
+Rank.cpp:211:			bankStates[packet->bank].print();
+Rank.cpp:215:		bankStates[packet->bank].currentBankState = RowActive;
+Rank.cpp:216:		bankStates[packet->bank].nextActivate = currentClockCycle + tRC;
+Rank.cpp:217:		bankStates[packet->bank].openRowAddress = packet->row;
+Rank.cpp:219:		//if AL is greater than one, then posted-cas is enabled - handle accordingly
+Rank.cpp:222:			bankStates[packet->bank].nextWrite = currentClockCycle + (tRCD-AL);
+Rank.cpp:223:			bankStates[packet->bank].nextRead = currentClockCycle + (tRCD-AL);
+Rank.cpp:227:			bankStates[packet->bank].nextWrite = currentClockCycle + (tRCD-AL);
+Rank.cpp:228:			bankStates[packet->bank].nextRead = currentClockCycle + (tRCD-AL);
+Rank.cpp:231:		bankStates[packet->bank].nextPrecharge = currentClockCycle + tRAS;
+Rank.cpp:234:			if (i != packet->bank)
+Rank.cpp:243:		if (bankStates[packet->bank].currentBankState != RowActive ||
+Rank.cpp:244:		        currentClockCycle < bankStates[packet->bank].nextPrecharge)
+Rank.cpp:246:			ERROR("== Error - Rank " << id << " received a PRE when not allowed");
+Rank.cpp:250:		bankStates[packet->bank].currentBankState = Idle;
+Rank.cpp:251:		bankStates[packet->bank].nextActivate = max(bankStates[packet->bank].nextActivate, currentClockCycle + tRP);
+Rank.cpp:260:				ERROR("== Error - Rank " << id << " received a REF when not allowed");
+Rank.cpp:270:		if(packet->bank != incomingWriteBank ||
+Rank.cpp:271:			 packet->row != incomingWriteRow ||
+Rank.cpp:272:			 packet->column != incomingWriteColumn)
+Rank.cpp:274:				cout << "== Error - Rank " << id << " received a DATA packet to the wrong place" << endl;
+Rank.cpp:275:				packet->print();
+Rank.cpp:276:				bankStates[packet->bank].print();
+Rank.cpp:281:		banks[packet->bank].write(packet);
+Rank.cpp:288:		ERROR("== Error - Unknown BusPacketType trying to be sent to Bank");
+Rank.cpp:296:	return this->id;
+Rank.cpp:306:		dataCyclesLeft--;
+Rank.cpp:310:			memoryController->receiveFromBus(outgoingDataPacket);
+Rank.cpp:318:		readReturnCountdown[i]--;
+Rank.cpp:336:			PRINTN(" -- R" << this->id << " Issuing On Data Bus : ");
+Rank.cpp:337:			outgoingDataPacket->print();
+Rank.cpp:352:			ERROR("== Error - Trying to power down rank " << id << " while not all banks are idle");
+Rank.cpp:368:		ERROR("== Error - Trying to power up rank " << id << " while it is not already powered down");
+Rank.cpp:378:			ERROR("== Error - Trying to power up rank " << id << " before we're allowed to");
+ClockDomain.dep:1:ClockDomain.o: ClockDomain.cpp /usr/include/stdc-predef.h ClockDomain.h \
+ClockDomain.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+ClockDomain.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+ClockDomain.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ClockDomain.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ClockDomain.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ClockDomain.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ClockDomain.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+ClockDomain.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+ClockDomain.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ClockDomain.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+ClockDomain.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+ClockDomain.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+ClockDomain.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+ClockDomain.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+ClockDomain.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+ClockDomain.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+ClockDomain.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ClockDomain.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+ClockDomain.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+ClockDomain.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+ClockDomain.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+ClockDomain.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+ClockDomain.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+ClockDomain.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ClockDomain.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ClockDomain.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+ClockDomain.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+ClockDomain.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+ClockDomain.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+ClockDomain.dep:77: /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+ClockDomain.dep:78: /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+ClockDomain.dep:79: /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+ClockDomain.dep:80: /usr/include/x86_64-linux-gnu/bits/inf.h \
+ClockDomain.dep:81: /usr/include/x86_64-linux-gnu/bits/nan.h \
+ClockDomain.dep:82: /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+ClockDomain.dep:83: /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ClockDomain.dep:84: /usr/include/x86_64-linux-gnu/bits/mathinline.h \
+ClockDomain.dep:85: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h
+Coincidencia en el archivo binario AddressMapping.po
+ini/DDR3_micron_32M_8B_x8_sg25E.ini:13:;AL=3; needs to be tRCD-1 or 0
+ini/DDR3_micron_32M_8B_x8_sg25E.ini:15:;WL=(RL-1)
+ini/DDR3_micron_32M_8B_x8_sg25E.ini:26:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR3_micron_32M_8B_x8_sg25E.ini:50:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR3_micron_32M_8B_x8_sg25E.ini:52:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR3_micron_32M_8B_x8_sg25E.ini:56:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/DDR3_micron_64M_8B_x4_sg15.ini:13:;AL=3; needs to be tRCD-1 or 0
+ini/DDR3_micron_64M_8B_x4_sg15.ini:15:;WL=(RL-1)
+ini/DDR3_micron_64M_8B_x4_sg15.ini:26:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR3_micron_64M_8B_x4_sg15.ini:50:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR3_micron_64M_8B_x4_sg15.ini:52:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR3_micron_64M_8B_x4_sg15.ini:56:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/dramsim_mc.ini:5:;TRANS_QUEUE_DEPTH=32				; transaction queue, i.e., CPU-level commands such as:  READ 0xbeef
+ini/dramsim_mc.ini:6:;CMD_QUEUE_DEPTH=32						; command queue, i.e., DRAM-level commands such as: CAS 544, RAS 4
+ini/dramsim_mc.ini:11:ADDRESS_MAPPING_SCHEME=scheme7				; valid schemes 1-7, see apendix. For multiple independent channels, use scheme7 since it has the most parallelism 
+ini/dramsim_mc.ini:33:; Schemes 1-7
+ini/system.ini:5:TRANS_QUEUE_DEPTH=32					; transaction queue, i.e., CPU-level commands such as:  READ 0xbeef
+ini/system.ini:6:CMD_QUEUE_DEPTH=32						; command queue, i.e., DRAM-level commands such as: CAS 544, RAS 4
+ini/system.ini:9:ADDRESS_MAPPING_SCHEME=scheme2	;valid schemes 1-7; For multiple independent channels, use scheme7 since it has the most parallelism 
+ini/system.ini:30:; Schemes 1-7
+ini/DDR2_micron_32M_8B_x4_sg25E.ini:1:; This is for a micron DDR2, -3E part as per the verilog models
+ini/DDR2_micron_32M_8B_x4_sg25E.ini:14:;AL=3; needs to be tRCD-1 or 0
+ini/DDR2_micron_32M_8B_x4_sg25E.ini:16:;WL=(RL-1)
+ini/DDR2_micron_32M_8B_x4_sg25E.ini:27:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR2_micron_32M_8B_x4_sg25E.ini:51:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR2_micron_32M_8B_x4_sg25E.ini:53:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR2_micron_32M_8B_x4_sg25E.ini:57:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/DDR3_micron_32M_8B_x8_sg15.ini:13:;AL=3; needs to be tRCD-1 or 0
+ini/DDR3_micron_32M_8B_x8_sg15.ini:15:;WL=(RL-1)
+ini/DDR3_micron_32M_8B_x8_sg15.ini:26:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR3_micron_32M_8B_x8_sg15.ini:50:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR3_micron_32M_8B_x8_sg15.ini:52:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR3_micron_32M_8B_x8_sg15.ini:56:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/DDR3_micron_16M_8B_x8_sg15.ini:13:;AL=3; needs to be tRCD-1 or 0
+ini/DDR3_micron_16M_8B_x8_sg15.ini:15:;WL=(RL-1)
+ini/DDR3_micron_16M_8B_x8_sg15.ini:26:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR3_micron_16M_8B_x8_sg15.ini:50:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR3_micron_16M_8B_x8_sg15.ini:52:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR3_micron_16M_8B_x8_sg15.ini:56:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/DDR2_micron_16M_8b_x8_sg3E.ini:14:;AL=3; needs to be tRCD-1 or 0
+ini/DDR2_micron_16M_8b_x8_sg3E.ini:16:;WL=(RL-1)
+ini/DDR3_micron_8M_8B_x16_sg15.ini:13:;AL=3; needs to be tRCD-1 or 0
+ini/DDR3_micron_8M_8B_x16_sg15.ini:15:;WL=(RL-1)
+ini/DDR3_micron_8M_8B_x16_sg15.ini:26:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR3_micron_8M_8B_x16_sg15.ini:50:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR3_micron_8M_8B_x16_sg15.ini:52:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR3_micron_8M_8B_x16_sg15.ini:56:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/DDR3_micron_32M_8B_x4_sg125.ini:14:;AL=3; needs to be tRCD-1 or 0
+ini/DDR3_micron_32M_8B_x4_sg125.ini:16:;WL=(RL-1)
+ini/DDR3_micron_32M_8B_x4_sg125.ini:27:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR3_micron_32M_8B_x4_sg125.ini:35:; x4 width; DDR3-1660; page 44
+ini/DDR3_micron_32M_8B_x4_sg125.ini:41:IDD3Pf=45 ; unused -- also DDR3 doesn't have f,s versions 
+ini/DDR3_micron_32M_8B_x4_sg125.ini:52:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR3_micron_32M_8B_x4_sg125.ini:54:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR3_micron_32M_8B_x4_sg125.ini:58:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/GDDR5_Hynix.ini:25:;AL=; needs to be tRCD-1 or 0
+ini/GDDR5_Hynix.ini:27:;WL=(RL-1)
+ini/GDDR5_Hynix.ini:28:WL=5 ;MODIFICADO PARA TRAS CONVERSACION PARA IGUALAR GPGPUSIM-RAMULATOR-DRAMSIM2
+ini/GDDR5_Hynix.ini:33:tRRD=10 ;MODIFICADO PARA TRAS CONVERSACION PARA IGUALAR GPGPUSIM-RAMULATOR-DRAMSIM2
+ini/GDDR5_Hynix.ini:41:tWR=18 ;MODIFICADO PARA TRAS CONVERSACION PARA IGUALAR GPGPUSIM-RAMULATOR-DRAMSIM2
+ini/GDDR5_Hynix.ini:44:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR2_micron_32M_4B_x4_sg3E.ini:1:; This is for a micron DDR2, -3E part as per the verilog models
+ini/DDR2_micron_32M_4B_x4_sg3E.ini:14:;AL=3; needs to be tRCD-1 or 0
+ini/DDR2_micron_32M_4B_x4_sg3E.ini:16:;WL=(RL-1)
+ini/DDR2_micron_32M_4B_x4_sg3E.ini:27:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR2_micron_32M_4B_x4_sg3E.ini:51:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR2_micron_32M_4B_x4_sg3E.ini:53:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR2_micron_32M_4B_x4_sg3E.ini:57:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+ini/dramsim_mc.ini.bak:5:;TRANS_QUEUE_DEPTH=32				; transaction queue, i.e., CPU-level commands such as:  READ 0xbeef
+ini/dramsim_mc.ini.bak:6:;CMD_QUEUE_DEPTH=32						; command queue, i.e., DRAM-level commands such as: CAS 544, RAS 4
+ini/dramsim_mc.ini.bak:11:ADDRESS_MAPPING_SCHEME=scheme7				; valid schemes 1-7, see apendix. For multiple independent channels, use scheme7 since it has the most parallelism 
+ini/dramsim_mc.ini.bak:33:; Schemes 1-7
+ini/DDR3_micron_32M_8B_x4_sg15.ini:13:;AL=3; needs to be tRCD-1 or 0
+ini/DDR3_micron_32M_8B_x4_sg15.ini:15:;WL=(RL-1)
+ini/DDR3_micron_32M_8B_x4_sg15.ini:26:tRTRS=1; -- RANK PARAMETER, TODO 
+ini/DDR3_micron_32M_8B_x4_sg15.ini:50:;READ_TO_PRE_DELAY=(AL+BL/2+max(tRTP,2)-2)
+ini/DDR3_micron_32M_8B_x4_sg15.ini:52:;READ_TO_WRITE_DELAY=(RL+BL/2+tRTRS-WL)
+ini/DDR3_micron_32M_8B_x4_sg15.ini:56:;WRITE_TO_READ_DELAY_R=(WL+BL/2+tRTRS-RL);interrank
+MemorySystem.dep:1:MemorySystem.o: MemorySystem.cpp /usr/include/stdc-predef.h \
+MemorySystem.dep:3: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+MemorySystem.dep:4: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+MemorySystem.dep:5: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+MemorySystem.dep:6: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+MemorySystem.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+MemorySystem.dep:8: /usr/include/x86_64-linux-gnu/bits/wchar.h SystemConfiguration.h \
+MemorySystem.dep:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+MemorySystem.dep:11: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+MemorySystem.dep:12: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+MemorySystem.dep:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+MemorySystem.dep:19: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+MemorySystem.dep:20: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+MemorySystem.dep:37: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+MemorySystem.dep:39: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+MemorySystem.dep:40: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+MemorySystem.dep:41: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+MemorySystem.dep:42: /usr/include/x86_64-linux-gnu/bits/endian.h \
+MemorySystem.dep:43: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+MemorySystem.dep:44: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+MemorySystem.dep:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+MemorySystem.dep:48: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+MemorySystem.dep:50: /usr/include/x86_64-linux-gnu/bits/sched.h \
+MemorySystem.dep:51: /usr/include/x86_64-linux-gnu/bits/time.h \
+MemorySystem.dep:52: /usr/include/x86_64-linux-gnu/bits/timex.h \
+MemorySystem.dep:53: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+MemorySystem.dep:54: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+MemorySystem.dep:55: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+MemorySystem.dep:58: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+MemorySystem.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+MemorySystem.dep:74: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+MemorySystem.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+MemorySystem.dep:82: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+MemorySystem.dep:83: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+MemorySystem.dep:84: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+MemorySystem.dep:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+MemorySystem.dep:86: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+MemorySystem.dep:94: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+MemorySystem.dep:95: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+MemorySystem.dep:96: /usr/include/x86_64-linux-gnu/sys/types.h \
+MemorySystem.dep:97: /usr/include/x86_64-linux-gnu/sys/select.h \
+MemorySystem.dep:98: /usr/include/x86_64-linux-gnu/bits/select.h \
+MemorySystem.dep:99: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+MemorySystem.dep:100: /usr/include/x86_64-linux-gnu/bits/select2.h \
+MemorySystem.dep:101: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+MemorySystem.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+MemorySystem.dep:103: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+MemorySystem.dep:104: /usr/include/x86_64-linux-gnu/bits/stdlib.h PrintMacros.h \
+MemorySystem.dep:107: /usr/include/x86_64-linux-gnu/bits/string3.h /usr/include/c++/4.8/map \
+MemorySystem.dep:113: /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+MemorySystem.dep:114: /usr/include/x86_64-linux-gnu/bits/environments.h \
+MemorySystem.dep:115: /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
+MemorySystem.dep:116: /usr/include/x86_64-linux-gnu/bits/unistd.h
+IniReader.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+IniReader.deppo:1:IniReader.po: IniReader.cpp /usr/include/stdc-predef.h IniReader.h \
+IniReader.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+IniReader.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+IniReader.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+IniReader.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+IniReader.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+IniReader.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+IniReader.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+IniReader.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+IniReader.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+IniReader.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+IniReader.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+IniReader.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+IniReader.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+IniReader.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+IniReader.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+IniReader.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+IniReader.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+IniReader.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+IniReader.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+IniReader.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+IniReader.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+IniReader.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+IniReader.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+IniReader.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+IniReader.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+IniReader.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+IniReader.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+IniReader.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+IniReader.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+IniReader.deppo:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+IniReader.deppo:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+IniReader.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+IniReader.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+IniReader.deppo:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+IniReader.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+IniReader.deppo:95: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+IniReader.deppo:96: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+IniReader.deppo:97: /usr/include/x86_64-linux-gnu/sys/types.h \
+IniReader.deppo:98: /usr/include/x86_64-linux-gnu/sys/select.h \
+IniReader.deppo:99: /usr/include/x86_64-linux-gnu/bits/select.h \
+IniReader.deppo:100: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+IniReader.deppo:101: /usr/include/x86_64-linux-gnu/bits/select2.h \
+IniReader.deppo:102: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+IniReader.deppo:103: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+IniReader.deppo:104: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+IniReader.deppo:105: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+IniReader.deppo:106: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+Coincidencia en el archivo binario BankState.po
+Coincidencia en el archivo binario traces/k6_aoe_02_short.trc.gz
+Coincidencia en el archivo binario traces/mase_art.trc.gz
+traces/traceParse.py:13:tracefile_filename = sys.argv[1][0:len(sys.argv[1])-3]
+traces/traceParse.py:40:  linePattern = re.compile(r'(0x[0-9A-F]+)\s+([A-Z_]+)\s+([0-9.,]+)\s+(.*)')
+traces/traceParse.py:47:        time = time[0:length-5]
+Coincidencia en el archivo binario CommandQueue.po
+Coincidencia en el archivo binario Transaction.po
+Callback.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Callback.h:73:		return (const_cast<ConsumerT*>(object)->*member)
+Coincidencia en el archivo binario libdramsim.so
+AddressMapping.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+CommandQueue.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Coincidencia en el archivo binario IniReader.po
+Coincidencia en el archivo binario MemorySystem.o
+MultiChannelMemorySystem.dep:2: /usr/include/stdc-predef.h /usr/include/errno.h /usr/include/features.h \
+MultiChannelMemorySystem.dep:3: /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+MultiChannelMemorySystem.dep:4: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+MultiChannelMemorySystem.dep:5: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+MultiChannelMemorySystem.dep:6: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+MultiChannelMemorySystem.dep:7: /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+MultiChannelMemorySystem.dep:8: /usr/include/x86_64-linux-gnu/asm/errno.h \
+MultiChannelMemorySystem.dep:9: /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+MultiChannelMemorySystem.dep:12: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+MultiChannelMemorySystem.dep:13: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+MultiChannelMemorySystem.dep:14: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+MultiChannelMemorySystem.dep:19: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+MultiChannelMemorySystem.dep:20: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+MultiChannelMemorySystem.dep:21: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+MultiChannelMemorySystem.dep:22: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+MultiChannelMemorySystem.dep:39: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+MultiChannelMemorySystem.dep:41: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+MultiChannelMemorySystem.dep:42: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+MultiChannelMemorySystem.dep:43: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+MultiChannelMemorySystem.dep:44: /usr/include/x86_64-linux-gnu/bits/endian.h \
+MultiChannelMemorySystem.dep:45: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+MultiChannelMemorySystem.dep:46: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+MultiChannelMemorySystem.dep:49: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+MultiChannelMemorySystem.dep:50: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+MultiChannelMemorySystem.dep:52: /usr/include/x86_64-linux-gnu/bits/sched.h \
+MultiChannelMemorySystem.dep:53: /usr/include/x86_64-linux-gnu/bits/time.h \
+MultiChannelMemorySystem.dep:54: /usr/include/x86_64-linux-gnu/bits/timex.h \
+MultiChannelMemorySystem.dep:55: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+MultiChannelMemorySystem.dep:56: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+MultiChannelMemorySystem.dep:57: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+MultiChannelMemorySystem.dep:60: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+MultiChannelMemorySystem.dep:74: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+MultiChannelMemorySystem.dep:76: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+MultiChannelMemorySystem.dep:82: /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+MultiChannelMemorySystem.dep:83: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+MultiChannelMemorySystem.dep:84: /usr/include/x86_64-linux-gnu/sys/types.h \
+MultiChannelMemorySystem.dep:85: /usr/include/x86_64-linux-gnu/sys/select.h \
+MultiChannelMemorySystem.dep:86: /usr/include/x86_64-linux-gnu/bits/select.h \
+MultiChannelMemorySystem.dep:87: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+MultiChannelMemorySystem.dep:88: /usr/include/x86_64-linux-gnu/bits/select2.h \
+MultiChannelMemorySystem.dep:89: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+MultiChannelMemorySystem.dep:90: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+MultiChannelMemorySystem.dep:91: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+MultiChannelMemorySystem.dep:92: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+MultiChannelMemorySystem.dep:93: /usr/include/x86_64-linux-gnu/sys/stat.h \
+MultiChannelMemorySystem.dep:94: /usr/include/x86_64-linux-gnu/bits/stat.h MultiChannelMemorySystem.h \
+MultiChannelMemorySystem.dep:95: SimulatorObject.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h \
+MultiChannelMemorySystem.dep:100: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+MultiChannelMemorySystem.dep:101: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+MultiChannelMemorySystem.dep:102: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+MultiChannelMemorySystem.dep:103: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+MultiChannelMemorySystem.dep:104: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+MultiChannelMemorySystem.dep:105: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+MultiChannelMemorySystem.dep:115: /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+MultiChannelMemorySystem.dep:122: /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+MultiChannelMemorySystem.dep:123: /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+MultiChannelMemorySystem.dep:124: /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+MultiChannelMemorySystem.dep:125: /usr/include/x86_64-linux-gnu/bits/inf.h \
+MultiChannelMemorySystem.dep:126: /usr/include/x86_64-linux-gnu/bits/nan.h \
+MultiChannelMemorySystem.dep:127: /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+MultiChannelMemorySystem.dep:128: /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+MultiChannelMemorySystem.dep:129: /usr/include/x86_64-linux-gnu/bits/mathinline.h AddressMapping.h
+CommandQueue.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+CommandQueue.cpp:75:		ERROR("== Error - Unknown queuing structure");
+CommandQueue.cpp:88:		//this loop will run only once for per-rank and NUM_BANKS times for per-rank-per-bank
+CommandQueue.cpp:98:	//FOUR-bank activation window
+CommandQueue.cpp:133:	unsigned rank = newBusPacket->rank;
+CommandQueue.cpp:134:	unsigned bank = newBusPacket->bank;
+CommandQueue.cpp:140:			ERROR("== Error - Enqueued more than allowed in command queue");
+CommandQueue.cpp:150:			ERROR("== Error - Enqueued more than allowed in command queue");
+CommandQueue.cpp:157:		ERROR("== Error - Unknown queuing structure");
+CommandQueue.cpp:169:	//deal with tFAW book-keeping
+CommandQueue.cpp:176:			tFAWCountdown[i][j]--;
+CommandQueue.cpp:214:						if (packet->row == bankStates[refreshRank][b].openRowAddress &&
+CommandQueue.cpp:215:								packet->bank == b)
+CommandQueue.cpp:217:							if (packet->busPacketType != ACTIVATE && isIssuable(packet))
+CommandQueue.cpp:245:				refreshRank = -1;
+CommandQueue.cpp:275:								if (i>0 && queue[i-1]->busPacketType==ACTIVATE &&
+CommandQueue.cpp:276:										queue[i-1]->physicalAddress == queue[i]->physicalAddress)
+CommandQueue.cpp:301:				//if we found something, break out of do-while
+CommandQueue.cpp:349:						if (bankStates[refreshRank][b].openRowAddress == packet->row &&
+CommandQueue.cpp:350:								b == packet->bank)
+CommandQueue.cpp:353:							if (packet->busPacketType != ACTIVATE)
+CommandQueue.cpp:398:				refreshRank = -1;
+CommandQueue.cpp:426:								if (prevPacket->busPacketType != ACTIVATE &&
+CommandQueue.cpp:427:										prevPacket->bank == packet->bank &&
+CommandQueue.cpp:428:										prevPacket->row == packet->row)
+CommandQueue.cpp:441:							if (i>0 && queue[i-1]->busPacketType == ACTIVATE)
+CommandQueue.cpp:443:								rowAccessCounters[(*busPacket)->rank][(*busPacket)->bank]++;
+CommandQueue.cpp:444:								// i is being returned, but i-1 is being thrown away, so must delete it here
+CommandQueue.cpp:445:								delete (queue[i-1]);
+CommandQueue.cpp:447:								// remove both i-1 (the activate) and i (we've saved the pointer in *busPacket)
+CommandQueue.cpp:448:								queue.erase(queue.begin()+i-1,queue.begin()+i+1);
+CommandQueue.cpp:462:				//if we found something, break out of do-while
+CommandQueue.cpp:504:							if (queue[i]->bank == nextBankPRE &&
+CommandQueue.cpp:505:									queue[i]->row == bankStates[nextRankPRE][nextBankPRE].openRowAddress)
+CommandQueue.cpp:534:	//sendAct is flag used for posted-cas
+CommandQueue.cpp:535:	//  posted-cas is enabled when AL>0
+CommandQueue.cpp:549:	if ((*busPacket)->busPacketType==ACTIVATE)
+CommandQueue.cpp:551:		tFAWCountdown[(*busPacket)->rank].push_back(tFAW);
+CommandQueue.cpp:561:	return (CMD_QUEUE_DEPTH - queue.size() >= numberToEnqueue);
+CommandQueue.cpp:576:				queues[i][0][j]->print();
+CommandQueue.cpp:594:					queues[i][j][k]->print();
+CommandQueue.cpp:627:	switch (busPacket->busPacketType)
+CommandQueue.cpp:633:		if ((bankStates[busPacket->rank][busPacket->bank].currentBankState == Idle ||
+CommandQueue.cpp:634:		        bankStates[busPacket->rank][busPacket->bank].currentBankState == Refreshing) &&
+CommandQueue.cpp:635:		        currentClockCycle >= bankStates[busPacket->rank][busPacket->bank].nextActivate &&
+CommandQueue.cpp:636:		        tFAWCountdown[busPacket->rank].size() < 4)
+CommandQueue.cpp:647:		if (bankStates[busPacket->rank][busPacket->bank].currentBankState == RowActive &&
+CommandQueue.cpp:648:		        currentClockCycle >= bankStates[busPacket->rank][busPacket->bank].nextWrite &&
+CommandQueue.cpp:649:		        busPacket->row == bankStates[busPacket->rank][busPacket->bank].openRowAddress &&
+CommandQueue.cpp:650:		        rowAccessCounters[busPacket->rank][busPacket->bank] < TOTAL_ROW_ACCESSES)
+CommandQueue.cpp:661:		if (bankStates[busPacket->rank][busPacket->bank].currentBankState == RowActive &&
+CommandQueue.cpp:662:		        currentClockCycle >= bankStates[busPacket->rank][busPacket->bank].nextRead &&
+CommandQueue.cpp:663:		        busPacket->row == bankStates[busPacket->rank][busPacket->bank].openRowAddress &&
+CommandQueue.cpp:664:		        rowAccessCounters[busPacket->rank][busPacket->bank] < TOTAL_ROW_ACCESSES)
+CommandQueue.cpp:674:		if (bankStates[busPacket->rank][busPacket->bank].currentBankState == RowActive &&
+CommandQueue.cpp:675:		        currentClockCycle >= bankStates[busPacket->rank][busPacket->bank].nextPrecharge)
+CommandQueue.cpp:685:		ERROR("== Error - Trying to issue a crazy bus packet type : ");
+CommandQueue.cpp:686:		busPacket->print();
+CommandQueue.cpp:736:	//bank-then-rank round robin
+CommandQueue.cpp:752:		ERROR("== Error - Unknown scheduling policy");
+Coincidencia en el archivo binario MultiChannelMemorySystem.po
+example_app/dramsim_test.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+example_app/dramsim_test.cpp:61:	mem->addTransaction(isWrite, addr);
+example_app/dramsim_test.cpp:65:	mem->addTransaction(isWrite, addr);
+example_app/dramsim_test.cpp:69:		mem->update();
+example_app/dramsim_test.cpp:77:	mem->addTransaction(isWrite, addr);
+example_app/dramsim_test.cpp:80:	/* do a bunch of updates (i.e. clocks) -- at some point the callback will fire */
+example_app/dramsim_test.cpp:83:		mem->update();
+example_app/dramsim_test.cpp:87:	mem->printStats(true);
+example_app/dramsim_test.cpp:102:	mem->RegisterCallbacks(read_cb, write_cb, power_callback);
+example_app/dramsim_test.cpp:105:	mem2->RegisterCallbacks(read_cb, write_cb, power_callback);
+example_app/dramsim_test.cpp:108:	printf("-----MEM1------\n");
+example_app/dramsim_test.cpp:112:	printf("-----MEM2------\n");
+example_app/Makefile:4:	$(CXX) -g -o dramsim_test dramsim_test.cpp -I../ -L../ -ldramsim -Wl,-rpath=../
+example_app/dramsim_test.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Coincidencia en el archivo binario AddressMapping.o
+BusPacket.dep:1:BusPacket.o: BusPacket.cpp /usr/include/stdc-predef.h BusPacket.h \
+BusPacket.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+BusPacket.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+BusPacket.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+BusPacket.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+BusPacket.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+BusPacket.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+BusPacket.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+BusPacket.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+BusPacket.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+BusPacket.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+BusPacket.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+BusPacket.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+BusPacket.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+BusPacket.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+BusPacket.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+BusPacket.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+BusPacket.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+BusPacket.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+BusPacket.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+BusPacket.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+BusPacket.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+BusPacket.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+BusPacket.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+BusPacket.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+BusPacket.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+BusPacket.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+BusPacket.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+BusPacket.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+BusPacket.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+BusPacket.dep:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+BusPacket.dep:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+BusPacket.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+BusPacket.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+BusPacket.dep:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+BusPacket.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+BusPacket.dep:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+BusPacket.dep:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+BusPacket.dep:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+BusPacket.dep:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+BusPacket.dep:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+BusPacket.dep:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+BusPacket.dep:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+BusPacket.dep:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+BusPacket.dep:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+BusPacket.dep:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+BusPacket.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+BusPacket.dep:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+Coincidencia en el archivo binario MemorySystem.po
+PrintMacros.deppo:1:PrintMacros.po: PrintMacros.cpp /usr/include/stdc-predef.h PrintMacros.h \
+PrintMacros.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+PrintMacros.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+PrintMacros.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+PrintMacros.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+PrintMacros.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+PrintMacros.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+PrintMacros.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+PrintMacros.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+PrintMacros.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+PrintMacros.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+PrintMacros.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+PrintMacros.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+PrintMacros.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+PrintMacros.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+PrintMacros.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+PrintMacros.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+PrintMacros.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+PrintMacros.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+PrintMacros.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+PrintMacros.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+PrintMacros.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+PrintMacros.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+PrintMacros.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+PrintMacros.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+PrintMacros.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+PrintMacros.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+PrintMacros.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+PrintMacros.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+PrintMacros.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+PrintMacros.dep:1:PrintMacros.o: PrintMacros.cpp /usr/include/stdc-predef.h PrintMacros.h \
+PrintMacros.dep:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+PrintMacros.dep:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+PrintMacros.dep:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+PrintMacros.dep:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+PrintMacros.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+PrintMacros.dep:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+PrintMacros.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+PrintMacros.dep:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+PrintMacros.dep:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+PrintMacros.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+PrintMacros.dep:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+PrintMacros.dep:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+PrintMacros.dep:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+PrintMacros.dep:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+PrintMacros.dep:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+PrintMacros.dep:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+PrintMacros.dep:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+PrintMacros.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+PrintMacros.dep:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+PrintMacros.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+PrintMacros.dep:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+PrintMacros.dep:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+PrintMacros.dep:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+PrintMacros.dep:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+PrintMacros.dep:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+PrintMacros.dep:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+PrintMacros.dep:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+PrintMacros.dep:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+PrintMacros.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+SimulatorObject.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Rank.dep:1:Rank.o: Rank.cpp /usr/include/stdc-predef.h Rank.h SimulatorObject.h \
+Rank.dep:2: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+Rank.dep:3: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+Rank.dep:4: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+Rank.dep:5: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+Rank.dep:6: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+Rank.dep:7: /usr/include/x86_64-linux-gnu/bits/wchar.h BusPacket.h \
+Rank.dep:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+Rank.dep:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+Rank.dep:11: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+Rank.dep:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+Rank.dep:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+Rank.dep:19: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+Rank.dep:36: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+Rank.dep:38: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+Rank.dep:39: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+Rank.dep:40: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+Rank.dep:41: /usr/include/x86_64-linux-gnu/bits/endian.h \
+Rank.dep:42: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+Rank.dep:43: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+Rank.dep:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+Rank.dep:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+Rank.dep:49: /usr/include/x86_64-linux-gnu/bits/sched.h \
+Rank.dep:50: /usr/include/x86_64-linux-gnu/bits/time.h \
+Rank.dep:51: /usr/include/x86_64-linux-gnu/bits/timex.h \
+Rank.dep:52: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+Rank.dep:53: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+Rank.dep:54: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+Rank.dep:57: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+Rank.dep:71: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+Rank.dep:73: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+Rank.dep:80: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+Rank.dep:81: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+Rank.dep:82: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+Rank.dep:83: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+Rank.dep:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+Rank.dep:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+Rank.dep:93: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+Rank.dep:94: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+Rank.dep:95: /usr/include/x86_64-linux-gnu/sys/types.h \
+Rank.dep:96: /usr/include/x86_64-linux-gnu/sys/select.h \
+Rank.dep:97: /usr/include/x86_64-linux-gnu/bits/select.h \
+Rank.dep:98: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+Rank.dep:99: /usr/include/x86_64-linux-gnu/bits/select2.h \
+Rank.dep:100: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+Rank.dep:101: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+Rank.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+Rank.dep:103: /usr/include/x86_64-linux-gnu/bits/stdlib.h PrintMacros.h Bank.h \
+Rank.dep:105: /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+ClockDomain.h:30:            return (const_cast<ConsumerT*>(object)->*member)();
+Coincidencia en el archivo binario TraceBasedSim.o
+BusPacket.deppo:1:BusPacket.po: BusPacket.cpp /usr/include/stdc-predef.h BusPacket.h \
+BusPacket.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+BusPacket.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+BusPacket.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+BusPacket.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+BusPacket.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+BusPacket.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+BusPacket.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+BusPacket.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+BusPacket.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+BusPacket.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+BusPacket.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+BusPacket.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+BusPacket.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+BusPacket.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+BusPacket.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+BusPacket.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+BusPacket.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+BusPacket.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+BusPacket.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+BusPacket.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+BusPacket.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+BusPacket.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+BusPacket.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+BusPacket.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+BusPacket.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+BusPacket.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+BusPacket.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+BusPacket.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+BusPacket.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+BusPacket.deppo:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+BusPacket.deppo:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+BusPacket.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+BusPacket.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+BusPacket.deppo:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+BusPacket.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+BusPacket.deppo:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+BusPacket.deppo:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+BusPacket.deppo:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+BusPacket.deppo:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+BusPacket.deppo:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+BusPacket.deppo:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+BusPacket.deppo:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+BusPacket.deppo:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+BusPacket.deppo:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+BusPacket.deppo:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+BusPacket.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+BusPacket.deppo:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+MemoryController.dep:1:MemoryController.o: MemoryController.cpp /usr/include/stdc-predef.h \
+MemoryController.dep:3: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+MemoryController.dep:4: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+MemoryController.dep:5: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+MemoryController.dep:6: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+MemoryController.dep:7: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+MemoryController.dep:8: /usr/include/x86_64-linux-gnu/bits/wchar.h Transaction.h \
+MemoryController.dep:10: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+MemoryController.dep:11: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+MemoryController.dep:12: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+MemoryController.dep:18: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+MemoryController.dep:19: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+MemoryController.dep:20: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+MemoryController.dep:37: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+MemoryController.dep:39: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+MemoryController.dep:40: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+MemoryController.dep:41: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+MemoryController.dep:42: /usr/include/x86_64-linux-gnu/bits/endian.h \
+MemoryController.dep:43: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+MemoryController.dep:44: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+MemoryController.dep:47: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+MemoryController.dep:48: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+MemoryController.dep:50: /usr/include/x86_64-linux-gnu/bits/sched.h \
+MemoryController.dep:51: /usr/include/x86_64-linux-gnu/bits/time.h \
+MemoryController.dep:52: /usr/include/x86_64-linux-gnu/bits/timex.h \
+MemoryController.dep:53: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+MemoryController.dep:54: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+MemoryController.dep:55: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+MemoryController.dep:58: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+MemoryController.dep:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+MemoryController.dep:74: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+MemoryController.dep:81: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+MemoryController.dep:82: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+MemoryController.dep:83: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+MemoryController.dep:84: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+MemoryController.dep:85: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+MemoryController.dep:86: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+MemoryController.dep:94: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+MemoryController.dep:95: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+MemoryController.dep:96: /usr/include/x86_64-linux-gnu/sys/types.h \
+MemoryController.dep:97: /usr/include/x86_64-linux-gnu/sys/select.h \
+MemoryController.dep:98: /usr/include/x86_64-linux-gnu/bits/select.h \
+MemoryController.dep:99: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+MemoryController.dep:100: /usr/include/x86_64-linux-gnu/bits/select2.h \
+MemoryController.dep:101: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+MemoryController.dep:102: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+MemoryController.dep:103: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+MemoryController.dep:104: /usr/include/x86_64-linux-gnu/bits/stdlib.h PrintMacros.h BusPacket.h \
+MemoryController.dep:106: /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+Coincidencia en el archivo binario PrintMacros.po
+Transaction.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Transaction.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Rank.h:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+Rank.h:77:	//these are vectors so that each element is per-bank
+Bank.deppo:1:Bank.po: Bank.cpp /usr/include/stdc-predef.h Bank.h SystemConfiguration.h \
+Bank.deppo:3: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+Bank.deppo:4: /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
+Bank.deppo:5: /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+Bank.deppo:6: /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+Bank.deppo:7: /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+Bank.deppo:8: /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+Bank.deppo:9: /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+Bank.deppo:15: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+Bank.deppo:16: /usr/include/x86_64-linux-gnu/bits/wchar.h \
+Bank.deppo:17: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
+Bank.deppo:18: /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+Bank.deppo:35: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+Bank.deppo:37: /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+Bank.deppo:38: /usr/include/ctype.h /usr/include/x86_64-linux-gnu/bits/types.h \
+Bank.deppo:39: /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+Bank.deppo:40: /usr/include/x86_64-linux-gnu/bits/endian.h \
+Bank.deppo:41: /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+Bank.deppo:42: /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+Bank.deppo:45: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+Bank.deppo:46: /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
+Bank.deppo:48: /usr/include/x86_64-linux-gnu/bits/sched.h \
+Bank.deppo:49: /usr/include/x86_64-linux-gnu/bits/time.h \
+Bank.deppo:50: /usr/include/x86_64-linux-gnu/bits/timex.h \
+Bank.deppo:51: /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+Bank.deppo:52: /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+Bank.deppo:53: /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+Bank.deppo:56: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+Bank.deppo:70: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+Bank.deppo:72: /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+Bank.deppo:79: /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+Bank.deppo:80: /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+Bank.deppo:81: /usr/include/x86_64-linux-gnu/bits/stdio.h \
+Bank.deppo:82: /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+Bank.deppo:83: /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+Bank.deppo:84: /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+Bank.deppo:92: /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+Bank.deppo:93: /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+Bank.deppo:94: /usr/include/x86_64-linux-gnu/sys/types.h \
+Bank.deppo:95: /usr/include/x86_64-linux-gnu/sys/select.h \
+Bank.deppo:96: /usr/include/x86_64-linux-gnu/bits/select.h \
+Bank.deppo:97: /usr/include/x86_64-linux-gnu/bits/sigset.h \
+Bank.deppo:98: /usr/include/x86_64-linux-gnu/bits/select2.h \
+Bank.deppo:99: /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+Bank.deppo:100: /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+Bank.deppo:101: /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+Bank.deppo:102: /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+Bank.deppo:103: /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+MemorySystem.cpp:2:*  Copyright (c) 2010-2011, Elliott Cooper-Balis
+MemorySystem.cpp:106:	So one could compute this in reverse -- compute NUM_DEVICES,
+MemorySystem.cpp:143:		r->setId(i);
+MemorySystem.cpp:144:		r->attachMemoryController(memoryController);
+MemorySystem.cpp:145:		ranks->push_back(r);
+MemorySystem.cpp:148:	memoryController->attachRanks(ranks);
+MemorySystem.cpp:166:	ranks->clear();
+MemorySystem.cpp:178:	return memoryController->WillAcceptTransaction();
+MemorySystem.cpp:188:	if (memoryController->WillAcceptTransaction())
+MemorySystem.cpp:190:		return memoryController->addTransaction(trans);
+MemorySystem.cpp:201:	return memoryController->addTransaction(trans);
+MemorySystem.cpp:207:	memoryController->printStats(finalStats);
+MemorySystem.cpp:215:	//PRINT(" ----------------- Memory System Update ------------------");
+MemorySystem.cpp:218:	// NOTE - do not change order
+MemorySystem.cpp:221:		(*ranks)[i]->update();
+MemorySystem.cpp:225:	if (pendingTransactions.size() > 0 && memoryController->WillAcceptTransaction())
+MemorySystem.cpp:227:		memoryController->addTransaction(pendingTransactions.front());
+MemorySystem.cpp:230:	memoryController->update();
+MemorySystem.cpp:235:		(*ranks)[i]->step();
+MemorySystem.cpp:237:	memoryController->step();
+MemorySystem.cpp:238:	this->step();

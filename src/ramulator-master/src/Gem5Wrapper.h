@@ -19,7 +19,7 @@ private:
     MemoryBase *mem;
 public:
     double tCK;
-    Gem5Wrapper(const Config& configs, int cacheline);
+    Gem5Wrapper(const class Config& configs, int cacheline);
     Gem5Wrapper(std::string& config_file, int cacheline);
     ~Gem5Wrapper();
     void tick();
